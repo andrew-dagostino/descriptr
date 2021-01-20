@@ -29,6 +29,7 @@ class PDFConverter:
         """
             Reads and returns the converted pdf file as a string
             @returns {String} The contents of the converted text file
+            @raises {Exception} If intermediary file cannot be found
         """
 
         file = open("./converted-pdf.txt", "r")
@@ -44,6 +45,7 @@ class PDFConverter:
         """
             Converts the pdf file at the provided filepath to text
             @param {String} filepath    Path to pdf file
+            @raises {Exception} If file has invalid filetype or conversion fails
         """
 
         if not re.match(".+\\.pdf", filepath):
