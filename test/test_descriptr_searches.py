@@ -23,5 +23,23 @@ class TestDescSearches(unittest.TestCase):
         """
         pass #TODO
 
+    def test_byCourseLevel(self):
+        """
+            Test that course level search returns correct results
+        """
+        pass #TODO
+
+    def test_byCourseNumber(self):
+        """
+            Test that course number search returns correct results
+        """
+        pass #TODO
+
+    def test_byCourseNumber_invalid(self):
+        """
+            Test that course number search raises exceptions for invalid numbers
+        """
+        pass #TODO
+
 if __name__ == '__main__':
     unittest.main()
