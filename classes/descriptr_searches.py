@@ -6,6 +6,8 @@ Classes:
     DescSearches
 """
 
+from classes.course_enums import SemesterOffered
+
 
 class DescSearches:
     """
@@ -22,21 +24,18 @@ class DescSearches:
 
         Args:
             courses (list<Course>): An array of Course data structures.
-            semester (str): Either ['W', 'F', 'S', 'U'] semester codes.
+            semester (Enum SemesterOffered): A supported semester code.
 
         Raises:
-            ValueError (Exception): If semester is not ['W', 'F', 'S', 'U'].
+            ValueError (Exception): If semester is not in SemesterOffered Enum.
 
         Returns:
             (list): A list of courses in the passed semester
         """
-        # TODO, I'd like to import the SemesterOffered Enum and use that here
-        # for validation from !5.
-        supportedCodes = ['W', 'F', 'S', 'U']
         returnCourses = []
 
-        if semester not in supportedCodes:
-            raise ValueError("semester not supported. Must be 'W', 'F', 'S'")
+        if not isinstance(semester, SemesterOffered):
+            raise ValueError("Code not supported. Not in SemesterOffered enum")
 
         for course in courses:
             if semester in course.semesters_offered:
