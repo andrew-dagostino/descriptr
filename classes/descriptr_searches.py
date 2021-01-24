@@ -68,10 +68,10 @@ class DescSearches:
 
         Args:
             courses (List<Course>): An array of Course data structures.
-            level (Integer): The leading digit of the course number
+            level (String): The leading digit of the course number as a string
 
         Raises:
-            ValueError (Exception): If level is not an integer between 1 and 9
+            ValueError (Exception): If level is not a string digit between 1 and 9
 
         Returns:
             (list): A list of courses with course numbers starting with the passed digit
@@ -79,14 +79,14 @@ class DescSearches:
 
         returnCourses = []
 
-        if not isinstance(level, Integer):
-            raise ValueError("Course level must be an integer")
+        if type(level) != str or not level.isdigit():
+            raise ValueError("Course level must be a string digit")
 
-        if level < 1 or level > 9:
+        if len(level) != 1 or level == "0":
             raise ValueError("Course level has invalid range")
 
         for course in courses:
-            if str(course.number).startsWith(str(level)):
+            if course.number.startswith(level):
                 returnCourses.append(course)
 
         return returnCourses
@@ -97,10 +97,10 @@ class DescSearches:
 
         Args:
             courses (List<Course>): An array of Course data structures.
-            number (Integer): The 4-digit number of a course
+            number (String): The 4-digit number of a course as a string
 
         Raises:
-            ValueError (Exception): If number is not a 4-digit integer
+            ValueError (Exception): If number is not a 4-digit string
 
         Returns:
             (list): A list of courses with matching course numbers
@@ -108,10 +108,10 @@ class DescSearches:
 
         returnCourses = []
 
-        if not isinstance(number, Integer):
-            raise ValueError("Course number must be an integer")
+        if type(number) != str or not number.isdigit():
+            raise ValueError("Course number must be a string of digits")
 
-        if number < 1000 or number > 9999:
+        if len(number) != 4:
             raise ValueError("Course number has invalid range")
 
         for course in courses:
