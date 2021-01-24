@@ -64,5 +64,56 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byCourseCode(self.single_course, "DNE")) == 0)
 
+    def test_byCourseLevel(self):
+        """
+            Test that course level search returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.single_course, "4")) == 1)
+
+    def test_byCourseLevel_invalid(self):
+        """
+            Test that course level search raises exceptions for invalid numbers
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "0")
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "11")
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "a")
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, 4)
+
+    def test_byCourseLevel_none(self):
+        """
+            Test that course level search returns no results if no matches are found
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.single_course, "1")) == 0)
+
+    def test_byCourseNumber(self):
+        """
+            Test that course number search returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.single_course, "4080")) == 1)
+
+    def test_byCourseNumber_invalid(self):
+        """
+            Test that course number search raises exceptions for invalid numbers
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "abcd")
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 1234)
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "11")
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "40801")
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 4)
+
+    def test_byCourseNumber_none(self):
+        """
+            Test that course level search returns no results if no matches are found
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.single_course, "1234")) == 0)
+
 if __name__ == '__main__':
     unittest.main()
