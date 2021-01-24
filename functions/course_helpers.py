@@ -16,12 +16,18 @@ def multi_line_repr(text, max_line_len):
 
 	while curr_line_start < text_len:
 		curr_line_end = min((curr_line_start+max_line_len), text_len)
-		while curr_line_end != text_len and (text[curr_line_end] != " "):
-			curr_line_end -= 1
+		
+		line_can_be_split = (" " in text[curr_line_start:curr_line_end])
+		if line_can_be_split: #If line has spaces it can be split
+			while curr_line_end != text_len and (text[curr_line_end] != " "):
+				curr_line_end -= 1
 
 		curr_line = text[curr_line_start:curr_line_end]
 		lines.append(curr_line)
-		curr_line_start = curr_line_end + 1
+
+		curr_line_start = curr_line_end
+		if line_can_be_split:
+			curr_line_start += 1
 
 	return lines
 	
