@@ -57,7 +57,7 @@ class DescSearches:
         returnCourses = []
 
         for course in courses:
-            if lower(course.code) == lower(code):
+            if course.code.lower() == code.lower():
                 returnCourses.append(course)
 
         return returnCourses
