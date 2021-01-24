@@ -41,3 +41,23 @@ class DescSearches:
             if semester in course.semesters_offered:
                 returnCourses.append(course)
         return returnCourses
+
+    def byCourseCode(self, courses, code):
+        """
+        Filter the passed array of courses by passed course code (eg. ACCT, CIS).
+
+        Args:
+            courses (List<Course>): An array of Course data structures.
+            code (String): The letter portion of a course's id (eg. CIS, ECON)
+
+        Returns:
+            (list): A list of courses with the supplied course code
+        """
+
+        returnCourses = []
+
+        for course in courses:
+            if course.code.lower() == code.lower():
+                returnCourses.append(course)
+
+        return returnCourses
