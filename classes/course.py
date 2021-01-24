@@ -249,9 +249,9 @@ class Course:
 	Print a visual representation of the course:
 	"""
 	def __str__(self):
-		lines = [
-			self.group
-		]
+		max_line_length = 150
+
+		lines = multi_line_repr(self.group, max_line_length)
 
 		semesters_offered_str = ",".join(semester_offered.name for semester_offered in self.semesters_offered)
 
@@ -263,31 +263,34 @@ class Course:
 		if float(self.lab_hours).is_integer() == True:
 			lab_hours = int(self.lab_hours)
 
-		lines += self.code+"*"+self.number+" "+self.name+" "+semesters_offered_str+\
-			" ("+str(lecture_hours)+"-"+str(lab_hours)+") ["+str("%.2f" % self.credits)+"]",
+		course_header = self.code+"*"+self.number+" "+self.name+" "+semesters_offered_str+\
+			" ("+str(lecture_hours)+"-"+str(lab_hours)+") ["+str("%.2f" % self.credits)+"]"
+		lines += multi_line_repr(course_header, max_line_length)
+
+		after_header_pos = len(lines)
 
 		offerings = "Offering(s): "+str(self.distance_education.value or "") + " " + str(self.year_parity_restrictions.value or "")
 		if hasattr(self, "other"):
 			offerings += " "+self.other
 
-		lines += [offerings]
+		lines += multi_line_repr(offerings, max_line_length)
 
 		if hasattr(self, "prerequisites"):
 			prerequisites = "Prerequisite(s): "+self.prerequisites
-			lines += [prerequisites]
+			lines += multi_line_repr(prerequisites, max_line_length)
 
 		if hasattr(self, "equates"):
 			equates = "Equate(s): "+self.equates
-			lines += [equates]
+			lines += multi_line_repr(equates, max_line_length)
 
 		if hasattr(self, "corequisites"):
 			corequisites = "Co-requisite(s): "+self.corequisites
-			lines += [corequisites]
+			lines += multi_line_repr(corequisites, max_line_length)
 
 		if hasattr(self, "restrictions"):
 			for restriction in self.restrictions:
 				restriction = ("Restriction(s): "+restriction)
-				lines += [restriction]
+				lines += multi_line_repr(restriction, max_line_length)
 
 		departments = "Department(s): "+(", ".join(department for department in self.departments))
 		lines += [departments]
@@ -300,7 +303,7 @@ class Course:
 		if hasattr(self, "description"):
 			course_description_lines = [""]+multi_line_repr(self.description, longest_line_len)+[""]
 
-		lines = lines[0:2] + course_description_lines + lines[2:lines_len]
+		lines = lines[0:after_header_pos] + course_description_lines + lines[after_header_pos:lines_len]
 
 		result = "+"+("-"*(longest_line_len+2))+"+\n"
 		for line in lines:
