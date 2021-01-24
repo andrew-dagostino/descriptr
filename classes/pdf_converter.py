@@ -51,6 +51,6 @@ class PDFConverter:
         if not re.match(".+\\.pdf", filepath):
             raise Exception("Invalid filetype")
 
-        exit_code = os.system("pdftotext -q -f 7 -eol unix -nopgbrk %s converted-pdf.txt" % filepath)
+        exit_code = os.system("pdftotext -raw -q -f 7 -eol unix -nopgbrk %s converted-pdf.txt" % filepath)
         if exit_code != 0:
             raise Exception("Failed to convert PDF to text file")
