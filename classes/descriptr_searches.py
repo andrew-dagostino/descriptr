@@ -61,3 +61,61 @@ class DescSearches:
                 returnCourses.append(course)
 
         return returnCourses
+
+    def byCourseLevel(self, courses, level):
+        """
+        Filter the passed array of courses by passed course level
+
+        Args:
+            courses (List<Course>): An array of Course data structures.
+            level (String): The leading digit of the course number as a string
+
+        Raises:
+            ValueError (Exception): If level is not a string digit between 1 and 9
+
+        Returns:
+            (list): A list of courses with course numbers starting with the passed digit
+        """
+
+        returnCourses = []
+
+        if type(level) != str or not level.isdigit():
+            raise ValueError("Course level must be a string digit")
+
+        if len(level) != 1 or level == "0":
+            raise ValueError("Course level has invalid range")
+
+        for course in courses:
+            if course.number.startswith(level):
+                returnCourses.append(course)
+
+        return returnCourses
+
+    def byCourseNumber(self, courses, number):
+        """
+        Filter the passed array of courses by passed course number (eg. 1250, 4720).
+
+        Args:
+            courses (List<Course>): An array of Course data structures.
+            number (String): The 4-digit number of a course as a string
+
+        Raises:
+            ValueError (Exception): If number is not a 4-digit string
+
+        Returns:
+            (list): A list of courses with matching course numbers
+        """
+
+        returnCourses = []
+
+        if type(number) != str or not number.isdigit():
+            raise ValueError("Course number must be a string of digits")
+
+        if len(number) != 4:
+            raise ValueError("Course number has invalid range")
+
+        for course in courses:
+            if course.number == number:
+                returnCourses.append(course)
+
+        return returnCourses
