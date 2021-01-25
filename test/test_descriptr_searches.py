@@ -32,6 +32,47 @@ class TestDescSearches(unittest.TestCase):
             "corequisites": "HTM*4075",
             "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
         })]
+        self.two_courses = [Course({
+            "group": "Hospitality and Tourism Management",
+            "departments": ["School of Hospitality", "Food and Tourism Management"],
+            "code": "HTM",
+            "number": "4080",
+            "name": "Experiential Learning and Leadership in the Service Industry",
+            "semesters_offered": [SemesterOffered.F, SemesterOffered.W],
+            "lecture_hours": 3.5,
+            "lab_hours": 0.0,
+            "credits": 0.5,
+            "description": "An integration of the students' academic studies with their work experiences. Emphasis\n\
+            will be placed on applying and evaluating theoretical concepts in different working environments. \
+            Students will investigate the concept of workplace fit applying this to their prospective career path.",
+            "distance_education": DistanceEducation.ONLY,
+            "year_parity_restrictions": YearParityRestrictions.EVEN_YEARS,
+            "other": "Last offering - Winter 2021",
+            "prerequisites": "14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.",
+            "equates": "HISP*2040",
+            "corequisites": "HTM*4075",
+            "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
+            }),
+            Course({
+                "group": "Computing and Information Science",
+                "departments": ["School of Computer Science"],
+                "code": "CIS",
+                "number": "2250",
+                "name": "Software Design II",
+                "semesters_offered": [SemesterOffered.W],
+                "lecture_hours": float(3),
+                "lab_hours": float(2),
+                "credits": 0.5,
+                "description": "This course focuses on the process of software design. Best practices for code development\n\
+                and review will be the examined. The software development process and tools to support \
+                this will be studied along with methods for project management. The course has an applied \
+                focus and will involve software design and development experiences in teams, a literacy \
+                component, and the use of software development tools.",
+                "distance_education": DistanceEducation.NO,
+                "year_parity_restrictions": YearParityRestrictions.NONE,
+                "prerequisites": "CIS*1250, CIS*1300",
+            "restrictions": ["Restricted to BCOMP:SENG majors"]
+        })]
 
     def test_byCourseCode(self):
         """
@@ -114,6 +155,21 @@ class TestDescSearches(unittest.TestCase):
         """
         d = DescSearches()
         self.assertTrue(len(d.byCourseNumber(self.single_course, "1234")) == 0)
+
+    def test_bySemester(self):
+        """Test that semester search returns correct results."""
+        d = DescSearches()
+        self.assertTrue(len(d.bySemester(self.single_course, SemesterOffered.W)) == 1)
+        self.assertTrue(len(d.bySemester(self.two_courses, SemesterOffered.F)) == 1)
+
+    def test_bySemester_invalid(self):
+        """Test that semester search fails nonconforming input."""
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.bySemester(self.single_course, "W")
+        with self.assertRaises(Exception):
+            d.bySemester(self.single_course, 4)
+
 
 if __name__ == '__main__':
     unittest.main()
