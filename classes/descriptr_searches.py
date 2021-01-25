@@ -150,3 +150,32 @@ class DescSearches:
                 returnCourses.append(course)
 
         return returnCourses
+
+    def byWeight(self, courses, weight):
+        """
+        Filter the passed array of courses by passed weight.
+
+        Args:
+            courses(list<Course>): An array of Course data.
+            weight: (float): The weight of the credit of the course.
+
+        Raises:
+            ValueError (Exception): If weight is not float, or not in range.
+
+        Returns:
+            (list): A list of courses with matching course numbers.
+        """
+        returnCourses = []
+        supported = [0.0, 0.25, 0.5, 0.75, 1.0, 1.75, 2.0, 2.5, 2.75, 7.5]
+
+        if type(weight) != float:
+            raise ValueError("Weight must be a floating point number")
+
+        if weight not in supported:
+            raise ValueError(f"Weight out of range. Must be one of {supported}")
+
+        for course in courses:
+            if course.credits == weight:
+                returnCourses.append(course)
+
+        return returnCourses
