@@ -120,6 +120,30 @@ class DescSearches:
 
         return returnCourses
 
+
+    def byDepartment(self, courses, department):
+        """
+        Filter the passed list of courses by passed department (eg. Department of Clinical Studies).
+
+        Args:
+            courses (List<Course>): A list of Course data structures.
+            department (String): The department of which a course is a part of (eg. Department of Clinical Studies)
+
+        Returns:
+            (list): A list of courses with the supplied department
+
+        """
+
+        returnCourses = []
+
+        for course in courses:
+            for dep in course.departments:
+                if dep.lower() == department.lower():
+                    returnCourses.append(course)
+                    break
+
+        return returnCourses
+
     def byKeyword(self, courses, keyword):
         """
         Filter the passed array of courses by passed keyword
