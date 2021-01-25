@@ -115,5 +115,58 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byCourseNumber(self.single_course, "1234")) == 0)
 
+    def test_byKeyword(self):
+        """
+            Test that keyword search returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byKeyword(self.single_course, "htm*4080")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "SERVICE")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "hospitality and tourism")) == 1)
+
+    def test_byKeyword_case(self):
+        """
+            Test that keyword search returns correct results regardless of upper/lower case
+        """
+        upperWord = "TOURISM"
+        lowerWord = "tourism"
+        mixedWord = "tOUrIsM"
+
+        d = DescSearches()
+        upperResult = d.byKeyword(self.single_course, upperWord)
+        lowerResult = d.byKeyword(self.single_course, lowerWord)
+        mixedResult = d.byKeyword(self.single_course, mixedWord)
+
+        self.assertTrue(len(upperResult) == 1)
+        self.assertTrue(len(lowerResult) == 1)
+        self.assertTrue(len(mixedResult) == 1)
+
+    def test_byKeyword_none(self):
+        """
+            Test that keyword search returns no results for keyword not in courses
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byKeyword(self.single_course, "does not exist")) == 0)
+
+    def test_byKeyword_invalid(self):
+        """
+            Test that keyword search raises exceptions for invalid keyword
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, 5)
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "")
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, " ")
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "\n\t")
+
+    def test_byKeyword_whitespace(self):
+        """
+            Test that keyword search ignores leading and trailing whitespace
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byKeyword(self.single_course, " htm*4080 ")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "\nhtm*4080\n")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "\thtm*4080\t")) == 1)
+
 if __name__ == '__main__':
     unittest.main()
