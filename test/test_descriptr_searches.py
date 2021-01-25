@@ -223,5 +223,28 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.bySemester(self.single_course, 4)
 
+    def test_byWeight(self):
+        """Test that weight search returns correct results."""
+        d = DescSearches()
+        self.assertTrue(len(d.byWeight(self.two_courses, 0.5)) == 2)
+        self.assertTrue(len(d.byWeight(self.single_course, 0.0)) == 0)
+
+    def test_byWeight_invalid(self):
+        """Test that weight search fails nonconforming input."""
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.byWeight(self.single_course, -1)
+        with self.assertRaises(Exception):
+            d.byWeight(self.single_course, "sdfdf")
+
+    def test_byWeight_oorange(self):
+        """Test that weight search fails out of range input."""
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.byWeight(self.single_course, 105.3)
+        with self.assertRaises(Exception):
+            d.byWeight(self.single_course, 0.22)
+
+
 if __name__ == '__main__':
     unittest.main()
