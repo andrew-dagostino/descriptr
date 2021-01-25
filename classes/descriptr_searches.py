@@ -119,3 +119,34 @@ class DescSearches:
                 returnCourses.append(course)
 
         return returnCourses
+
+    def byKeyword(self, courses, keyword):
+        """
+        Filter the passed array of courses by passed keyword
+
+        Args:
+            courses (List<Course>): An array of Course data structures.
+            keyword (String): Word to search through course fields for
+
+        Raises:
+            ValueError (Exception): If keyword is not a non-empty string
+
+        Returns:
+            (list): A list of courses containing the keyword
+        """
+
+        returnCourses = []
+
+        if type(keyword) != str:
+            raise ValueError("Keyword must be a string")
+
+        keyword = keyword.strip().lower() # Remove extra whitespace and change to lowercase
+
+        if len(keyword) == 0:
+            raise ValueError("Keyword must be non-empty")
+
+        for course in courses:
+            if keyword in course.__str__().lower():
+                returnCourses.append(course)
+
+        return returnCourses
