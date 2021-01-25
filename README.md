@@ -15,6 +15,11 @@
 
 ## Running
 
+Use `python3 app.py` or `./app.py` to run Descriptr.
+
+Descriptr has built in help. To list available commands type `?` or `help`. To get help for
+a specific command, type `help <command>`.
+
 ## Testing
 
 Unit tests can be run with the following command while in the root directory:

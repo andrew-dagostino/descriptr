@@ -138,7 +138,7 @@ class DescSearches:
 
         for course in courses:
             for dep in course.departments:
-                if dep.lower() == department.lower():
+                if dep.lower().strip() == department.lower():
                     returnCourses.append(course)
                     break
 
