@@ -44,16 +44,16 @@ python3 -m unittest
         * `CIS`
         * `ACCT`
 * **Number:** 
-    * `int`
+    * `string`
     * e.g.
-        * `1500`
-        * `4250`
+        * `"1500"`
+        * `"4250"`
 * **Name:**
     * `string`
     * e.g.
         * `Software Design V`
 * **Semesters Offered:**
-    * `List<enum>`
+    * `List<SemesterOffered (enum)>`
     * Enum Keys:
         * `S` - Summer
         * `F` - Fall
@@ -64,13 +64,15 @@ python3 -m unittest
         * `{ S, F, W }`
         * `{ U }`
 * **Lecture Hours:** 
-    * `int`
+    * `float`
     * e.g.
-        * `3`
+        * `3.0`
+        * `5.5`
 * **Lab Hours:** 
-    * `int`
+    * `float`
     * e.g.
-        * `6`
+        * `6.0`
+        * `10.5`
 * **Credits:**
     * `float`
     * e.g.
@@ -83,25 +85,25 @@ python3 -m unittest
     * e.g.
         * `"This introductory course is designed to..."`
 * **Distance Education: (Offerings)** 
-    * `enum`
+    * `DistanceEducation (enum)`
     * Enum Keys:
-        * `Supplementary` (in addition to) = `"Also offered through Distance Education format."`
-        * `Only` (only DE) = `"Offered through Distance Education format only."`
-        * `No` (no DE) = If either of the above are not specified.
+        * `SUPPLEMENTARY` (in addition to) = `"Also offered through Distance Education format."`
+        * `ONLY` (only DE) = `"Offered through Distance Education format only."`
+        * `NO` (no DE) = If either of the above are not specified.
     * e.g.
-        * `Supplementary`
-        * `Only`
-        * `No`
+        * `SUPPLEMENTARY`
+        * `ONLY`
+        * `NO`
 * **Year Parity Restrictions: (Offerings)** 
-    * `enum`
+    * `YearParityRestrictions (enum)`
     * Enum Keys:
-        * `Even Years` = `"Offered in even-numbered years."`
-        * `Odd Years` = `"Offered in odd-numbered years."`
-        * `None` = If either of the above are not specified.
+        * `EVEN_YEARS` = `"Offered in even-numbered years."`
+        * `ODD_YEARS` = `"Offered in odd-numbered years."`
+        * `NONE` = If either of the above are not specified.
     * e.g. 
-        * `Even Years`
-        * `Odd Years`
-        * `None`
+        * `EVEN_YEARS`
+        * `ODD_YEARS`
+        * `NONE`
 * **Other (Offerings):**
     * `string`
     * Anything not covered under Distance Education or Year Parity Restrictions.
@@ -113,6 +115,10 @@ python3 -m unittest
         * `List<Prerequisite>`
         * A list of `Prerequisite` objects, see below for an explanation.
 * **Corequisites:**
+    * Temporarily: `string`
+    * Future:
+        * TBD
+* **Equates:**
     * Temporarily: `string`
     * Future:
         * TBD
