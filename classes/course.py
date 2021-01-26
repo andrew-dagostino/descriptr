@@ -132,7 +132,7 @@ class Course:
 	def lab_hours(self, lab_hours):
 		if type(lab_hours) != float:
 			raise Exception("Course lab_hours must be a float.")
-		if lab_hours < 0 and lab_hours > (24*7):
+		if lab_hours < 0 or lab_hours > (24*7):
 			raise Exception("Course lab_hours has invalid range.")
 		self._lab_hours = lab_hours
 
@@ -144,7 +144,7 @@ class Course:
 	def credits(self, credits):
 		if type(credits) != float:
 			raise Exception("Course credit must be a float.")
-		if credits < 0 and credits > 1:
+		if credits < 0:
 			raise Exception("Course credit not within allowable range.")
 		self._credits = credits
 
