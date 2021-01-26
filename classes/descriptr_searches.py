@@ -134,6 +134,9 @@ class DescSearches:
 
         """
 
+        if type(department) != str:
+            raise ValueError("Department must be a string.")
+
         returnCourses = []
 
         for course in courses:

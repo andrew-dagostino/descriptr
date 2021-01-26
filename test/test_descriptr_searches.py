@@ -32,27 +32,7 @@ class TestDescSearches(unittest.TestCase):
             "corequisites": "HTM*4075",
             "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
         })]
-        self.two_courses = [Course({
-            "group": "Hospitality and Tourism Management",
-            "departments": ["School of Hospitality", "Food and Tourism Management"],
-            "code": "HTM",
-            "number": "4080",
-            "name": "Experiential Learning and Leadership in the Service Industry",
-            "semesters_offered": [SemesterOffered.F, SemesterOffered.W],
-            "lecture_hours": 3.5,
-            "lab_hours": 0.0,
-            "credits": 0.5,
-            "description": "An integration of the students' academic studies with their work experiences. Emphasis\n\
-            will be placed on applying and evaluating theoretical concepts in different working environments. \
-            Students will investigate the concept of workplace fit applying this to their prospective career path.",
-            "distance_education": DistanceEducation.ONLY,
-            "year_parity_restrictions": YearParityRestrictions.EVEN_YEARS,
-            "other": "Last offering - Winter 2021",
-            "prerequisites": "14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.",
-            "equates": "HISP*2040",
-            "corequisites": "HTM*4075",
-            "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
-            }),
+        self.two_courses = self.single_course + [
             Course({
                 "group": "Computing and Information Science",
                 "departments": ["School of Computer Science"],
@@ -73,6 +53,24 @@ class TestDescSearches(unittest.TestCase):
                 "prerequisites": "CIS*1250, CIS*1300",
             "restrictions": ["Restricted to BCOMP:SENG majors"]
         })]
+        self.three_courses = self.two_courses + [
+            Course({
+                "group": "Computing and Information Science",
+                "departments": ["School of Computer Science"],
+                "code": "CIS",
+                "number": "3250",
+                "name": "Software Design III",
+                "semesters_offered": [SemesterOffered.W, SemesterOffered.S],
+                "lecture_hours": float(3),
+                "lab_hours": float(2),
+                "credits": 7.5,
+                "description": "Some description here...",
+                "distance_education": DistanceEducation.NO,
+                "year_parity_restrictions": YearParityRestrictions.NONE,
+                "prerequisites": "CIS*1250, CIS*1300",
+            "restrictions": ["Restricted to BCOMP:SENG majors"]
+            })
+        ]
 
     def test_byCourseCode(self):
         """
@@ -244,6 +242,36 @@ class TestDescSearches(unittest.TestCase):
             d.byWeight(self.single_course, 105.3)
         with self.assertRaises(Exception):
             d.byWeight(self.single_course, 0.22)
+
+    def test_byDepartment(self):
+        #Test that department search returns correct results.
+        d = DescSearches()
+        self.assertTrue(len(d.byDepartment(self.single_course, "Food and Tourism Management")) == 1)
+        self.assertTrue(len(d.byDepartment(self.single_course, "School of Hospitality")) == 1)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Hospitality")) == 1)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Computer Science")) == 1)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "School of Computer Science")) == 2)
+
+    def test_byDepartment_non_existant(self):
+        #Test that department search returns 0 results when it needs to.
+        d = DescSearches()
+        self.assertTrue(len(d.byDepartment(self.single_course, "Non-existant. I made this up")) == 0)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "")) == 0)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "School")) == 0)
+
+    def test_byDepartment_invalid(self):
+        #Test that department search fails upon invalid usage.
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.byDepartment(self.three_courses, 5)
+        with self.assertRaises(Exception):
+            d.byDepartment(self.three_courses, True)
+        with self.assertRaises(Exception):
+            d.byDepartment(self.three_courses, [])
+        with self.assertRaises(Exception):
+            d.byDepartment(self.three_courses, {})
+        with self.assertRaises(Exception):
+            d.byDepartment(self.three_courses, 5.5)
 
 
 if __name__ == '__main__':
