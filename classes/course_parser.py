@@ -21,7 +21,7 @@ class CourseParser:
             f = open(file_name, "r")
         except Exception as e:
             print(e)
-            return
+            return None
         with f:
             courses=  self._parse_contents(f)
 
@@ -74,6 +74,8 @@ class CourseParser:
                     course_data.description = course_data.description + line
 
             line = file.readline()
+
+        file.close()
 
         return courses
 
@@ -266,10 +268,11 @@ class CourseParser:
             while i < n and not re.search("\(s\):", lines[i]):
                 description = description + lines[i] + " "
                 i += 1
+            description = description.rstrip()
             while i < n:
                 data = ""
 
-                if re.search("Offerings\(s\):", lines[i]):
+                if re.search("Offering\(s\):", lines[i]):
                     ''' Extracts distance education, year parity, and other from Offering(s) '''
                     data =  lines[i].split(" ", 1)
                     if len(data) > 0:
@@ -277,7 +280,8 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    data.split(".")
+                    data = data[:-1]
+                    data = data.rstrip(".").split(".")
                     for part in data:
                         if re.search("Distance", part):
                             if re.search("Also", part):
@@ -289,8 +293,8 @@ class CourseParser:
                         elif re.search("odd-numbered", part):
                             year_parity_restrictions = YearParityRestrictions.ODD_YEARS
                         else:
-                            if other == none:
-                                other = part.split() + "."
+                            if other == None:
+                                other = part.strip() + "."
                             else:
                                 other = other + part + "."
 
@@ -302,7 +306,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    prerequisites = data
+                    prerequisites = data[:-1]
 
                 elif re.search("Equate\(s\):", lines[i]):
                     ''' Extracts equates '''
@@ -312,7 +316,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    equates = data
+                    equates = data[:-1]
 
                 elif re.search("Co-requisite\(s\):", lines[i]):
                     ''' Extracts corequisites '''
@@ -322,7 +326,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    corequisites = data
+                    corequisites = data[:-1]
 
                 elif re.search("Restriction\(s\):", lines[i]):
                     ''' Extracts restrictions '''
@@ -332,6 +336,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
+                    data = data[:-1]
                     restrictions.append(data)
 
                 elif re.search("Department\(s\):", lines[i]):
@@ -342,7 +347,11 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    departments.append(data)
+                    data = data[:-1]
+                    data = data.split(",")
+                    for department in data:
+                        department = department.strip()
+                        departments.append(department)
 
                 i += 1
 
