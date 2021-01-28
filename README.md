@@ -1,24 +1,19 @@
 # UoG Course Descriptr.ly
 
+[[_TOC_]]
+
 ## Requirements
 
 - [Python 3](https://www.python.org/download/releases/3.0/)
 - `pdftotext` v0.62.0
 
-### Installation
+## Installation
 
 1. Install `pdftotext` by installing `poppler-utils` with the following command:
 
     ```
     apt install poppler-utils
     ```
-
-## Running
-
-Use `python3 app.py` or `./app.py` to run Descriptr.
-
-Descriptr has built in help. To list available commands type `?` or `help`. To get help for
-a specific command, type `help <command>`.
 
 ## Testing
 
@@ -27,6 +22,135 @@ Unit tests can be run with the following command while in the root directory:
 ```
 python3 -m unittest
 ```
+
+## Running
+
+Use `python3 app.py` or `./app.py` to run Descriptr.
+
+Descriptr has built in help. To list available commands type `?` or `help`. To get help for
+a specific command, type `help <command>`. Or, see below.
+
+## Help
+
+Available commands:
+
+| Command             | Short Description                                     |
+| ---                 | ---                                                   |
+| `exit`              | Exit Descriptr.                                       |
+| `help`, `?`         | Print the list of commands and specific command help. |
+| `search_code`       | Search by course code letters.                        |
+| `search_department` | Search by department.                                 |
+| `search_keyword`    | Search by keyword.                                    |
+| `search_level`      | Search by course level.                               |
+| `search_number`     | Search by course number.                              |
+| `search_semester`   | Search by semester.                                   |
+| `search_weight`     | Search by credit weight.                              |
+
+### `exit`
+
+```
+Exit Descriptr.
+
+    Usage:
+        exit
+```
+
+### `help`, `?`
+
+```
+Print the list of commands and specific command help.
+
+Usage:  help [<command>]
+        ?
+
+    <command> : The name of a command.
+```
+
+### `search_code`
+
+```
+Search by course code.
+
+Usage: search_code <course_code> [-n]
+
+    <course_code> : The course letters e.g. CIS
+    -n            : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
+```
+
+### `search_department`
+
+```
+Search by department.
+
+Usage: search_department <department> [-n]
+
+    <department> : The department e.g. Department of Clinical Studies
+    -n           : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
+```
+
+### `search_keyword`
+
+```
+Search by keyword.
+
+Usage: search_keyword <keyword> [-n]
+
+    <keyword> : The term to search e.g. biology
+    -n        : Optional. If passed, will search the output of the previous search.
+                Otherwise, searches the whole course calendar.
+```
+
+### `search_level`
+
+```
+Search by course level.
+
+Usage: search_level <course_level> [-n]
+
+    <course_level> : The leading number of a course number e.g. 3
+    -n            : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
+```
+
+### `search_number`
+
+```
+Search by full course number, not just course level.
+
+Usage: search_number <course_number> [-n]
+
+    <course_number> : The full number of a course e.g. 2750
+    -n              : Optional. If passed, will search the output of the previous search.
+                        Otherwise, searches the whole course calendar.
+```
+
+### `search_semester`
+
+```
+Search by semester.
+
+Usage: search_semester <semester_code> [-n]
+
+    <semester_code> : One of the following codes, [S, F, W, U]
+    -n              : Optional. If passed, will search the output of the previous search.
+                        Otherwise, searches the whole course calendar.
+```
+
+### `search_weight`
+
+```
+Search by credit weight.
+
+Usage: search_weight <weight> [-n]
+
+    <weight> : The weight of the course. One of [0.0, 0.25, 0.5, 0.75, 1.0, 1.75, 2.0, 2.5,
+                2.75, 7.5]
+    -n       : Optional. If passed, will search the output of the previous search.
+                Otherwise, searches the whole course calendar.
+```
+
 
 ## Course Data Structure
 
