@@ -129,7 +129,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_department.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
@@ -173,7 +173,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_keyword.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
@@ -220,7 +220,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_level.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
@@ -266,7 +266,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_number.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
@@ -312,7 +312,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_semester.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
@@ -372,7 +372,7 @@ class Descriptr(cmd.Cmd):
 
         if args[0] == '':
             print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
+            print(self.do_search_weight.__doc__)
             return
 
         # Check for -n, if there is carryover_data, search it instead of all_courses
