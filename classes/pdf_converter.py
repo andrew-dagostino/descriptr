@@ -48,7 +48,7 @@ class PDFConverter:
             @raises {Exception} If file has invalid filetype or conversion fails
         """
 
-        if not re.match(".+\\.pdf", filepath):
+        if not re.match(".+\\.pdf", filepath, re.IGNORECASE):
             raise Exception("Invalid filetype")
 
         exit_code = os.system("pdftotext -raw -q -f 7 -eol unix -enc UTF-8 -nopgbrk %s converted-pdf.txt" % filepath)

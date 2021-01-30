@@ -38,6 +38,7 @@ Available commands:
 | ---                 | ---                                                   |
 | `exit`              | Exit Descriptr.                                       |
 | `help`, `?`         | Print the list of commands and specific command help. |
+| `load_pdf`          | Parse and load a new courses PDF                      |
 | `search_code`       | Search by course code letters.                        |
 | `search_department` | Search by department.                                 |
 | `search_keyword`    | Search by keyword.                                    |
@@ -64,6 +65,16 @@ Usage:  help [<command>]
         ?
 
     <command> : The name of a command.
+```
+
+### `load_pdf`
+
+```
+Parse and load a new courses PDF
+
+    Usage: load_pdf <filepath>
+
+        <filepath> : The filepath to the PDF file to load
 ```
 
 ### `search_code`
@@ -156,23 +167,23 @@ Usage: search_weight <weight> [-n]
 
 ### Course
 
-* **Group:** 
+* **Group:**
     * `string`
     * e.g.
         * `Computing and Information Science`
         * `Accounting`
-* **Departments:** 
+* **Departments:**
     * `List<string>`
     * e.g.
         * `{ School of Computer Science }`
         * `{ Department of Management }`
         * `{ Dean's Office, College of Arts }`
-* **Code:** 
+* **Code:**
     * `string`
     * e.g.
         * `CIS`
         * `ACCT`
-* **Number:** 
+* **Number:**
     * `string`
     * e.g.
         * `"1500"`
@@ -192,12 +203,12 @@ Usage: search_weight <weight> [-n]
         * `{ S }`
         * `{ S, F, W }`
         * `{ U }`
-* **Lecture Hours:** 
+* **Lecture Hours:**
     * `float`
     * e.g.
         * `3.0`
         * `5.5`
-* **Lab Hours:** 
+* **Lab Hours:**
     * `float`
     * e.g.
         * `6.0`
@@ -213,7 +224,7 @@ Usage: search_weight <weight> [-n]
     * Usually ~50-100 words.
     * e.g.
         * `"This introductory course is designed to..."`
-* **Distance Education: (Offerings)** 
+* **Distance Education: (Offerings)**
     * `DistanceEducation (enum)`
     * Enum Keys:
         * `SUPPLEMENTARY` (in addition to) = `"Also offered through Distance Education format."`
@@ -223,13 +234,13 @@ Usage: search_weight <weight> [-n]
         * `SUPPLEMENTARY`
         * `ONLY`
         * `NO`
-* **Year Parity Restrictions: (Offerings)** 
+* **Year Parity Restrictions: (Offerings)**
     * `YearParityRestrictions (enum)`
     * Enum Keys:
         * `EVEN_YEARS` = `"Offered in even-numbered years."`
         * `ODD_YEARS` = `"Offered in odd-numbered years."`
         * `NONE` = If either of the above are not specified.
-    * e.g. 
+    * e.g.
         * `EVEN_YEARS`
         * `ODD_YEARS`
         * `NONE`
@@ -287,24 +298,24 @@ If a course had the following prerequisites:
 
 The `List<Prerequisite>` on the `Course` would look like:
 * **1** - Prerequisite(
-    &emsp; courses: { A }, 
-    &emsp; prerequisites: { }, 
-    &emsp; state: Regular, 
+    &emsp; courses: { A },
+    &emsp; prerequisites: { },
+    &emsp; state: Regular,
     &emsp; anyAmount: 0)
 * **2** - Prerequisite(
-    &emsp; courses: { B }, 
-    &emsp; prerequisites: { 
+    &emsp; courses: { B },
+    &emsp; prerequisites: {
         &emsp; &emsp; **3** - Prerequisite(
-            &emsp; &emsp; &emsp; courses: { C, D, E }, 
-            &emsp; &emsp; &emsp; prerequisites: { }, 
-            &emsp; &emsp; &emsp; state: Any, 
-            &emsp; &emsp; &emsp; anyAmount: 2) }, 
-    &emsp; state: Any, 
+            &emsp; &emsp; &emsp; courses: { C, D, E },
+            &emsp; &emsp; &emsp; prerequisites: { },
+            &emsp; &emsp; &emsp; state: Any,
+            &emsp; &emsp; &emsp; anyAmount: 2) },
+    &emsp; state: Any,
     &emsp; anyAmount: 1)
 * **4** - Prerequisite(
-    &emsp; courses: { F }, 
-    &emsp; prerequisites: { }, 
-    &emsp; state: Optional, 
+    &emsp; courses: { F },
+    &emsp; prerequisites: { },
+    &emsp; state: Optional,
     &emsp; anyAmount: 0)
 
 Where:
