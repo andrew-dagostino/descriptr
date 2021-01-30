@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import sys
+import re
+
 """
 Provides Descriptr, a subclass of cmd.
 
@@ -49,17 +52,31 @@ class Descriptr(cmd.Cmd):
 
     def __init__(self):  # {{{
         """Use PDFConverter to convert Course Cal to text. Init cmd loop."""
-        converter = PDFConverter()
-        parser = CourseParser()
-        print("Converting...")
-        converter.openPDF("./c12.pdf")
-        print("Parsing...")
-        self.all_courses = parser.open_file("converted-pdf.txt")
-        self.carryover_data = []  # A copy of data returned from search here.
-        self.search = DescSearches()
+        filepath = 'c12.pdf'
+        if len(sys.argv) > 1:
+            for i in range(1, len(sys.argv)):
+                if(re.match(".+\\.pdf", sys.argv[i])):
+                    filepath = sys.argv[i]
+                    break
+
+        self._load(filepath)
 
         super().__init__()  # Call to cmd Object's init
         # }}}
+
+    def _load(self, filepath):
+        converter = PDFConverter()
+        parser = CourseParser()
+
+        print("Converting...")
+        converter.openPDF(filepath)
+
+        print("Parsing...")
+        self.all_courses = parser.open_file("converted-pdf.txt")
+
+        print("Loading Complete")
+        self.carryover_data = []  # A copy of data returned from search here.
+        self.search = DescSearches()
 
     def do_exit(self, args):  # {{{
         """
@@ -70,6 +87,35 @@ class Descriptr(cmd.Cmd):
         """
         exit(0)
         # }}}
+
+    def do_load_pdf(self, args):
+        """
+        Parse and load a new courses PDF
+
+            Usage: load_pdf <filepath>
+
+                <filepath> : The filepath to the PDF file to load
+        """
+
+        args = args.split(' ')
+        if args[0] == '':
+            print("[E] Please provide an argument")
+            print(self.do_search_code.__doc__)
+            return
+
+        # Find the first pdf file
+        filepath = None
+        for arg in args:
+            if(re.match(".+\\.pdf", arg, re.IGNORECASE)):
+                filepath = arg
+                break
+
+        if filepath is None:
+            print("[E] Provided file must be a PDF")
+            print(self.do_load_pdf.__doc__)
+            return
+        else:
+            self._load(filepath)
 
     def do_search_code(self, args):  # {{{
         """
