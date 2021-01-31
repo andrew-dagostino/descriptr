@@ -198,10 +198,17 @@ class Course:
 
 	@prerequisites.setter
 	def prerequisites(self, prerequisites):
-		if type(prerequisites) != str:
-			raise Exception("Course prerequisites must be a non-empty string.")
-		if len(prerequisites) == 0:
-			raise Exception("If the course has a prerequisites property, the prerequisites can't be an empty string.")
+		if type(prerequisites) != dict or ("simple" not in prerequisites and "complex" not in prerequisites) or ("original" not in prerequisites):
+			raise Exception("Course prerequisites must be a dictionary with \"simple\" and/or \"complex\" which are non-empty arrays and original attribute being a string.")
+		if type(prerequisites["original"]) != str or len(prerequisites["original"])==0:
+			raise Exception("If the course has a prerequisites, prerequisite[\"original\"] must be a non-empty string.")
+		if "simple" in prerequisites:
+			if type(prerequisites["simple"]) != list or len(prerequisites["simple"])==0:
+				raise Exception("If the course has a prerequisites[\"simple\"] attribute, the simple prerequisites must be a non-empty array.")
+		if "complex" in prerequisites:
+			if type(prerequisites["complex"]) != list or len(prerequisites["complex"])==0:
+				raise Exception("If the course has a prerequisites[\"complex\"] attribute, the complex prerequisites must be a non-empty array.")
+
 		self._prerequisites = prerequisites
 
 	@property
@@ -276,8 +283,20 @@ class Course:
 		lines += multi_line_repr(offerings, max_line_length)
 
 		if hasattr(self, "prerequisites"):
-			prerequisites = "Prerequisite(s): "+self.prerequisites
-			lines += multi_line_repr(prerequisites, max_line_length)
+			if "simple" in self.prerequisites:
+				simple_prerequisites = "Simple Prerequisite(s): "
+				simple_prerequisites += ", ".join(self.prerequisites["simple"])
+				lines += multi_line_repr(simple_prerequisites, max_line_length)
+
+			if "complex" in self.prerequisites:
+				complex_prerequisites = "Complex Prerequisite(s): "
+				complex_prerequisites += ", ".join(self.prerequisites["complex"])
+				lines += multi_line_repr(complex_prerequisites, max_line_length)
+
+			original_prerequisites = "Original Prerequisite(s): "
+			original_prerequisites += self.prerequisites["original"]
+
+			lines += multi_line_repr(original_prerequisites, max_line_length)
 
 		if hasattr(self, "equates"):
 			equates = "Equate(s): "+self.equates
