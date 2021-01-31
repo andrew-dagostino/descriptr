@@ -1,0 +1,13 @@
+{# out.csv.j2   The tempate of the Gephi CSV import file. #}
+{% for course in courses %}
+    {% if course.prerequisites %}
+        {% for link in course.prerequisites.simple %}
+{{ link }};{{ course.code }}*{{ course.number }}
+        {% endfor %}
+        {% for complex_link in course.prerequisites.complex %}
+{{ complex_link | trim }};{{ course.code }}*{{ course.number }};
+        {% endfor %}
+    {% else %}
+{{ course.code }}*{{ course.number }}
+    {% endif %}
+{% endfor %}

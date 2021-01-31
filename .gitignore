@@ -141,3 +141,6 @@ cython_debug/
 
 # Vim session file
 Session.vim
+
+# Avoid adding any CSV we create to the Git repo.
+*.csv

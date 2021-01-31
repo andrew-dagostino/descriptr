@@ -5,6 +5,8 @@
 ## Requirements
 
 - [Python 3](https://www.python.org/download/releases/3.0/)
+  - `jinja2`
+  - `pathvalidate`
 - `pdftotext` v0.62.0
 
 ## Installation
@@ -13,6 +15,12 @@
 
     ```
     apt install poppler-utils
+    ```
+
+2. Install required Python packages
+
+    ```
+    pip install -r requirements.txt
     ```
 
 ## Testing
@@ -34,20 +42,21 @@ a specific command, type `help <command>`. Or, see below.
 
 Available commands:
 
-| Command             | Short Description                                     |
-| ---                 | ---                                                   |
-| `exit`              | Exit Descriptr.                                       |
-| `help`, `?`         | Print the list of commands and specific command help. |
-| `load_pdf`          | Parse and load a new courses PDF                      |
-| `search_code`       | Search by course code letters.                        |
-| `search_department` | Search by department.                                 |
-| `search_keyword`    | Search by keyword.                                    |
-| `search_level`      | Search by course level.                               |
-| `search_number`     | Search by course number.                              |
-| `search_semester`   | Search by semester.                                   |
-| `search_weight`     | Search by credit weight.                              |
-| `search_lec_hours`  | Search by lecture hours.                              |
-| `search_lab_hours`  | Search by lab hours.                                  |
+| Command             | Short Description                                        |
+| ---                 | ---                                                      |
+| `exit`              | Exit Descriptr.                                          |
+| `export_graph`      | Export a Course list as a CSV file to import into Gephi. |
+| `help`, `?`         | Print the list of commands and specific command help.    |
+| `load_pdf`          | Parse and load a new courses PDF                         |
+| `search_code`       | Search by course code letters.                           |
+| `search_department` | Search by department.                                    |
+| `search_keyword`    | Search by keyword.                                       |
+| `search_level`      | Search by course level.                                  |
+| `search_number`     | Search by course number.                                 |
+| `search_semester`   | Search by semester.                                      |
+| `search_weight`     | Search by credit weight.                                 |
+| `search_lec_hours`  | Search by lecture hours.                                 |
+| `search_lab_hours`  | Search by lab hours.                                     |
 
 ### `exit`
 
@@ -56,6 +65,18 @@ Exit Descriptr.
 
     Usage:
         exit
+```
+
+### `export_graph`
+
+```
+Export a CSV representation courses. Importable by Gephi.
+
+Usage: export_graph [<filename>] [-n]
+
+    <filename> : Optional. The name of the exported CSV file. Default 'out.csv".
+    -n         : Optional. If passed, will export a graph of the courses in the previous
+                    search. Otherwise, outputs a graph of the whole course calendar.
 ```
 
 ### `help`, `?`
