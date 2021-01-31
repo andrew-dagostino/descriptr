@@ -18,7 +18,7 @@ class CourseParser:
         courses = None
 
         try:
-            f = open(file_name, "r")
+            f = open(file_name, "r", encoding="utf-8")
         except Exception as e:
             print(e)
             return None
@@ -211,12 +211,17 @@ class CourseParser:
         else:
             lab_time = float(course_data.lab_time)
 
+        ''' Parse description into its parts '''
+        desc_data = self._parse_description(course_data.description)
 
-        desc_parts = self._parse_description(course_data.description)
+        ''' Parse prequisites into courses and credit requirements '''
+        prereq_data = None
+        if (desc_data.prerequisites):
+            prereq_data = self._parse_prereqs(desc_data.prerequisites)
 
         course = Course({
             "group": course_data.subject,
-            "departments": desc_parts[8],
+            "departments": desc_data.departments,
             "code": course_data.section,
             "number": course_data.number,
             "name": course_data.name,
@@ -224,27 +229,38 @@ class CourseParser:
             "lecture_hours": lecture_time,
             "lab_hours": lab_time,
             "credits": float(course_data.credits),
-            "distance_education": desc_parts[1],
-            "year_parity_restrictions": desc_parts[2],
+            "distance_education": desc_data.distance_education,
+            "year_parity_restrictions": desc_data.year_parity_restrictions,
         })
 
         ''' Add optional course info '''
-        if desc_parts[0]:
-            setattr(course, "description", desc_parts[0])
-        if desc_parts[3]:
-            setattr(course, "other", desc_parts[3])
-        if desc_parts[4]:
-            setattr(course, "prerequisites", {
-                "simple": ["SIMPLE*1000", "SIMPLE*2000"],
-                "complex": ["1 of COMPLEX*1050 or COMPLEX*1040"],
-                "original": desc_parts[4]
+        if desc_data.description:
+            setattr(course, "description", desc_data.description)
+        if desc_data.other:
+            setattr(course, "other", desc_data.other)
+        if prereq_data:
+            if (prereq_data.simple and prereq_data.complex):
+                setattr(course, "prerequisites", {
+                "simple": prereq_data.simple,
+                "complex": prereq_data.complex,
+                "original": prereq_data.original
             })
-        if desc_parts[5]:
-            setattr(course, "equates", desc_parts[5])
-        if desc_parts[6]:
-            setattr(course, "corequisites", desc_parts[6])
-        if desc_parts[7]:
-            setattr(course, "restrictions", desc_parts[7])
+            elif (prereq_data.simple):
+                setattr(course, "prerequisites", {
+                "simple": prereq_data.simple,
+                "original": prereq_data.original
+            })
+            elif (prereq_data.complex):
+                setattr(course, "prerequisites", {
+                "complex": prereq_data.complex,
+                "original": prereq_data.original
+            })
+        if desc_data.equates:
+            setattr(course, "equates", desc_data.equates)
+        if desc_data.corequisites:
+            setattr(course, "corequisites", desc_data.corequisites)
+        if desc_data.restrictions:
+            setattr(course, "restrictions", desc_data.restrictions)
 
         return course
 
@@ -252,27 +268,19 @@ class CourseParser:
         '''
             Parses the description box of a course into its details
             @param {String} description  The entire raw data of the description box unparsed
-            @return {List} A list object containing all the seperate parts of the description
+            @return {DescData} A data object containing all the seperate parts of the description
         '''
         lines = description.split("\n")
         i = 0
         n = len(lines)
         data = None
-        description = ""
-        distance_education = DistanceEducation.NO
-        year_parity_restrictions = YearParityRestrictions.NONE
-        other = None
-        prerequisites = None
-        equates = None
-        corequisites = None
-        restrictions = []
-        departments = []
+        desc_data = DescData()
 
         if n > 0:
             while i < n and not re.search("\(s\):", lines[i]):
-                description = description + lines[i] + " "
+                desc_data.description = desc_data.description + lines[i] + " "
                 i += 1
-            description = description.rstrip()
+            desc_data.description = desc_data.description.rstrip()
             while i < n:
                 data = ""
 
@@ -289,18 +297,18 @@ class CourseParser:
                     for part in data:
                         if re.search("Distance", part):
                             if re.search("Also", part):
-                                distance_education = DistanceEducation.SUPPLEMENTARY
+                                desc_data.distance_education = DistanceEducation.SUPPLEMENTARY
                             else:
-                                distance_education = DistanceEducation.ONLY
+                                desc_data.distance_education = DistanceEducation.ONLY
                         elif re.search("even-numbered", part):
-                            year_parity_restrictions = YearParityRestrictions.EVEN_YEARS
+                            desc_data.year_parity_restrictions = YearParityRestrictions.EVEN_YEARS
                         elif re.search("odd-numbered", part):
-                            year_parity_restrictions = YearParityRestrictions.ODD_YEARS
+                            desc_data.year_parity_restrictions = YearParityRestrictions.ODD_YEARS
                         else:
-                            if other == None:
-                                other = part.strip() + "."
+                            if desc_data.other == None:
+                                desc_data.other = part.strip() + "."
                             else:
-                                other = other + part + "."
+                                desc_data.other = desc_data.other + part + "."
 
                 elif re.search("Prerequisite\(s\):", lines[i]):
                     ''' Extracts prerequisites '''
@@ -310,7 +318,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    prerequisites = data[:-1]
+                    desc_data.prerequisites = data[:-1]
 
                 elif re.search("Equate\(s\):", lines[i]):
                     ''' Extracts equates '''
@@ -320,7 +328,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    equates = data[:-1]
+                    desc_data.equates = data[:-1]
 
                 elif re.search("Co-requisite\(s\):", lines[i]):
                     ''' Extracts corequisites '''
@@ -330,7 +338,7 @@ class CourseParser:
                     while i < (n - 1) and not re.search("\(s\):", lines[i+1]):
                         data = data + lines[i+1] + " "
                         i += 1
-                    corequisites = data[:-1]
+                    desc_data.corequisites = data[:-1]
 
                 elif re.search("Restriction\(s\):", lines[i]):
                     ''' Extracts restrictions '''
@@ -341,7 +349,7 @@ class CourseParser:
                         data = data + lines[i+1] + " "
                         i += 1
                     data = data[:-1]
-                    restrictions.append(data)
+                    desc_data.restrictions.append(data)
 
                 elif re.search("Department\(s\):", lines[i]):
                     ''' Extracts departments '''
@@ -355,11 +363,32 @@ class CourseParser:
                     data = data.split(",")
                     for department in data:
                         department = department.strip()
-                        departments.append(department)
+                        desc_data.departments.append(department)
 
                 i += 1
 
-        return [description, distance_education, year_parity_restrictions, other, prerequisites, equates, corequisites, restrictions, departments]
+        return desc_data
+
+    def _parse_prereqs(self, txt):
+        '''
+            Parses the prerequisites field to get the relationships with other courses and credit requirements
+            @param {String} txt  The entire prerequisite field
+            @return {PrereqData} A data object containing the relationships, requirements, and the original text
+        '''
+        prereq_data = PrereqData()
+        prereq_data.original = txt
+
+        prereq_data.simple = re.findall("([a-zA-Z]{3,4}\*\d{4})", str(txt))
+        if (len(prereq_data.simple) == 0):
+            prereq_data.complex.append(str(txt))
+        elif (re.search("including", str(txt))):
+            data = re.split("including", str(txt))
+            prereq_data.complex.append(data[0])
+        elif (re.search("\d{1,2}.\d\d credits", str(txt))):
+            prereq_data.complex.append(re.search("\d{1,2}.\d\d credits", str(txt)).group())
+
+        return prereq_data
+
 
 class CourseData:
     def __init__(self):
@@ -373,3 +402,21 @@ class CourseData:
         self.lab_time = None
         self.credits = None
         self.description = ""
+
+class DescData:
+    def __init__(self):
+        self.description = ""
+        self.distance_education = DistanceEducation.NO
+        self.year_parity_restrictions = YearParityRestrictions.NONE
+        self.other = None
+        self.prerequisites = None
+        self.equates = None
+        self.corequisites = None
+        self.restrictions = []
+        self.departments = []
+
+class PrereqData:
+    def __init__(self):
+        self.simple = []
+        self.complex = []
+        self.original = None
