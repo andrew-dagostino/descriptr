@@ -18,6 +18,7 @@ from classes.course_enums import SemesterOffered
 from classes.course_parser import CourseParser
 from classes.descriptr_searches import DescSearches
 from classes.pdf_converter import PDFConverter
+from functions.export import export_graph
 
 
 class Descriptr(cmd.Cmd):
@@ -27,6 +28,10 @@ class Descriptr(cmd.Cmd):
     Methods:
         do_exit():
             Exit Descriptr.
+        do_export_graph():
+            Export a CSV representation courses. Importable by Gephi.
+        do_load_pdf():
+            Parse and load a new courses PDF.
         do_search_code(args):
             Search by course code.
         do_search_department(args):
@@ -87,6 +92,41 @@ class Descriptr(cmd.Cmd):
         """
         exit(0)
         # }}}
+
+    def do_export_graph(self, args):
+        """
+        Export a CSV representation courses. Importable by Gephi.
+
+        Usage: export_graph [<filename>] [-n]
+
+            <filename> : Optional. The name of the exported CSV file. Default 'out.csv".
+            -n         : Optional. If passed, will export a graph of the courses in the previous
+                            search. Otherwise, outputs a graph of the whole course calendar.
+        """
+        search_array = self.all_courses
+        filename = 'out.csv'
+        args = args.split(' ')
+
+        if args[0] != '':
+            # Check for -n, if there is carryover_data, search it instead of all_courses
+            for arg in args:
+                if arg == "-n":
+                    if self.carryover_data:
+                        search_array = self.carryover_data
+
+            # Find the first filepath
+            for arg in args:
+                if arg[0] != '-':
+                    filename = arg
+                    break
+
+        try:
+            file_created = export_graph(search_array, filename)
+        except Exception as e:
+            print(e)
+            return None
+
+        print(f"Graph exported at '{file_created}'")
 
     def do_load_pdf(self, args):
         """
