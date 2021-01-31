@@ -455,6 +455,119 @@ class Descriptr(cmd.Cmd):
             print(f"[E]: {e}")
         # }}}
 
+    def do_search_lec_hours(self, args):  # {{{
+        """
+        Search by lecture hours.
+
+        Usage: search_lec_hours <hours> [comparison] [-n]
+
+            <hours>    : The number of hours of lecture for the course. Must be non-negative
+            comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
+            -n         : Optional. If passed, will search the output of the previous search.
+                         Otherwise, searches the whole course calendar.
+        """
+        search_array = self.all_courses
+        comp = '='
+        hours = ''
+        float_hours = 0.0
+        args = args.split(' ')
+
+        if args[0] == '':
+            print("[E] Please provide an argument")
+            print(self.do_search_lec_hours.__doc__)
+            return
+
+        # Check for -n, if there is carryover_data, search it instead of all_courses
+        for arg in args:
+            if arg == "-n":
+                if self.carryover_data:
+                    search_array = self.carryover_data
+
+        # Find the first code
+        for arg in args:
+            if arg[0] not in ['-', '=', '>', '<']:
+                hours = arg
+            elif arg[0] in ['=', '>', '<']:
+                comp = arg
+
+        try:
+            float_hours = float(hours)
+        except ValueError:
+            print("\t[E] Not a floating point number. Or out of range")
+            print(self.do_search_lec_hours.__doc__)
+            return
+
+        try:
+            results = self.search.byLectureHours(search_array, float_hours, comp)
+
+            if results:
+                self.carryover_data = results
+                print("\n")
+                for course in results:
+                    print(course)
+                print(f"Matched {len(results)}")
+            else:
+                print(f"No courses match lecture hours '{comp}{hours}'")
+        except ValueError as e:
+            print(f"[E]: {e}")
+        # }}}
+
+    def do_search_lab_hours(self, args):  # {{{
+        """
+        Search by lab hours.
+
+        Usage: search_lab_hours <hours> [comparison] [-n]
+
+            <hours>    : The number of hours of lab for the course. Must be non-negative
+            comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
+            -n         : Optional. If passed, will search the output of the previous search.
+                         Otherwise, searches the whole course calendar.
+        """
+        search_array = self.all_courses
+        comp = '='
+        hours = ''
+        float_hours = 0.0
+        args = args.split(' ')
+
+        if args[0] == '':
+            print("[E] Please provide an argument")
+            print(self.do_search_lec_hours.__doc__)
+            return
+
+        # Check for -n, if there is carryover_data, search it instead of all_courses
+        for arg in args:
+            if arg == "-n":
+                if self.carryover_data:
+                    search_array = self.carryover_data
+
+        # Find the first code
+        for arg in args:
+            if arg[0] not in ['-', '=', '>', '<']:
+                hours = arg
+            elif arg[0] in ['=', '>', '<']:
+                comp = arg
+
+        try:
+            float_hours = float(hours)
+        except ValueError:
+            print("\t[E] Not a floating point number. Or out of range")
+            print(self.do_search_lec_hours.__doc__)
+            return
+
+        try:
+            results = self.search.byLabHours(search_array, float_hours, comp)
+
+            if results:
+                self.carryover_data = results
+                print("\n")
+                for course in results:
+                    print(course)
+                print(f"Matched {len(results)}")
+            else:
+                print(f"No courses match lab hours '{comp}{hours}'")
+        except ValueError as e:
+            print(f"[E]: {e}")
+        # }}}
 
 if __name__ == "__main__":
     Descriptr().cmdloop()

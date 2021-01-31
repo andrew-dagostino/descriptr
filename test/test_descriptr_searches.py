@@ -273,6 +273,71 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byDepartment(self.three_courses, 5.5)
 
+    def test_byLectureHours(self):
+        """
+            Tests that each comparison (including default) returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0)) == 2) # Default is "="
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.5, "=")) == 1)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.6, "<")) == 3)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0, ">")) == 1)
+
+    def test_byLectureHours_none(self):
+        """
+            Tests that each comparison (including default) returns no results for no matches
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 16.0)) == 0) # Default is "="
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 1.0, "=")) == 0)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 0.0, "<")) == 0)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.5, ">")) == 0)
+
+    def test_byLectureHours_invalid(self):
+        """
+            Tests that search throws exceptions for invalid input
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception):
+            d.byLectureHours(self.single_course, -1.0)
+        with self.assertRaises(Exception):
+            d.byLectureHours(self.single_course, 1)
+        with self.assertRaises(Exception):
+            d.byLectureHours(self.single_course, 2.0, "A")
+
+    def test_byLabHours(self):
+        """
+            Tests that each comparison (including default) returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byLabHours(self.three_courses, 2.0)) == 2) # Default is "="
+        self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, "=")) == 1)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 2.0, "<")) == 1)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 1.0, ">")) == 2)
+
+    def test_byLabHours_none(self):
+        """
+            Tests that each comparison (including default) returns no results for no matches
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byLabHours(self.three_courses, 16.0)) == 0) # Default is "="
+        self.assertTrue(len(d.byLabHours(self.three_courses, 1.0, "=")) == 0)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, "<")) == 0)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 3.5, ">")) == 0)
+
+    def test_byLabHours_invalid(self):
+        """
+            Tests that search throws exceptions for invalid input
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception):
+            d.byLabHours(self.single_course, -1.0)
+        with self.assertRaises(Exception):
+            d.byLabHours(self.single_course, 1)
+        with self.assertRaises(Exception):
+            d.byLabHours(self.single_course, 2.0, "A")
 
 if __name__ == '__main__':
     unittest.main()
