@@ -46,6 +46,8 @@ Available commands:
 | `search_number`     | Search by course number.                              |
 | `search_semester`   | Search by semester.                                   |
 | `search_weight`     | Search by credit weight.                              |
+| `search_lec_hours`  | Search by lecture hours.                              |
+| `search_lab_hours`  | Search by lab hours.                                  |
 
 ### `exit`
 
@@ -162,6 +164,29 @@ Usage: search_weight <weight> [-n]
                 Otherwise, searches the whole course calendar.
 ```
 
+### `search_lec_hours`
+```
+Search by lecture hours.
+
+Usage: search_lec_hours <hours> [comparison] [-n]
+
+    <hours>    : The number of hours of lecture for the course. Must be non-negative
+    comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
+    -n         : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
+```
+
+### `search_lab_hours`
+```
+Search by lab hours.
+
+Usage: search_lab_hours <hours> [comparison] [-n]
+
+    <hours>    : The number of hours of lab for the course. Must be non-negative
+    comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
+    -n         : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
+```
 
 ## Course Data Structure
 
