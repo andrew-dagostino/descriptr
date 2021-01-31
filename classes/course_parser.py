@@ -234,7 +234,11 @@ class CourseParser:
         if desc_parts[3]:
             setattr(course, "other", desc_parts[3])
         if desc_parts[4]:
-            setattr(course, "prerequisites", desc_parts[4])
+            setattr(course, "prerequisites", {
+                "simple": ["SIMPLE*1000", "SIMPLE*2000"],
+                "complex": ["1 of COMPLEX*1050 or COMPLEX*1040"],
+                "original": desc_parts[4]
+            })
         if desc_parts[5]:
             setattr(course, "equates", desc_parts[5])
         if desc_parts[6]:
