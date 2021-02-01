@@ -4,8 +4,8 @@ Includes both requried properties and optional properties.
 Validates all fields upon attempted initialization.
 """
 
-from classes.course_enums import *
-from functions.course_helpers import multi_line_repr
+from classes.course_validation import *
+from functions.course_helpers import get_course_representation
 
 class Course:
 	def __init__(self, course_info):
@@ -35,10 +35,7 @@ class Course:
 
 	@group.setter
 	def group(self, group):
-		if type(group) != str:
-			raise Exception("Course group name must be a string.")
-		if len(group) == 0:
-			raise Exception("Course group name can't be an empty string.")
+		CourseVal.group(group)
 		self._group = group
 
 	@property
@@ -47,15 +44,7 @@ class Course:
 
 	@departments.setter
 	def departments(self, departments):
-		if type(departments) != list:
-			raise Exception("Course departments must be a list.")
-		if len(departments) == 0:
-			raise Exception("Course must be part of at least one department.")
-
-		for department in departments:
-			if isinstance(department, str) == False or len(department) == 0:
-				raise Exception("All course departments must be non-empty strings.")
-
+		CourseVal.departments(departments)
 		self._departments = departments
 
 	@property
@@ -64,10 +53,7 @@ class Course:
 
 	@code.setter
 	def code(self, code):
-		if type(code) != str:
-			raise Exception("Course code must be a string.")
-		if len(code) == 0:
-			raise Exception("Course code can't be an empty string.")
+		CourseVal.code(code)
 		self._code = code
 
 	@property
@@ -76,10 +62,7 @@ class Course:
 
 	@number.setter
 	def number(self, number):
-		if type(number) != str:
-			raise Exception("Course number must be a string.")
-		if len(number) == 0 or len(number) > 4:
-			raise Exception("Course number has invalid range.")
+		CourseVal.number(number)
 		self._number = number
 
 	@property
@@ -88,10 +71,7 @@ class Course:
 
 	@name.setter
 	def name(self, name):
-		if type(name) != str:
-			raise Exception("Course name must be a string.")
-		if len(name) == 0:
-			raise Exception("Course name can't be an empty string.")
+		CourseVal.name(name)
 		self._name = name
 
 	@property
@@ -100,16 +80,7 @@ class Course:
 
 	@semesters_offered.setter
 	def semesters_offered(self, semesters_offered):
-		if type(semesters_offered) != list:
-			raise Exception("Course semesters_offered must be a list.")
-
-		if len(semesters_offered) == 0:
-			raise Exception("Course semester offerings must be specified implicitly")
-
-		for semester_offered in semesters_offered:
-			if isinstance(semester_offered, SemesterOffered) == False:
-				raise Exception("All course semesters offered must be a SemesterOffered enum")
-
+		CourseVal.semesters_offered(semesters_offered)
 		self._semesters_offered = semesters_offered
 
 	@property
@@ -118,10 +89,7 @@ class Course:
 
 	@lecture_hours.setter
 	def lecture_hours(self, lecture_hours):
-		if type(lecture_hours) != float:
-			raise Exception("Course lecture_hours must be a float.")
-		if lecture_hours < 0 and lecture_hours > (24*7):
-			raise Exception("Course lecture_hours has invalid range.")
+		CourseVal.lecture_hours(lecture_hours)
 		self._lecture_hours = lecture_hours
 
 	@property
@@ -130,10 +98,7 @@ class Course:
 
 	@lab_hours.setter
 	def lab_hours(self, lab_hours):
-		if type(lab_hours) != float:
-			raise Exception("Course lab_hours must be a float.")
-		if lab_hours < 0 or lab_hours > (24*7):
-			raise Exception("Course lab_hours has invalid range.")
+		CourseVal.lab_hours(lab_hours)
 		self._lab_hours = lab_hours
 
 	@property
@@ -142,10 +107,7 @@ class Course:
 
 	@credits.setter
 	def credits(self, credits):
-		if type(credits) != float:
-			raise Exception("Course credit must be a float.")
-		if credits < 0:
-			raise Exception("Course credit not within allowable range.")
+		CourseVal.credits(credits)
 		self._credits = credits
 
 	@property
@@ -154,8 +116,7 @@ class Course:
 
 	@description.setter
 	def description(self, description):
-		if type(description) != str:
-			raise Exception("If the course has a description, it must be a string.")
+		CourseVal.description(description)
 		self._description = description
 
 	@property
@@ -164,9 +125,7 @@ class Course:
 
 	@distance_education.setter
 	def distance_education(self, distance_education):
-		if isinstance(distance_education, DistanceEducation) == False:
-			raise Exception("All courses must store a distance_education property with an enum type of DistanceEducation.")
-
+		CourseVal.distance_education(distance_education)
 		self._distance_education = distance_education
 
 	@property
@@ -175,9 +134,7 @@ class Course:
 
 	@year_parity_restrictions.setter
 	def year_parity_restrictions(self, year_parity_restrictions):
-		if isinstance(year_parity_restrictions, YearParityRestrictions) == False:
-			raise Exception("All courses must store a year_parity_restrictions property with an enum type of YearParityRestrictions.")
-
+		CourseVal.year_parity_restrictions(year_parity_restrictions)
 		self._year_parity_restrictions = year_parity_restrictions
 
 	@property
@@ -186,10 +143,7 @@ class Course:
 
 	@other.setter
 	def other(self, other):
-		if type(other) != str:
-			raise Exception("Course offering under the other category must be a string.")
-		if len(other) == 0:
-			raise Exception("If the course has an offering under the other category, it must have a length.")
+		CourseVal.other(other)
 		self._other = other
 
 	@property
@@ -198,16 +152,7 @@ class Course:
 
 	@prerequisites.setter
 	def prerequisites(self, prerequisites):
-		if type(prerequisites) != dict or ("simple" not in prerequisites and "complex" not in prerequisites) or ("original" not in prerequisites):
-			raise Exception("Course prerequisites must be a dictionary with \"simple\" and/or \"complex\" which are non-empty arrays and original attribute being a string.")
-		if type(prerequisites["original"]) != str or len(prerequisites["original"])==0:
-			raise Exception("If the course has a prerequisites, prerequisite[\"original\"] must be a non-empty string.")
-		if "simple" in prerequisites:
-			if type(prerequisites["simple"]) != list or len(prerequisites["simple"])==0:
-				raise Exception("If the course has a prerequisites[\"simple\"] attribute, the simple prerequisites must be a non-empty array.")
-		if "complex" in prerequisites:
-			if type(prerequisites["complex"]) != list or len(prerequisites["complex"])==0:
-				raise Exception("If the course has a prerequisites[\"complex\"] attribute, the complex prerequisites must be a non-empty array.")
+		CourseVal.prerequisites(prerequisites)
 
 		self._prerequisites = prerequisites
 
@@ -217,10 +162,7 @@ class Course:
 
 	@equates.setter
 	def equates(self, equates):
-		if type(equates) != str:
-			raise Exception("Course equates must be a non-empty string.")
-		if len(equates) == 0:
-			raise Exception("If the course has a equates property, the equates can't be an empty string.")
+		CourseVal.equates(equates)
 		self._equates = equates
 
 	@property
@@ -229,10 +171,7 @@ class Course:
 
 	@corequisites.setter
 	def corequisites(self, corequisites):
-		if type(corequisites) != str:
-			raise Exception("Course corequisites must be a non-empty string.")
-		if len(corequisites) == 0:
-			raise Exception("If the course has a corequisites property, the corequisites can't be an empty string.")
+		CourseVal.corequisites(corequisites)
 		self._corequisites = corequisites
 
 	@property
@@ -241,15 +180,7 @@ class Course:
 
 	@restrictions.setter
 	def restrictions(self, restrictions):
-		if type(restrictions) != list:
-			raise Exception("Course restrictions must be a list of non-empty string.")
-		if len(restrictions) == 0:
-			raise Exception("If the course has a restrictions property, there must be at least one restriction.")
-
-		for restriction in restrictions:
-			if isinstance(restriction, str) == False or len(restriction) == 0:
-				raise Exception("All course restrictions must be non-empty strings.")
-
+		CourseVal.restrictions(restrictions)
 		self._restrictions = restrictions
 
 	"""
@@ -257,77 +188,6 @@ class Course:
 	"""
 	def __str__(self):
 		max_line_length = 150
-
-		lines = multi_line_repr(self.group, max_line_length)
-
-		semesters_offered_str = ",".join(semester_offered.name for semester_offered in self.semesters_offered)
-
-		lecture_hours = self.lecture_hours
-		if float(self.lecture_hours).is_integer() == True:
-			lecture_hours = int(self.lecture_hours)
-
-		lab_hours = self.lab_hours
-		if float(self.lab_hours).is_integer() == True:
-			lab_hours = int(self.lab_hours)
-
-		course_header = self.code+"*"+self.number+" "+self.name+" "+semesters_offered_str+\
-			" ("+str(lecture_hours)+"-"+str(lab_hours)+") ["+str("%.2f" % self.credits)+"]"
-		lines += multi_line_repr(course_header, max_line_length)
-
-		after_header_pos = len(lines)
-
-		offerings = "Offering(s): "+str(self.distance_education.value or "") + " " + str(self.year_parity_restrictions.value or "")
-		if hasattr(self, "other"):
-			offerings += " "+self.other
-
-		lines += multi_line_repr(offerings, max_line_length)
-
-		if hasattr(self, "prerequisites"):
-			if "simple" in self.prerequisites:
-				simple_prerequisites = "Simple Prerequisite(s): "
-				simple_prerequisites += ", ".join(self.prerequisites["simple"])
-				lines += multi_line_repr(simple_prerequisites, max_line_length)
-
-			if "complex" in self.prerequisites:
-				complex_prerequisites = "Complex Prerequisite(s): "
-				complex_prerequisites += ", ".join(self.prerequisites["complex"])
-				lines += multi_line_repr(complex_prerequisites, max_line_length)
-
-			original_prerequisites = "Original Prerequisite(s): "
-			original_prerequisites += self.prerequisites["original"]
-
-			lines += multi_line_repr(original_prerequisites, max_line_length)
-
-		if hasattr(self, "equates"):
-			equates = "Equate(s): "+self.equates
-			lines += multi_line_repr(equates, max_line_length)
-
-		if hasattr(self, "corequisites"):
-			corequisites = "Co-requisite(s): "+self.corequisites
-			lines += multi_line_repr(corequisites, max_line_length)
-
-		if hasattr(self, "restrictions"):
-			for restriction in self.restrictions:
-				restriction = ("Restriction(s): "+restriction)
-				lines += multi_line_repr(restriction, max_line_length)
-
-		departments = "Department(s): "+(", ".join(department for department in self.departments))
-		lines += [departments]
-
-		#Code to print the above lines. Everything is auto-scaled into a nice display box:
-		lines_len = len(lines)
-		longest_line_len = len(max(lines, key=len))
-
-		course_description_lines = []
-		if hasattr(self, "description"):
-			course_description_lines = [""]+multi_line_repr(self.description, longest_line_len)+[""]
-
-		lines = lines[0:after_header_pos] + course_description_lines + lines[after_header_pos:lines_len]
-
-		result = "+"+("-"*(longest_line_len+2))+"+\n"
-		for line in lines:
-			curr_line_len = len(line)
-			result += ("| "+line + (" "*(longest_line_len-curr_line_len))+" |\n")
-		result += "+"+("-"*(longest_line_len+2))+"+"
+		result = get_course_representation(self, max_line_length)
 
 		return result
