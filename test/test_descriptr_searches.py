@@ -27,7 +27,13 @@ class TestDescSearches(unittest.TestCase):
             "distance_education": DistanceEducation.ONLY,
             "year_parity_restrictions": YearParityRestrictions.EVEN_YEARS,
             "other": "Last offering - Winter 2021",
-            "prerequisites": "14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.",
+            "prerequisites": {
+                "complex":
+                    [
+                        "14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries."
+                    ],
+                "original": "14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries."
+            },
             "equates": "HISP*2040",
             "corequisites": "HTM*4075",
             "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
@@ -50,9 +56,17 @@ class TestDescSearches(unittest.TestCase):
                 component, and the use of software development tools.",
                 "distance_education": DistanceEducation.NO,
                 "year_parity_restrictions": YearParityRestrictions.NONE,
-                "prerequisites": "CIS*1250, CIS*1300",
-            "restrictions": ["Restricted to BCOMP:SENG majors"]
-        })]
+                "prerequisites": {
+                    "simple":
+                        [
+                            "CIS*1250",
+                            "CIS*1300"
+                        ],
+                    "original": "CIS*1250, CIS*1300"
+                },
+                "restrictions": ["Restricted to BCOMP:SENG majors"]
+            })
+        ]
         self.three_courses = self.two_courses + [
             Course({
                 "group": "Computing and Information Science",
@@ -67,8 +81,14 @@ class TestDescSearches(unittest.TestCase):
                 "description": "Some description here...",
                 "distance_education": DistanceEducation.NO,
                 "year_parity_restrictions": YearParityRestrictions.NONE,
-                "prerequisites": "CIS*1250, CIS*1300",
-            "restrictions": ["Restricted to BCOMP:SENG majors"]
+                "prerequisites": {
+                    "simple": [
+                        "CIS*1250",
+                        "CIS*1300"
+                    ],
+                    "original": "CIS*1250, CIS*1300"
+                },
+                "restrictions": ["Restricted to BCOMP:SENG majors"]
             })
         ]
 
