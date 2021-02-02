@@ -1,13 +1,14 @@
 {# out.csv.j2   The tempate of the Gephi CSV import file. #}
+Id;Label;Source;Target;group
 {% for course in courses %}
     {% if course.prerequisites %}
         {% for link in course.prerequisites.simple %}
-{{ link }};{{ course.code }}*{{ course.number }}
+{{ course.code }}*{{ course.number }};{{ course.code }}*{{ course.number }};{{ course.code }}*{{ course.number }};{{ link }};{{ course.group }}
         {% endfor %}
         {% for complex_link in course.prerequisites.complex %}
-{{ complex_link | trim }};{{ course.code }}*{{ course.number }};
+{{ course.code }}*{{ course.number }};{{ course.code }}*{{ course.number }};{{ complex_link | trim }};{{ course.code }}*{{ course.number }};{{ course.group }}
         {% endfor %}
     {% else %}
-{{ course.code }}*{{ course.number }}
+{{ course.code }}*{{ course.number }};{{ course.code }}*{{ course.number }};;;{{ course.group }}
     {% endif %}
 {% endfor %}
