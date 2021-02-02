@@ -383,7 +383,9 @@ class CourseParser:
             prereq_data.complex.append(str(txt))
         elif (re.search("including", str(txt))):
             data = re.split("including", str(txt))
-            prereq_data.complex.append(data[0])
+            text = data[0]
+            text = text.strip()
+            prereq_data.complex.append(text)
         elif (re.search("\d{1,2}.\d\d credits", str(txt))):
             prereq_data.complex.append(re.search("\d{1,2}.\d\d credits", str(txt)).group())
 
