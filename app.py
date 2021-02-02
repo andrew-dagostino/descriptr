@@ -2,6 +2,7 @@
 
 import sys
 import re
+from enum import Enum
 
 """
 Provides Descriptr, a subclass of cmd.
@@ -157,6 +158,57 @@ class Descriptr(cmd.Cmd):
         else:
             self._load(filepath)
 
+    def perform_search(self, args, function, doc, converter = None, join = True):  # {{{
+        
+        args = args.split(' ')
+
+        # Ensure arguments are provided
+        if args[0] == '':
+            print("[E] Please provide an argument")
+            print(doc)
+            return
+
+        search_array = self.all_courses
+
+        # Check for -n, if there is carryover_data, search it instead of all_courses
+        for arg in args:
+            if arg == "-n":
+                if self.carryover_data:
+                    search_array = self.carryover_data
+                args.pop(args.index(arg))
+                break
+        
+        # Join remaining arguments, and convert them if needed
+        search_parameter = None
+        if join:
+            joined_args = " ".join(args)
+            if converter != None:
+                search_parameter = converter(joined_args)
+            else:
+                search_parameter = joined_args
+        else:
+            if converter != None:
+                search_parameter = converter(args)
+            else:
+                search_parameter = args
+
+        # Filter search array to the search parameter        
+        try:
+            results = function(search_array, search_parameter)
+
+            if results:
+                self.carryover_data = results
+                print("\n")
+                for course in results:
+                    print(course)
+                print(f"Matched {len(results)}")
+            else:
+                print(f" No courses match search term '{ search_parameter }'")
+        except ValueError as e:
+            print(f"[E]: {e}")
+
+    # }}}
+
     def do_search_code(self, args):  # {{{
         """
         Search by course code.
@@ -167,38 +219,10 @@ class Descriptr(cmd.Cmd):
             -n            : Optional. If passed, will search the output of the previous search.
                             Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        code = ''
-        args = args.split(' ')
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_code.__doc__)
-            return
+        self.perform_search(args, self.search.byCourseCode, self.__doc__)
 
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
-
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                code = arg
-                break
-
-        results = self.search.byCourseCode(search_array, code)
-
-        if results:
-            self.carryover_data = results
-            print("\n")
-            for course in results:
-                print(course)
-            print(f"Matched {len(results)}")
-        else:
-            print(f" No courses match code '{code}'")
-        # }}}
+    # }}}
 
     def do_search_department(self, args):  # {{{
         """
@@ -210,38 +234,10 @@ class Descriptr(cmd.Cmd):
             -n           : Optional. If passed, will search the output of the previous search.
                             Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        args = args.split(' ')
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_department.__doc__)
-            return
-
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        # also remove it from the args
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
-                index = args.index(arg)
-                args.pop(index)
-                break
-
-        # Re-attach the args into a string
-        department = " ".join(args)
-
-        results = self.search.byDepartment(search_array, department)
-
-        if results:
-            self.carryover_data = results
-            print("\n")
-            for course in results:
-                print(course)
-            print(f"Matched {len(results)}")
-        else:
-            print(f" No courses match department '{department}'")
-        # }}}
+        self.perform_search(args, self.search.byDepartment, self.__doc__)
+        
+    # }}}
 
     def do_search_keyword(self, args):  # {{{
         """
@@ -253,42 +249,10 @@ class Descriptr(cmd.Cmd):
             -n        : Optional. If passed, will search the output of the previous search.
                         Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        key = ''
-        args = args.split(' ')
+        
+        self.perform_search(args, self.search.byKeyword, self.__doc__)
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_keyword.__doc__)
-            return
-
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
-
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                key = arg
-                break
-
-        try:
-            results = self.search.byKeyword(search_array, key)
-
-            if results:
-                self.carryover_data = results
-                print("\n")
-                for course in results:
-                    print(course)
-                print(f"Matched {len(results)}")
-            else:
-                print(f" No courses contain keyword '{key}'")
-        except ValueError as e:
-            print(f"[E]: {e}")
-
-        # }}}
+    # }}}
 
     def do_search_level(self, args):  # {{{
         """
@@ -300,41 +264,10 @@ class Descriptr(cmd.Cmd):
             -n            : Optional. If passed, will search the output of the previous search.
                             Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        level = ''
-        args = args.split(' ')
-
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_level.__doc__)
-            return
-
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
-
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                level = arg
-                break
-
-        try:
-            results = self.search.byCourseLevel(search_array, level)
-
-            if results:
-                self.carryover_data = results
-                print("\n")
-                for course in results:
-                    print(course)
-                print(f"Matched {len(results)}")
-            else:
-                print(f" No courses match level '{level}'")
-        except ValueError as e:
-            print(f"[E]: {e}")
-        # }}}
+        
+        self.perform_search(args, self.search.byCourseLevel, self.__doc__)
+        
+    # }}}
 
     def do_search_number(self, args):  # {{{
         """
@@ -346,41 +279,18 @@ class Descriptr(cmd.Cmd):
             -n              : Optional. If passed, will search the output of the previous search.
                                 Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        num = ''
-        args = args.split(' ')
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_number.__doc__)
-            return
+        self.perform_search(args, self.search.byCourseNumber, self.__doc__)
 
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
+    # }}}
 
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                num = arg
-                break
-
+    def semester_converter(self, semester):
         try:
-            results = self.search.byCourseNumber(search_array, num)
+            return SemesterOffered[semester]
+        except:
+            print("[E] Please enter a supported semester. [F, S, U, W]")
+        return
 
-            if results:
-                self.carryover_data = results
-                print("\n")
-                for course in results:
-                    print(course)
-                print(f"Matched {len(results)}")
-            else:
-                print(f" No courses match number '{num}'")
-        except ValueError as e:
-            print(f"[E]: {e}")
-        # }}}
 
     def do_search_semester(self, args):  # {{{
         """
@@ -392,53 +302,18 @@ class Descriptr(cmd.Cmd):
             -n              : Optional. If passed, will search the output of the previous search.
                                 Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        sem = ''
-        args = args.split(' ')
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_semester.__doc__)
-            return
+        self.perform_search(args, self.search.bySemester, self.__doc__, self.semester_converter)
 
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
+    # }}}
 
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                sem = arg
-                break
-
-        if sem == 'F':
-            sem = SemesterOffered.F
-        elif sem == 'W':
-            sem = SemesterOffered.W
-        elif sem == 'S':
-            sem = SemesterOffered.S
-        elif sem == 'U':
-            sem = SemesterOffered.U
-        else:
-            print("[E] Please enter a supported semester. [F, S, U, W]")
-            return
-
+    def weight_converter(self, weight):
         try:
-            results = self.search.bySemester(search_array, sem)
-
-            if results:
-                self.carryover_data = results
-                print("\n")
-                for course in results:
-                    print(course)
-                print(f"Matched {len(results)}")
-            else:
-                print(f" No courses match semester '{sem}'")
-        except ValueError as e:
-            print(f"[E]: {e}")
-        # }}}
+            return float(weight)
+        except:
+            print("[E] Not a floating point number or out-of-range.")
+        return
+            
 
     def do_search_weight(self, args):  # {{{
         """
@@ -451,49 +326,10 @@ class Descriptr(cmd.Cmd):
             -n       : Optional. If passed, will search the output of the previous search.
                         Otherwise, searches the whole course calendar.
         """
-        search_array = self.all_courses
-        weight = ''
-        float_weight = 0.0
-        args = args.split(' ')
+        
+        self.perform_search(args, self.search.byWeight, self.__doc__, self.weight_converter)
 
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            print(self.do_search_weight.__doc__)
-            return
-
-        # Check for -n, if there is carryover_data, search it instead of all_courses
-        for arg in args:
-            if arg == "-n":
-                if self.carryover_data:
-                    search_array = self.carryover_data
-
-        # Find the first code
-        for arg in args:
-            if arg[0] != '-':
-                weight = arg
-                break
-
-        try:
-            float_weight = float(weight)
-        except ValueError:
-            print("\t[E] Not a floating point number. Or out of range")
-            print(self.do_search_weight.__doc__)
-            return
-
-        try:
-            results = self.search.byWeight(search_array, float_weight)
-
-            if results:
-                self.carryover_data = results
-                print("\n")
-                for course in results:
-                    print(course)
-                print(f"Matched {len(results)}")
-            else:
-                print(f" No courses match weight '{weight}'")
-        except ValueError as e:
-            print(f"[E]: {e}")
-        # }}}
+    # }}}
 
     def do_search_lec_hours(self, args):  # {{{
         """
