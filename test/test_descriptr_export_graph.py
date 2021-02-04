@@ -38,7 +38,9 @@ class TestDescriptrExportGraph(unittest.TestCase):
 				},
 				"equates": "HISP*2040",
 				"corequisites": "HTM*4075",
-				"restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
+				"restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."],
+                "capacity_available": 10,
+                "capacity_max": 20
 			})
 		]
 		self.two_courses = self.single_course + [
@@ -67,7 +69,9 @@ class TestDescriptrExportGraph(unittest.TestCase):
 						],
 					"original": "CIS*1250, CIS*1300"
 				},
-				"restrictions": ["Restricted to BCOMP:SENG majors"]
+				"restrictions": ["Restricted to BCOMP:SENG majors"],
+                "capacity_available": 0,
+                "capacity_max": 5
 			})
 		]
 
@@ -79,7 +83,7 @@ class TestDescriptrExportGraph(unittest.TestCase):
 		d = DescSearches()
 		courses = []
 		output_file_name = "blank-export-output.csv"
-		
+
 		#Attempt export.
 		file_created = export_graph(courses, output_file_name)
 		self.assertTrue(file_created is not None)
@@ -87,14 +91,13 @@ class TestDescriptrExportGraph(unittest.TestCase):
 		#Read/Save export contents.
 		f = open(output_file_name, "r")
 		file_contents = f.read()
+		f.close()
 
 		#Delete exported file.
 		os.system("rm -f "+output_file_name)
 
 		#Check if exported file contents pass our test.
-		self.assertEqual(file_contents, "Id;Label;Source;Target;group\n")
-
-		f.close()	
+		self.assertEqual(file_contents, "Id;Label;Source;Target;group;capacity_available;capacity_max\n")
 
 	def test_basic_export(self):
 		"""
@@ -104,7 +107,7 @@ class TestDescriptrExportGraph(unittest.TestCase):
 		d = DescSearches()
 		courses = d.byCourseCode(self.two_courses, "CIS")
 		output_file_name = "basic-export-output.csv"
-		
+
 		#Attempt export.
 		file_created = export_graph(courses, output_file_name)
 		self.assertTrue(file_created is not None)
@@ -112,19 +115,19 @@ class TestDescriptrExportGraph(unittest.TestCase):
 		#Read/Save export contents.
 		f = open(output_file_name, "r")
 		file_contents = f.read()
+		f.close()
 
 		#Delete exported file.
 		os.system("rm -f "+output_file_name)
 
 		#Check if exported file contents pass our test.
 		self.assertEqual(file_contents,
-			"Id;Label;Source;Target;group\n\
-CIS*4080;CIS*4080;14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.;CIS*4080;Hospitality and Tourism Management\n\
-CIS*2250;CIS*2250;CIS*2250;CIS*1250;Computing and Information Science\n\
-CIS*2250;CIS*2250;CIS*2250;CIS*1300;Computing and Information Science\n\
-")
+            "Id;Label;Source;Target;group;capacity_available;capacity_max\n"+
+            "CIS*4080;CIS*4080;14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.;CIS*4080;Hospitality and Tourism Management;10;20\n"+
+            "CIS*2250;CIS*2250;CIS*2250;CIS*1250;Computing and Information Science;0;5\n"+
+            "CIS*2250;CIS*2250;CIS*2250;CIS*1300;Computing and Information Science;0;5\n"
+        )
 
-		f.close()
 
 if __name__ == '__main__':
     unittest.main()
