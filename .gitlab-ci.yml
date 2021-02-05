@@ -1,0 +1,21 @@
+image: python:3.9-slim-buster
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - ~/.cache/pip/
+
+before_script:
+  - python -V
+  - apt-get update
+  - apt-get install -y poppler-utils
+  - pip install -r requirements.txt
+
+test:
+  script:
+    - pytest --cov=classes/ --cov=functions/ test/
+  variables:
+    SCRAPE: "OFF"
+  coverage: /^TOTAL.+?(\d+\%)$/
+  only:
+    - merge_requests

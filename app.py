@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import re
 from enum import Enum
@@ -68,7 +69,8 @@ class Descriptr(cmd.Cmd):
         self._load(filepath)
 
         #Run the scraping of web advisor
-        import scripts.webadvisor.save_webadvisor_courses
+        if os.getenv("SCRAPE") != "OFF":
+            import scripts.webadvisor.save_webadvisor_courses
 
         super().__init__()  # Call to cmd Object's init
         # }}}
@@ -162,7 +164,7 @@ class Descriptr(cmd.Cmd):
             self._load(filepath)
 
     def perform_search(self, args, function, doc, converter = None, join = True):  # {{{
-        
+
         args = args.split(' ')
 
         # Ensure arguments are provided
@@ -180,7 +182,7 @@ class Descriptr(cmd.Cmd):
                     search_array = self.carryover_data
                 args.pop(args.index(arg))
                 break
-        
+
         # Join remaining arguments, and convert them if needed
         search_parameter = None
         if join:
@@ -195,7 +197,7 @@ class Descriptr(cmd.Cmd):
             else:
                 search_parameter = args
 
-        # Filter search array to the search parameter        
+        # Filter search array to the search parameter
         try:
             results = function(search_array, search_parameter)
 
@@ -254,7 +256,7 @@ class Descriptr(cmd.Cmd):
         """
 
         self.perform_search(args, self.search.byDepartment, self.__doc__)
-        
+
     # }}}
 
     def do_search_keyword(self, args):  # {{{
@@ -267,7 +269,7 @@ class Descriptr(cmd.Cmd):
             -n        : Optional. If passed, will search the output of the previous search.
                         Otherwise, searches the whole course calendar.
         """
-        
+
         self.perform_search(args, self.search.byKeyword, self.__doc__)
 
     # }}}
@@ -282,9 +284,9 @@ class Descriptr(cmd.Cmd):
             -n            : Optional. If passed, will search the output of the previous search.
                             Otherwise, searches the whole course calendar.
         """
-        
+
         self.perform_search(args, self.search.byCourseLevel, self.__doc__)
-        
+
     # }}}
 
     def do_search_number(self, args):  # {{{
@@ -331,7 +333,7 @@ class Descriptr(cmd.Cmd):
         except:
             print("[E] Not a floating point number or out-of-range.")
         return
-            
+
 
     def do_search_weight(self, args):  # {{{
         """
@@ -344,7 +346,7 @@ class Descriptr(cmd.Cmd):
             -n       : Optional. If passed, will search the output of the previous search.
                         Otherwise, searches the whole course calendar.
         """
-        
+
         self.perform_search(args, self.search.byWeight, self.__doc__, self.weight_converter)
 
     # }}}
