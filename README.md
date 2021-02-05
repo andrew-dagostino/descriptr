@@ -79,6 +79,33 @@ Usage: export_graph [<filename>] [-n]
                     search. Otherwise, outputs a graph of the whole course calendar.
 ```
 
+**How to use the exported graph in Gephi:**
+
+Once you have an exported csv graph from Descriptr, you can import the basic csv file into Gephi for further processing.
+
+Step 1. Open Gephi
+
+Step 2. Click File
+
+Step 3. Select the Descriptr ".csv" you want to import and click Ok/Open
+
+Step 4. Under the seperator dropdown select semicolon.
+
+Step 5. Imort as: Edges table
+
+Step 6. Click Next
+
+Step 7. Click Finish
+
+Step 8. Click OK.
+
+Step 9. Repeat Steps 2-7 except for step 5 where you Import as: Nodes table.
+
+Step 10. For the second import, Select "Append to existing workspace"
+
+
+You now have a useful workspace you can process in Gephi.
+
 ### `help`, `?`
 
 ```
