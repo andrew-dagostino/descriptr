@@ -67,6 +67,9 @@ class Descriptr(cmd.Cmd):
 
         self._load(filepath)
 
+        #Run the scraping of web advisor
+        import scripts.webadvisor.save_webadvisor_courses
+
         super().__init__()  # Call to cmd Object's init
         # }}}
 

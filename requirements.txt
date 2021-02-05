@@ -3,3 +3,6 @@ jinja2 == 2.11.2
 
 # pathvalidate is a Python library to sanitize/validate a string such as filenames/file-paths/etc.
 pathvalidate == 2.3.2
+
+#Automation tool that's useful for scraping dynamic websites.
+selenium == 3.141.0
