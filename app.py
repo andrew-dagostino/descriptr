@@ -227,6 +227,21 @@ class Descriptr(cmd.Cmd):
 
     # }}}
 
+    def do_search_group(self, args):  # {{{
+        """
+        Search by course group.
+
+        Usage: search_group <course_group> [-n]
+
+            <course_group> : The course group e.g. Accounting
+            -n             : Optional. If passed, will search the output of the previous search.
+                            Otherwise, searches the whole course calendar.
+        """
+
+        self.perform_search(args, self.search.byCourseGroup, self.__doc__)
+
+    # }}}
+
     def do_search_department(self, args):  # {{{
         """
         Search by department.

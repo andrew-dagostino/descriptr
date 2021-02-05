@@ -49,6 +49,7 @@ Available commands:
 | `help`, `?`         | Print the list of commands and specific command help.    |
 | `load_pdf`          | Parse and load a new courses PDF                         |
 | `search_code`       | Search by course code letters.                           |
+| `search_group`      | Search by course group                                   |
 | `search_department` | Search by department.                                    |
 | `search_keyword`    | Search by keyword.                                       |
 | `search_level`      | Search by course level.                                  |
@@ -137,6 +138,18 @@ Usage: search_code <course_code> [-n]
     <course_code> : The course letters e.g. CIS
     -n            : Optional. If passed, will search the output of the previous search.
                     Otherwise, searches the whole course calendar.
+```
+
+### `search_group`
+
+```
+Search by course group.
+
+Usage: search_group <course_group> [-n]
+
+    <course_group> : The group under which a course falls into e.g. Accounting
+    -n             : Optional. If passed, will search the output of the previous search.
+                     Otherwise, searches the whole course calendar.
 ```
 
 ### `search_department`
