@@ -144,3 +144,9 @@ Session.vim
 
 # Avoid adding any CSV we create to the Git repo.
 *.csv
+
+#Don't include binaries folder
+bin
+
+#Don't include webadvisor saved courses
+scripts/webadvisor/webadvisor-courses
