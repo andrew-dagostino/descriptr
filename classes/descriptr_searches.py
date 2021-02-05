@@ -62,6 +62,26 @@ class DescSearches:
 
         return returnCourses
 
+    def byCourseGroup(self, courses, group):
+        """
+        Filter the passed array of courses by passed course group (eg. Accounting, Computing and Information Science).
+
+        Args:
+            courses (List<Course>): An array of Course data structures.
+            group (String): The group under which a course falls into (eg. Accounting, Computing and Information Science)
+
+        Returns:
+            (list): A list of courses with the supplied group
+        """
+
+        returnCourses = []
+
+        for course in courses:
+            if course.group.lower() == group.lower():
+                returnCourses.append(course)
+
+        return returnCourses
+
     def byCourseLevel(self, courses, level):
         """
         Filter the passed array of courses by passed course level
