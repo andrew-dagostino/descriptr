@@ -66,6 +66,7 @@ Available commands:
 | `search_weight`     | Search by credit weight.                                 |
 | `search_lec_hours`  | Search by lecture hours.                                 |
 | `search_lab_hours`  | Search by lab hours.                                     |
+| `search_offered`    | Search by whether a course is currently offered or not.  |
 
 ### `exit`
 
@@ -255,6 +256,17 @@ Usage: search_lab_hours <hours> [comparison] [-n]
     comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
     -n         : Optional. If passed, will search the output of the previous search.
                     Otherwise, searches the whole course calendar.
+```
+
+### `search_offered`
+```
+Search by if a course is currently offered or not.
+
+Usage: search_offered <offered> [-n]
+
+    <offered> : Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
+    -n        : Optional. If passed, will search the output of the previous search.
+                Otherwise, searches the whole course calendar.
 ```
 
 ## Course Data Structure
