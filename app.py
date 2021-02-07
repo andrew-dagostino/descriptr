@@ -339,7 +339,6 @@ class Descriptr(cmd.Cmd):
             print("[E] Not a floating point number or out-of-range.")
         return
 
-
     def do_search_weight(self, args):  # {{{
         """
         Search by credit weight.
@@ -469,6 +468,28 @@ class Descriptr(cmd.Cmd):
         except ValueError as e:
             print(f"[E]: {e}")
         # }}}
+
+    def offered_converter(self, offered):
+        args = offered.split(" ")
+        for arg in args:
+            if arg.lower() == "y":
+                return True
+            if arg.lower() == "n":
+                return False
+        return
+
+    def do_search_offered(self, args):
+        """
+        Search by if a course is currently offered or not.
+
+        Usage: search_offered <offered> [-n]
+
+            <offered> : Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
+            -n        : Optional. If passed, will search the output of the previous search.
+                        Otherwise, searches the whole course calendar.
+        """
+
+        self.perform_search(args, self.search.byOffered, self.__doc__, self.offered_converter)
 
 if __name__ == "__main__":
     Descriptr().cmdloop()

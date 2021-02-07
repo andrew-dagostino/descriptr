@@ -36,7 +36,9 @@ class TestDescSearches(unittest.TestCase):
             },
             "equates": "HISP*2040",
             "corequisites": "HTM*4075",
-            "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."]
+            "restrictions": ["MGMT*1000", "Not available to students in the BCOMM program."],
+            "capacity_available": 0,
+            "capacity_max": 5,
         })]
         self.two_courses = self.single_course + [
             Course({
@@ -64,7 +66,9 @@ class TestDescSearches(unittest.TestCase):
                         ],
                     "original": "CIS*1250, CIS*1300"
                 },
-                "restrictions": ["Restricted to BCOMP:SENG majors"]
+                "restrictions": ["Restricted to BCOMP:SENG majors"],
+                "capacity_available": 10,
+                "capacity_max": 20,
             })
         ]
         self.three_courses = self.two_courses + [
@@ -358,6 +362,37 @@ class TestDescSearches(unittest.TestCase):
             d.byLabHours(self.single_course, 1)
         with self.assertRaises(Exception):
             d.byLabHours(self.single_course, 2.0, "A")
+
+    def test_byOffered(self):
+        """
+            Tests that offered search returns correct results
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byOffered(self.three_courses, True)) == 2)
+        self.assertTrue(len(d.byOffered(self.three_courses, False)) == 1)
+
+    def test_byOffered_none(self):
+        """
+            Tests that offered search returns empty array for no matches
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byOffered([self.three_courses[2]], True)) == 0)
+        self.assertTrue(len(d.byOffered(self.single_course, False)) == 0)
+
+    def test_byOffered_invalid(self):
+        """
+            Tests that offered search throws error for invalid arguments
+        """
+        d = DescSearches()
+
+        with self.assertRaises(Exception):
+            d.byOffered(self.single_course, 1)
+        with self.assertRaises(Exception):
+            d.byOffered(self.single_course, "true")
+        with self.assertRaises(Exception):
+            d.byOffered(self.single_course, 1.0)
+
+
 
 if __name__ == '__main__':
     unittest.main()

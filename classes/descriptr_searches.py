@@ -299,3 +299,32 @@ class DescSearches:
                 returnCourses.append(course)
 
         return returnCourses
+
+    def byOffered(self, courses, offered):
+        """
+        Filter the passed array of courses by if they are offered based on WebAdvisor data
+
+        Args:
+            courses(list<Course>): An array of Course data.
+            offered: (boolean): True returns offered courses, false returns unoffered courses
+
+        Raises:
+            ValueError (Exception): If offered is not a boolean
+
+        Returns:
+            (list): A list of courses that are either offered or unoffered
+        """
+        returnCourses = []
+
+        if type(offered) != bool:
+            raise ValueError("Offered must be a boolean")
+
+        for course in courses:
+            course_offered = hasattr(course, "capacity_available") and hasattr(course, "capacity_max")
+
+            if offered and course_offered:
+                returnCourses.append(course)
+            elif not offered and not course_offered:
+                returnCourses.append(course)
+
+        return returnCourses
