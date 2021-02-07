@@ -89,8 +89,8 @@ if missing_selenium_driver():
 
 driver = initialize_selenium_driver()
 
-curr_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-scrape_output_target = "scripts/webadvisor/webadvisor-courses/scrape-"+curr_time+".html"
+curr_time = datetime.now().timestamp()
+scrape_output_target = "scripts/webadvisor/webadvisor-courses/scrape-"+str(int(curr_time))+".html"
 os.makedirs(os.path.dirname(scrape_output_target), exist_ok=True)
 
 with open(scrape_output_target, "w") as scrape_output:
@@ -109,28 +109,26 @@ with open(scrape_output_target, "w") as scrape_output:
 	print("Webadvisor Saver: Please be patient. We're processing Webadvisor data")
 
 	for idx,term in enumerate(term_options): #term can be any of W21, F25, etc..
-		if idx==0:
+		if term == 'W21':
 			scrape_output.write("<html><table id='descriptr-uog-courses'>")
-		else:
-			wait(term_select_xpath) #If "back" was used on previous loop, wait for page to load.
-
-		wait_click(term_select_xpath+"/option[@value='"+term+"']") # Select W21 term from dropdown
-		wait_click("//select[@id='VAR6']/option[@value='G']") # Select Guelph location from dropdown
-		wait_click("//input[@value = 'SUBMIT']") # Submit section search form.
-		wait("//h1[text()='Section Selection Results']")
-
-		print("Webadvisor Saver: Saving courses in semester "+term+"("+str(idx+1)+" of "+str(len(term_options))+") for further processing.")
-
-		# Section Selection Result page:
-		# Wait til the page is done loading
-		WebDriverWait(driver, 120).until(lambda driver: driver.execute_script("return document.readyState") == "complete");
-		course_rows_html = driver.find_element(By.XPATH, "//div[@id='GROUP_Grp_WSS_COURSE_SECTIONS']/table/tbody").get_attribute('innerHTML')
-		scrape_output.write(course_rows_html)
-
-		if idx==len(term_options)-1:
-			scrape_output.write("</table></html>")
-		else:
-			driver.back() #If there's more terms to process, go back.
+	
+			wait_click(term_select_xpath+"/option[@value='"+term+"']") # Select W21 term from dropdown
+			wait_click("//select[@id='VAR6']/option[@value='G']") # Select Guelph location from dropdown
+			wait_click("//input[@value = 'SUBMIT']") # Submit section search form.
+			wait("//h1[text()='Section Selection Results']")
+	
+			print("Webadvisor Saver: Saving courses in semester "+term+"("+str(idx+1)+" of "+str(len(term_options))+") for further processing.")
+	
+			# Section Selection Result page:
+			# Wait til the page is done loading
+			WebDriverWait(driver, 120).until(lambda driver: driver.execute_script("return document.readyState") == "complete");
+			course_rows_html = driver.find_element(By.XPATH, "//div[@id='GROUP_Grp_WSS_COURSE_SECTIONS']/table/tbody").get_attribute('innerHTML')
+			scrape_output.write(course_rows_html)
+	
+			if idx==len(term_options)-1:
+				scrape_output.write("</table></html>")
+			else:
+				driver.back() #If there's more terms to process, go back.
 
 	scrape_output.close();
 

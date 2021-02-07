@@ -21,6 +21,7 @@ from classes.course_parser import CourseParser
 from classes.descriptr_searches import DescSearches
 from classes.pdf_converter import PDFConverter
 from functions.export import export_graph
+from functions.parse_scrape import add_course_capacity
 
 
 class Descriptr(cmd.Cmd):
@@ -72,6 +73,11 @@ class Descriptr(cmd.Cmd):
         if os.getenv("SCRAPE") != "OFF":
             import scripts.webadvisor.save_webadvisor_courses
 
+        print("Getting capacity info from WebAdvisor data...")
+        self.all_courses = add_course_capacity(self.all_courses)
+
+        print("Loading Complete")
+
         super().__init__()  # Call to cmd Object's init
         # }}}
 
@@ -85,7 +91,6 @@ class Descriptr(cmd.Cmd):
         print("Parsing...")
         self.all_courses = parser.open_file("converted-pdf.txt")
 
-        print("Loading Complete")
         self.carryover_data = []  # A copy of data returned from search here.
         self.search = DescSearches()
 
