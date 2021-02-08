@@ -392,6 +392,31 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byOffered(self.single_course, 1.0)
 
+    def test_byCourseGroup(self):
+        '''
+            Tests that group search returns correctly
+        '''
+        d= DescSearches()
+        self.assertTrue(len(d.byCourseGroup(self.single_course, "Hospitality and Tourism Management")) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.single_course, "Computing and Information Science")) == 0)
+        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Hospitality and Tourism Management")) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Computing and Information Science")) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Hospitality and Tourism Management")) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Computing and Information Science")) == 2)
+
+    def test_byCourseGroup_invalid(self):
+        '''
+            Tests that group search fails when fed somthing invalid
+        '''
+        d= DescSearches()
+        with self.assertRaises(Exception):
+            d.byCourseGroup(self.three_courses, 1)
+        with self.assertRaises(Exception):
+            d.byCourseGroup(self.three_courses, True)
+        with self.assertRaises(Exception):
+            d.byCourseGroup(self.three_courses, 3.14)
+        with self.assertRaises(Exception):
+            d.byCourseGroup(self.three_courses, [])
 
 
 if __name__ == '__main__':
