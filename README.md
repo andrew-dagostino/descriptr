@@ -101,17 +101,21 @@ Step 3. Select the Descriptr ".csv" you want to import and click Ok/Open
 
 Step 4. Under the seperator dropdown select semicolon.
 
-Step 5. Imort as: Edges table
+Step 5. Import as: Nodes table
 
-Step 6. Click Next
+Step 6. Uncheck 'Source' and 'Target' checkboxes
 
 Step 7. Click Finish
 
 Step 8. Click OK.
 
-Step 9. Repeat Steps 2-7 except for step 5 where you Import as: Nodes table.
+Step 9. Repeat Steps 2-5 but select Edges table this time
 
-Step 10. For the second import, Select "Append to existing workspace"
+Step 10. Uncheck everything except the 'Source' and 'Target' checkboxes
+
+Step 11. Click Finish
+
+Step 12. Select "Append to existing workspace", then OK
 
 
 You now have a useful workspace you can process in Gephi.

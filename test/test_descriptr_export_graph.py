@@ -97,7 +97,7 @@ class TestDescriptrExportGraph(unittest.TestCase):
 		os.system("rm -f "+output_file_name)
 
 		#Check if exported file contents pass our test.
-		self.assertEqual(file_contents, "Id;Label;Source;Target;group;capacity_available;capacity_max\n")
+		self.assertEqual(file_contents, "Id;Label;Source;Target;group;capacity_available;capacity_max;capacity_ratio\n")
 
 	def test_basic_export(self):
 		"""
@@ -122,10 +122,10 @@ class TestDescriptrExportGraph(unittest.TestCase):
 
 		#Check if exported file contents pass our test.
 		self.assertEqual(file_contents,
-            "Id;Label;Source;Target;group;capacity_available;capacity_max\n"+
-            "CIS*4080;CIS*4080;14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.;CIS*4080;Hospitality and Tourism Management;10;20\n"+
-            "CIS*2250;CIS*2250;CIS*2250;CIS*1250;Computing and Information Science;0;5\n"+
-            "CIS*2250;CIS*2250;CIS*2250;CIS*1300;Computing and Information Science;0;5\n"
+            "Id;Label;Source;Target;group;capacity_available;capacity_max;capacity_ratio\n"+
+            "CIS*4080;CIS*4080;14.00 credits and a minimum of 700 hours of verified work experience in the hospitality, sport and tourism industries.;CIS*4080;Hospitality and Tourism Management;10;20;0.5\n"+
+            "CIS*2250;CIS*2250;CIS*2250;CIS*1250;Computing and Information Science;0;5;0.0\n"+
+            "CIS*2250;CIS*2250;CIS*2250;CIS*1300;Computing and Information Science;0;5;0.0\n"
         )
 
 
