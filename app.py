@@ -3,6 +3,8 @@
 import os
 import sys
 import re
+import glob
+import time
 from enum import Enum
 
 """
@@ -22,6 +24,7 @@ from classes.descriptr_searches import DescSearches
 from classes.pdf_converter import PDFConverter
 from functions.export import export_graph
 from functions.parse_scrape import add_course_capacity
+from functions.save_webadvisor_courses import scrape_and_parse_webadvisor_courses
 
 
 class Descriptr(cmd.Cmd):
@@ -69,9 +72,25 @@ class Descriptr(cmd.Cmd):
 
         self._load(filepath)
 
-        #Run the scraping of web advisor
+        latest_file = None
+
         if os.getenv("SCRAPE") != "OFF":
-            import scripts.webadvisor.save_webadvisor_courses
+            for i in range(0, 2): # i should only be 0 or 1 (single retry)
+                try:
+                    latest_file = max(glob.iglob("webadvisor-courses/*.html"), key=os.path.getctime)
+                    if (time.time() - os.path.getctime(latest_file)) > 86400:
+                        raise Exception
+                    elif i == 0:
+                        print("Retrieved cached WebAdvisor scrape made less than 24h ago. (" + latest_file + ")")
+                    else:
+                        print("Successfully scraped and saved WebAdvisor. (" + latest_file + ")")
+                    break
+                except (ValueError, Exception) as e:
+                    if i == 0: # Only scrape WebAdvisor once to avoid DoS
+                        print("Scraping...")
+                        scrape_and_parse_webadvisor_courses()
+                    else:
+                        print("[W] Error while scraping WebAdvisor. Courses may not have updated capacity information.")
 
         print("Getting capacity info from WebAdvisor data...")
         self.all_courses = add_course_capacity(self.all_courses)
