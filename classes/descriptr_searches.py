@@ -76,6 +76,9 @@ class DescSearches:
 
         returnCourses = []
 
+        if type(group) != str:
+            raise ValueError("Group must be a string.")
+
         for course in courses:
             if course.group.lower() == group.lower():
                 returnCourses.append(course)

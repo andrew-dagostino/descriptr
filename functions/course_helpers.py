@@ -50,26 +50,19 @@ def get_course_representation(course, max_line_length):
 
 	after_header_pos = len(lines)
 
-	offerings = "Offering(s): "+str(course.distance_education.value or "") + " " + str(course.year_parity_restrictions.value or "")
-	if hasattr(course, "other"):
-		offerings += " "+course.other
-
-	lines += multi_line_repr(offerings, max_line_length)
+	if course.distance_education.value or course.year_parity_restrictions.value or hasattr(course, "other"):
+		offerings = "Offering(s):" 
+		if course.distance_education.value:
+			offerings += " "+str(course.distance_education.value)
+		if course.year_parity_restrictions.value:
+			offerings += " "+str(course.year_parity_restrictions.value)
+		if hasattr(course, "other"):
+			offerings += " "+course.other
+		lines += multi_line_repr(offerings, max_line_length)
 
 	if hasattr(course, "prerequisites"):
-		if "simple" in course.prerequisites:
-			simple_prerequisites = "Simple Prerequisite(s): "
-			simple_prerequisites += ", ".join(course.prerequisites["simple"])
-			lines += multi_line_repr(simple_prerequisites, max_line_length)
-
-		if "complex" in course.prerequisites:
-			complex_prerequisites = "Complex Prerequisite(s): "
-			complex_prerequisites += ", ".join(course.prerequisites["complex"])
-			lines += multi_line_repr(complex_prerequisites, max_line_length)
-
-		original_prerequisites = "Original Prerequisite(s): "
+		original_prerequisites = "Prerequisite(s): "
 		original_prerequisites += course.prerequisites["original"]
-
 		lines += multi_line_repr(original_prerequisites, max_line_length)
 
 	if hasattr(course, "equates"):
@@ -87,6 +80,12 @@ def get_course_representation(course, max_line_length):
 
 	departments = "Department(s): "+(", ".join(department for department in course.departments))
 	lines += [departments]
+
+	if hasattr(course, "capacity_available") and hasattr(course, "capacity_max"):
+		capacity = "Capacity: " + str(course.capacity_available) + "/" + str(course.capacity_max)
+		if course.is_full():
+			capacity += " (full)"
+		lines += multi_line_repr(capacity, max_line_length)
 
 	#Code to print the above lines. Everything is auto-scaled into a nice display box:
 	lines_len = len(lines)
