@@ -1,5 +1,5 @@
 """
-Set of functions that operate on an HTML file scraped with scripts/save_webadvisor_courses.py.
+Set of functions that operate on an HTML file scraped with functions/save_webadvisor_courses.py.
 
 Functions:
     parse_html(filename):
@@ -32,10 +32,10 @@ def parse_html():
     """
     extracted_info = {}
 
-    glob_res = glob.iglob("scripts/webadvisor/webadvisor-courses/*.html")
+    glob_res = glob.iglob("webadvisor-courses/*.html")
 
     try:
-        latest_file = max(glob_res, key=os.path.getmtime)
+        latest_file = max(glob_res, key=os.path.getctime)
     except ValueError as e:
         print(f"[W] Glob unable to find an html file from scraper. Using text file.\n{e}")
         latest_file = "test/test-text/scrape.html"
