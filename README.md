@@ -1,6 +1,6 @@
 # UoG Course Descriptr.ly
 
-![Pipeline](https://git.socs.uoguelph.ca/cis4250_team3/uog-course-descriptions/badges/develop/pipeline.svg?job=test&style=flat-square) ![Coverage](https://git.socs.uoguelph.ca/cis4250_team3/uog-course-descriptions/badges/develop/coverage.svg?job=test&style=flat-square)
+![Pipeline](https://gitlab.socs.uoguelph.ca/cis4250_team3/uog-course-descriptions/badges/develop/pipeline.svg?job=test&style=flat-square) ![Coverage](https://gitlab.socs.uoguelph.ca/cis4250_team3/uog-course-descriptions/badges/develop/coverage.svg?job=test&style=flat-square)
 
 [[_TOC_]]
 
