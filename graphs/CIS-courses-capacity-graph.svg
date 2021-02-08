@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg contentScriptType="text/ecmascript" width="1345.0"
+     xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify"
+     contentStyleType="text/css"
+     viewBox="-453.000000 0.000000 1345.000000 638.392883" height="638.3929"
+     preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+     version="1.1">
+    <g id="edges">
+        <path fill="none" stroke-width="1.0"
+              d="M -283.166473,428.820007 C -261.306854,449.082825 -258.911652,512.266479 -279.174469,534.126099"
+              class="id_CIS*2170 id_CIS*1200" stroke-opacity="0.24705882"
+              stroke="#1c79b0"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -283.166473,428.820007 C -211.654907,399.748993 -60.781075,463.409821 -31.710066,534.921387"
+              class="id_CIS*2170 id_CIS*1300" stroke-opacity="0.24705882"
+              stroke="#8372c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -283.166473,428.820007 C -188.553162,376.803223 31.391960,440.697937 83.408752,535.311279"
+              class="id_CIS*2170 id_CIS*1500" stroke-opacity="0.24705882"
+              stroke="#1573ae"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -156.926895,429.971680 C -135.848022,450.333038 -134.771759,512.493408 -155.133133,533.572266"
+              class="id_CIS*2250 id_CIS*1250" stroke-opacity="0.24705882"
+              stroke="#8971c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -156.926895,429.971680 C -110.893585,425.918243 -35.763489,488.888092 -31.710066,534.921387"
+              class="id_CIS*2250 id_CIS*1300" stroke-opacity="0.24705882"
+              stroke="#8876c6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 208.672256,428.234375 C 181.933197,497.648254 37.703804,561.660461 -31.710066,534.921387"
+              class="id_CIS*2500 id_CIS*1300" stroke-opacity="0.24705882"
+              stroke="#8876c6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 468.445892,430.001343 C 367.796661,529.957275 66.888893,528.917419 -33.067062,428.268158"
+              class="id_CIS*2750 id_CIS*2430" stroke-opacity="0.24705882"
+              stroke="#8f76c7"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 468.445892,430.001343 C 441.899750,456.213623 362.762085,455.712769 336.549805,429.166626"
+              class="id_CIS*2750 id_CIS*2520" stroke-opacity="0.24705882"
+              stroke="#8f76c7"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 588.960876,431.607910 C 485.489380,576.404785 113.086823,638.392883 -31.710066,534.921387"
+              class="id_CIS*2910 id_CIS*1300" stroke-opacity="0.24705882"
+              stroke="#8372c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 588.960876,431.607910 C 533.789673,527.125671 307.756104,587.645508 212.238327,532.474304"
+              class="id_CIS*2910 id_CIS*1910" stroke-opacity="0.24705882"
+              stroke="#846cc4"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 588.960876,431.607910 C 563.024902,498.423187 423.898163,559.742188 357.082886,533.806213"
+              class="id_CIS*2910 id_ENGG*1500" stroke-opacity="0.24705882"
+              stroke="#846cc4"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -402.278870,314.004913 C -231.480774,189.271515 211.816406,258.368530 336.549805,429.166626"
+              class="id_CIS*3110 id_CIS*2520" stroke-opacity="0.24705882"
+              stroke="#8c73c6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -402.278870,314.004913 C -379.251495,337.407837 -379.814758,407.053223 -403.217682,430.080597"
+              class="id_CIS*3110 id_CIS*2030" stroke-opacity="0.24705882"
+              stroke="#8c73c6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -402.278870,314.004913 C -149.818726,110.114166 534.707581,182.968231 738.598328,435.428375"
+              class="id_CIS*3110 id_ENGG*2410" stroke-opacity="0.24705882"
+              stroke="#8c73c6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -281.166046,307.753571 C -137.541016,254.016846 158.501602,388.849274 212.238327,532.474304"
+              class="id_CIS*3120 id_CIS*1910" stroke-opacity="0.24705882"
+              stroke="#957bc8"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -281.166046,307.753571 C -159.102219,233.882065 134.800751,306.170532 208.672256,428.234375"
+              class="id_CIS*3120 id_CIS*2500" stroke-opacity="0.24705882"
+              stroke="#2985b2"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -34.508881,308.488068 C 38.076607,283.801086 183.985291,355.648895 208.672256,428.234375"
+              class="id_CIS*3190 id_CIS*2500" stroke-opacity="0.24705882"
+              stroke="#1a78af"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 207.062683,308.638641 C 252.864944,352.370636 255.970337,486.672058 212.238327,532.474304"
+              class="id_CIS*3490 id_CIS*1910" stroke-opacity="0.24705882"
+              stroke="#8870c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 207.062683,308.638641 C 308.036163,256.852844 537.175110,330.634430 588.960876,431.607910"
+              class="id_CIS*3490 id_CIS*2910" stroke-opacity="0.24705882"
+              stroke="#1775af"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 207.062683,308.638641 C 282.100250,323.668121 372.112366,458.768677 357.082886,533.806213"
+              class="id_CIS*3490 id_ENGG*1500" stroke-opacity="0.24705882"
+              stroke="#8870c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 207.062683,308.638641 C 257.065704,306.846802 334.757965,379.163605 336.549805,429.166626"
+              class="id_CIS*3490 id_CIS*2520" stroke-opacity="0.24705882"
+              stroke="#8870c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 336.296509,305.514526 C 384.646179,254.184204 534.166138,249.713196 585.496521,298.062866"
+              class="id_CIS*3700 id_CIS*3750" stroke-opacity="0.24705882"
+              stroke="#2f8ab3"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 336.296509,305.514526 C 362.084290,278.297302 441.591827,276.153168 468.809052,301.940948"
+              class="id_CIS*3700 id_CIS*3760" stroke-opacity="0.24705882"
+              stroke="#3b95b6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 336.296509,305.514526 C 310.893250,379.618164 161.632858,452.668671 87.529228,427.265411"
+              class="id_CIS*3700 id_CIS*2460" stroke-opacity="0.24705882"
+              stroke="#9379c7"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 336.296509,305.514526 C 470.762268,223.673508 795.222473,302.610657 877.063477,437.076447"
+              class="id_CIS*3700 id_STAT*2040" stroke-opacity="0.24705882"
+              stroke="#9379c7"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 585.496521,298.062866 C 588.474121,347.860687 518.243713,427.023773 468.445892,430.001343"
+              class="id_CIS*3750 id_CIS*2750" stroke-opacity="0.24705882"
+              stroke="#2c87b3"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 468.809052,301.940948 C 491.370941,277.827850 561.383423,275.500977 585.496521,298.062866"
+              class="id_CIS*3760 id_CIS*3750" stroke-opacity="0.24705882"
+              stroke="#3a93b5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -407.690063,184.812347 C -357.741943,232.971527 -355.058502,380.132477 -403.217682,430.080597"
+              class="id_CIS*4030 id_CIS*2030" stroke-opacity="0.24705882"
+              stroke="#866ec5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -407.690063,184.812347 C -183.425064,58.622940 342.256470,205.736359 468.445892,430.001343"
+              class="id_CIS*4030 id_CIS*2750" stroke-opacity="0.24705882"
+              stroke="#207db1"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -407.690063,184.812347 C -380.769318,209.568619 -377.522614,287.084167 -402.278870,314.004913"
+              class="id_CIS*4030 id_CIS*3110" stroke-opacity="0.24705882"
+              stroke="#1d7ab0"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -277.621613,186.055420 C -79.618927,85.631104 368.021576,231.998657 468.445892,430.001343"
+              class="id_CIS*4250 id_CIS*2750" stroke-opacity="0.24705882"
+              stroke="#3993b6"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -277.621613,186.055420 C -180.596436,137.557220 37.688599,210.347717 86.186783,307.372894"
+              class="id_CIS*4250 id_CIS*3260" stroke-opacity="0.24705882"
+              stroke="#9f84ca"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -32.204018,187.911224 C 39.794807,164.203369 183.354828,236.639832 207.062683,308.638641"
+              class="id_CIS*4520 id_CIS*3490" stroke-opacity="0.24705882"
+              stroke="#2f8ab4"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -157.488297,188.106171 C -158.239288,285.646912 -305.676910,430.831573 -403.217682,430.080597"
+              class="id_CIS*4650 id_CIS*2030" stroke-opacity="0.24705882"
+              stroke="#846cc4"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -157.488297,188.106171 C -181.266663,262.244049 -328.140991,337.783295 -402.278870,314.004913"
+              class="id_CIS*4650 id_CIS*3110" stroke-opacity="0.24705882"
+              stroke="#1b78af"/>
+        <path fill="none" stroke-width="1.0"
+              d="M -157.488297,188.106171 C -133.477051,212.019211 -133.329727,283.905640 -157.242767,307.916901"
+              class="id_CIS*4650 id_CIS*3150" stroke-opacity="0.24705882"
+              stroke="#846cc4"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 85.345779,187.110489 C 210.543961,159.068634 440.404022,304.803162 468.445892,430.001343"
+              class="id_CIS*4720 id_CIS*2750" stroke-opacity="0.24705882"
+              stroke="#237fb1"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 85.345779,187.110489 C 13.199739,310.014313 -279.375061,386.150970 -402.278870,314.004913"
+              class="id_CIS*4720 id_CIS*3110" stroke-opacity="0.24705882"
+              stroke="#207cb0"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 85.345779,187.110489 C 133.813461,234.704788 135.123520,378.797760 87.529228,427.265411"
+              class="id_CIS*4720 id_CIS*2460" stroke-opacity="0.24705882"
+              stroke="#8970c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 85.345779,187.110489 C 293.682526,78.760132 768.713074,228.739700 877.063477,437.076447"
+              class="id_CIS*4720 id_STAT*2040" stroke-opacity="0.24705882"
+              stroke="#8970c5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 205.777496,184.442245 C 110.078751,331.966064 -254.755066,409.703674 -402.278870,314.004913"
+              class="id_CIS*4820 id_CIS*3110" stroke-opacity="0.24705882"
+              stroke="#2883b2"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 205.777496,184.442245 C 304.445435,131.222565 532.276855,199.394943 585.496521,298.062866"
+              class="id_CIS*4820 id_CIS*3750" stroke-opacity="0.24705882"
+              stroke="#2d88b3"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 205.777496,184.442245 C 281.883545,155.335678 439.702454,225.834915 468.809052,301.940948"
+              class="id_CIS*4820 id_CIS*3760" stroke-opacity="0.24705882"
+              stroke="#3993b5"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 334.715271,85.437820 C 354.919128,105.975853 354.417847,167.088684 333.879822,187.292542"
+              class="id_7.00_credits_in_CIS id_CIS*4900"
+              stroke-opacity="0.24705882" stroke="#e8acde"/>
+        <path fill="none" stroke-width="1.0"
+              d="M 464.213165,187.407150 C 438.123566,213.450897 359.923584,213.382126 333.879822,187.292542"
+              class="id_CIS*4910 id_CIS*4900" stroke-opacity="0.24705882"
+              stroke="#e5f5e4"/>
+    </g>
+    <g id="nodes">
+        <circle fill-opacity="1.0" fill="#1574ae" r="33.935482" cx="-403.70206"
+                class="id_CIS*1050" cy="532.425" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#2581b2" r="51.096775" cx="-279.17447"
+                class="id_CIS*1200" cy="534.1261" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1775af" r="44.967743" cx="83.40875"
+                class="id_CIS*1500" cy="535.3113" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1472ae" r="29.032257" cx="-283.16647"
+                class="id_CIS*2170" cy="428.82" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1e7bb0" r="23.63871" cx="-156.9269"
+                class="id_CIS*2250" cy="429.97168" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1d7bb0" r="56.0" cx="208.67226"
+                class="id_CIS*2500" cy="428.23438" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#2a85b3" r="50.606453" cx="468.4459"
+                class="id_CIS*2750" cy="430.00134" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1472ae" r="40.064514" cx="588.9609"
+                class="id_CIS*2910" cy="431.6079" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#237fb1" r="49.748386" cx="-402.27887"
+                class="id_CIS*3110" cy="314.0049" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#3690b5" r="24.129032" cx="-281.16605"
+                class="id_CIS*3120" cy="307.75357" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1775af" r="31.483871" cx="-34.50888"
+                class="id_CIS*3190" cy="308.48807" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1b79b0" r="52.56774" cx="207.06268"
+                class="id_CIS*3490" cy="308.63864" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#318cb4" r="21.67742" cx="336.2965"
+                class="id_CIS*3700" cy="305.51453" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#2e89b3" r="26.212902" cx="585.4965"
+                class="id_CIS*3750" cy="298.06287" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#469eb8" r="24.129032" cx="468.80905"
+                class="id_CIS*3760" cy="301.94095" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1775af" r="24.129032" cx="-407.69006"
+                class="id_CIS*4030" cy="184.81235" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#49a1b9" r="22.903225" cx="-277.6216"
+                class="id_CIS*4250" cy="186.05542" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#439cb8" r="22.658066" cx="-32.204018"
+                class="id_CIS*4520" cy="187.91122" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1472ae" r="22.903225" cx="-157.4883"
+                class="id_CIS*4650" cy="188.10617" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#1d7ab0" r="24.129032" cx="85.34578"
+                class="id_CIS*4720" cy="187.11049" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#2d88b3" r="24.129032" cx="205.7775"
+                class="id_CIS*4820" cy="184.44225" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#dbf1e1" r="18.0" cx="333.87982"
+                class="id_CIS*4900" cy="187.29254" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f0f9e8" r="18.0" cx="464.21317"
+                class="id_CIS*4910" cy="187.40715" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f372dc" r="14.32258" cx="-31.710066"
+                class="id_CIS*1300" cy="534.9214" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="-155.13313"
+                class="id_CIS*1250" cy="533.57227" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="-33.067062"
+                class="id_CIS*2430" cy="428.26816" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="336.5498"
+                class="id_CIS*2520" cy="429.16663" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="212.23833"
+                class="id_CIS*1910" cy="532.4743" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="357.0829"
+                class="id_ENGG*1500" cy="533.8062" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="-403.21768"
+                class="id_CIS*2030" cy="430.0806" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="738.5983"
+                class="id_ENGG*2410" cy="435.42838" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="87.52923"
+                class="id_CIS*2460" cy="427.2654" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="877.0635"
+                class="id_STAT*2040" cy="437.07645" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="86.18678"
+                class="id_CIS*3260" cy="307.3729" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="-157.24277"
+                class="id_CIS*3150" cy="307.9169" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+        <circle fill-opacity="1.0" fill="#f567db" r="14.32258" cx="334.71527"
+                class="id_7.00_credits_in_CIS" cy="85.43782" stroke="#000000"
+                stroke-opacity="1.0" stroke-width="1.0"/>
+    </g>
+    <g id="node-labels">
+        <text font-size="18" x="-403.70206" y="535.7575" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1050">
+            CIS*1050
+        </text>
+        <text font-size="18" x="-279.17447" y="537.4586" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1200">
+            CIS*1200
+        </text>
+        <text font-size="18" x="83.40875" y="538.6438" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1500">
+            CIS*1500
+        </text>
+        <text font-size="18" x="-283.16647" y="432.15253" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2170">
+            CIS*2170
+        </text>
+        <text font-size="18" x="-156.9269" y="433.3042" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2250">
+            CIS*2250
+        </text>
+        <text font-size="18" x="208.67226" y="431.5669" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2500">
+            CIS*2500
+        </text>
+        <text font-size="18" x="468.4459" y="433.33386" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2750">
+            CIS*2750
+        </text>
+        <text font-size="18" x="588.9609" y="434.94043" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2910">
+            CIS*2910
+        </text>
+        <text font-size="18" x="-402.27887" y="317.3389" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3110">
+            CIS*3110
+        </text>
+        <text font-size="18" x="-281.16605" y="311.08755" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3120">
+            CIS*3120
+        </text>
+        <text font-size="18" x="-34.50888" y="311.82205" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3190">
+            CIS*3190
+        </text>
+        <text font-size="18" x="207.06268" y="311.97263" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3490">
+            CIS*3490
+        </text>
+        <text font-size="18" x="336.2965" y="308.8485" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3700">
+            CIS*3700
+        </text>
+        <text font-size="18" x="585.4965" y="301.39685" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3750">
+            CIS*3750
+        </text>
+        <text font-size="18" x="468.80905" y="305.27493" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3760">
+            CIS*3760
+        </text>
+        <text font-size="18" x="-407.69006" y="188.14633" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4030">
+            CIS*4030
+        </text>
+        <text font-size="18" x="-277.6216" y="189.38794" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4250">
+            CIS*4250
+        </text>
+        <text font-size="18" x="-32.204018" y="191.24374" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4520">
+            CIS*4520
+        </text>
+        <text font-size="18" x="-157.4883" y="191.43869" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4650">
+            CIS*4650
+        </text>
+        <text font-size="18" x="85.34578" y="190.44301" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4720">
+            CIS*4720
+        </text>
+        <text font-size="18" x="205.7775" y="187.77477" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4820">
+            CIS*4820
+        </text>
+        <text font-size="18" x="333.87982" y="190.62506" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4900">
+            CIS*4900
+        </text>
+        <text font-size="18" x="464.21317" y="190.73967" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*4910">
+            CIS*4910
+        </text>
+        <text font-size="18" x="-31.710066" y="538.2554" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1300">
+            CIS*1300
+        </text>
+        <text font-size="18" x="-155.13313" y="536.9048" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1250">
+            CIS*1250
+        </text>
+        <text font-size="18" x="-33.067062" y="431.60214" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2430">
+            CIS*2430
+        </text>
+        <text font-size="18" x="336.5498" y="432.49915" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2520">
+            CIS*2520
+        </text>
+        <text font-size="18" x="212.23833" y="535.8068" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*1910">
+            CIS*1910
+        </text>
+        <text font-size="18" x="357.0829" y="537.13873" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_ENGG*1500">
+            ENGG*1500
+        </text>
+        <text font-size="18" x="-403.21768" y="433.41458" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2030">
+            CIS*2030
+        </text>
+        <text font-size="18" x="738.5983" y="438.7609" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_ENGG*2410">
+            ENGG*2410
+        </text>
+        <text font-size="18" x="87.52923" y="430.59793" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*2460">
+            CIS*2460
+        </text>
+        <text font-size="18" x="877.0635" y="440.40897" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_STAT*2040">
+            STAT*2040
+        </text>
+        <text font-size="18" x="86.18678" y="310.70688" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3260">
+            CIS*3260
+        </text>
+        <text font-size="18" x="-157.24277" y="311.2509" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_CIS*3150">
+            CIS*3150
+        </text>
+        <text font-size="18" x="334.71527" y="88.77034" fill="#000000"
+              style="text-anchor: middle; dominant-baseline: central;"
+              font-family="Arial" class="id_7.00_credits_in_CIS">
+            7.00 credits in CIS
+        </text>
+    </g>
+</svg>
