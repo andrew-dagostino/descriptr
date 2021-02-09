@@ -149,4 +149,4 @@ Session.vim
 bin
 
 #Don't include webadvisor saved courses
-webadvisor-courses
+webadvisor-courses/

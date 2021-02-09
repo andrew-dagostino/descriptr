@@ -229,9 +229,47 @@ class DescSearches:
 
         return returnCourses
 
+    def byCapacity(self, courses, capacity, comp="="):
+        """
+        Filter the passed array of courses by available capacity using the provided comparison
+
+        Args:
+            courses(list<Course>): An array of Course data.
+            capacity: (int): The available capacity in the course
+            [comp]: (string): How to compare the capacity (one of =,<,>), defaults to =
+
+        Raises:
+            ValueError (Exception): If capacity is negative or comp is invalid
+
+        Returns:
+            (list): A list of courses with matching capacity
+        """
+        returnCourses = []
+        comparisons = ["=", "<", ">"]
+
+        if type(capacity) != int:
+            raise ValueError("Capacity must be an integer")
+
+        if capacity < 0:
+            raise ValueError("Capacity must not be negative")
+
+        if comp not in comparisons:
+            raise ValueError(f"Comparison must be one of {comparisons}")
+
+        for course in courses:
+            if hasattr(course, "capacity_available"):
+                if comp == "=" and course.capacity_available == capacity:
+                    returnCourses.append(course)
+                elif comp == ">" and course.capacity_available > capacity:
+                    returnCourses.append(course)
+                elif comp == "<" and course.capacity_available < capacity:
+                    returnCourses.append(course)
+
+        return returnCourses
+
     def byLectureHours(self, courses, hours, comp="="):
         """
-        Filter the passed array of courses by passed number of lecture hours  using the provided comparison
+        Filter the passed array of courses by passed number of lecture hours using the provided comparison
 
         Args:
             courses(list<Course>): An array of Course data.
@@ -239,7 +277,7 @@ class DescSearches:
             [comp]: (string): How to compare the hours (one of =,<,>), defaults to =
 
         Raises:
-            ValueError (Exception): If hours is not a non-negative float or comp is invalid
+            ValueError (Exception): If hours is negative or comp is invalid
 
         Returns:
             (list): A list of courses with matching lecture hours
@@ -276,7 +314,7 @@ class DescSearches:
             [comp]: (string): How to compare the hours (one of =,<,>)
 
         Raises:
-            ValueError (Exception): If hours is not a non-negative float or comp is invalid
+            ValueError (Exception): If hours is negative or comp is invalid
 
         Returns:
             (list): A list of courses with matching lab hours
