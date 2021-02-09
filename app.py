@@ -52,6 +52,12 @@ class Descriptr(cmd.Cmd):
             Search by semester.
         do_search_weight(args):
             Search by credit weight.
+        do_search_lec_hours(args):
+            Search by number of lecture hours.
+        do_search_lab_hours(args):
+            Search by number of lab hours.
+        do_search_capacity(args):
+            Search by available capacity.
     """
 
     intro = ("This is Descriptr.\n"
@@ -374,17 +380,77 @@ class Descriptr(cmd.Cmd):
 
     # }}}
 
+    def do_search_capacity(self, args):  # {{{
+        """
+        Search by available capacity.
+
+        Usage: search_capacity <capacity> [-n]
+
+            <capacity>      : The available capacity of a course. Must be non-negative.
+            <comparison>    : Optional. How to perform the comparision. One of ["=", ">", "<"]. Defaults to "=".
+            -n              : Optional. If passed, will search the output of the previous search.
+                                Otherwise, searches the whole course calendar.
+        """
+
+        search_array = self.all_courses
+        comp = '='
+        capacity = ''
+        int_capacity = 0.0
+        args = args.split(' ')
+
+        if args[0] == '':
+            print("[E] Please provide an argument")
+            print(self.do_search_capacity.__doc__)
+            return
+
+        # Check for -n, if there is carryover_data, search it instead of all_courses
+        for arg in args:
+            if arg == "-n":
+                if self.carryover_data:
+                    search_array = self.carryover_data
+
+        # Find the first code
+        for arg in args:
+            if arg[0] not in ['-', '=', '>', '<']:
+                capacity = arg
+            elif arg[0] in ['=', '>', '<']:
+                comp = arg
+
+        try:
+            int_capacity = int(capacity)
+        except ValueError:
+            print("\t[E] Not an integer or out of range.")
+            print(self.do_search_capacity.__doc__)
+            return
+
+        try:
+            results = self.search.byCapacity(search_array, int_capacity, comp)
+
+            if results:
+                self.carryover_data = results
+                print("\n")
+                for course in results:
+                    print(course)
+                print(f"Matched {len(results)}")
+            else:
+                print(f"No courses match capacity '{comp}{capacity}'")
+        except ValueError as e:
+            print(f"[E]: {e}")
+        # }}}
+    # }}}
+
     def do_search_lec_hours(self, args):  # {{{
         """
         Search by lecture hours.
 
         Usage: search_lec_hours <hours> [comparison] [-n]
 
-            <hours>    : The number of hours of lecture for the course. Must be non-negative
-            comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
-            -n         : Optional. If passed, will search the output of the previous search.
-                         Otherwise, searches the whole course calendar.
+            <hours>         : The number of hours of lecture for the course. Must be non-negative
+            <comparison>    : Optional. How to perform the comparison. One of ["=", ">", "<"]. Defaults to "=".
+            -n              : Optional. If passed, will search the output of the previous search.
+                                Otherwise, searches the whole course calendar.
         """
+
         search_array = self.all_courses
         comp = '='
         hours = ''
@@ -437,11 +503,12 @@ class Descriptr(cmd.Cmd):
 
         Usage: search_lab_hours <hours> [comparison] [-n]
 
-            <hours>    : The number of hours of lab for the course. Must be non-negative
-            comparison : Optional. How to perform the comparison. One of ["=", ">", "<"]
-            -n         : Optional. If passed, will search the output of the previous search.
-                         Otherwise, searches the whole course calendar.
+            <hours>         : The number of hours of lab for the course. Must be non-negative
+            <comparison>    : Optional. How to perform the comparison. One of ["=", ">", "<"]. Defaults to "=".
+            -n              : Optional. If passed, will search the output of the previous search.
+                                Otherwise, searches the whole course calendar.
         """
+
         search_array = self.all_courses
         comp = '='
         hours = ''

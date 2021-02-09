@@ -406,7 +406,7 @@ class TestDescSearches(unittest.TestCase):
 
     def test_byCourseGroup_invalid(self):
         '''
-            Tests that group search fails when fed somthing invalid
+            Tests that group search fails when fed something invalid
         '''
         d= DescSearches()
         with self.assertRaises(Exception):
@@ -418,6 +418,37 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byCourseGroup(self.three_courses, [])
 
+    def test_byCapacity(self):
+        '''
+            Test that capacity search returns correctly
+        '''
+        d = DescSearches()
+        self.assertTrue(len(d.byCapacity(self.three_courses, 10)) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 0)) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 0, "<")) == 0)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 15, "<")) == 2)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 0, ">")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 5, ">")) == 1)
+
+    def test_byCapacity_invalid(self):
+        '''
+            Test that capacity fails when fed something invalid
+        '''
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, "Hello")
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, -10)
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, 15.2)
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, -3.7)
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, 10, "x")
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, -5, "y")
+        with self.assertRaises(Exception):
+            d.byCapacity(self.three_courses, -5.12, "z")
 
 if __name__ == '__main__':
     unittest.main()

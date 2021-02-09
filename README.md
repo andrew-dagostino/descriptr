@@ -67,6 +67,7 @@ Available commands:
 | `search_lec_hours`  | Search by lecture hours.                                 |
 | `search_lab_hours`  | Search by lab hours.                                     |
 | `search_offered`    | Search by whether a course is currently offered or not.  |
+| `search_capacity`   | Search by the capacity available in a course.            |
 
 ### `exit`
 
@@ -271,6 +272,18 @@ Usage: search_offered <offered> [-n]
     <offered> : Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
     -n        : Optional. If passed, will search the output of the previous search.
                 Otherwise, searches the whole course calendar.
+```
+
+### `search_capacity`
+```
+Search by available capacity.
+
+Usage: search_capacity <weight> [-n]
+
+    <capacity>  : The available capacity of a course. Must be non-negative.
+    comparison  : Optional. How to perform the comparision. One of ["=", ">", "<"]
+    -n          : Optional. If passed, will search the output of the previous search.
+                    Otherwise, searches the whole course calendar.
 ```
 
 ## Course Data Structure
