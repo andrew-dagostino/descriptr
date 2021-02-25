@@ -2,8 +2,9 @@ import contextlib
 import io
 import os
 import unittest
+import json
 
-from app import Descriptr
+from classes.descriptr import Descriptr
 
 
 class TestDescriptr(unittest.TestCase):
@@ -16,81 +17,79 @@ class TestDescriptr(unittest.TestCase):
 
     def setUp(self):
         self.f = io.StringIO()  # Clear stored stdout for each test
+        self.descriptr.carryover_data = []
 
-    def test_load_pdf(self):
-        """
-            Test that the load_pdf command works
-        """
-        temp_courses = self.descriptr.all_courses
-        self.descriptr.all_courses = []
-
+    def test_export_json(self):
+        """Test that carryover data is exported as JSON successfully"""
+        json_output = ""
         with contextlib.redirect_stdout(self.f):
-            self.descriptr.onecmd("load_pdf test/test-pdf/mypdf.pdf")
+            self.descriptr.do_search_code("cis")
+            self.descriptr.do_search_number("2750", carryover=True)
+            json_output = self.descriptr.export_json()
 
-        self.assertTrue(len(self.descriptr.all_courses) > 0)
+        self.assertTrue(len(json_output) > 0)
 
-        self.descriptr.all_courses = temp_courses  # restore original course list
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) == 1)
 
-    def test_load_pdf_invalid(self):
-        """
-            Test that the load_pdf command displays error to user if no pdf found
-        """
-        temp_courses = self.descriptr.all_courses
-        self.descriptr.all_courses = []
-
+    def test_export_json_empty(self):
+        """Test that carryover data is exported as JSON successfully even if no courses from search"""
+        json_output = ""
         with contextlib.redirect_stdout(self.f):
-            self.descriptr.onecmd("load_pdf dne")
+            self.descriptr.do_search_keyword("thereisnowaythatthiskeywordwillexist")
+            json_output = self.descriptr.export_json()
 
-        self.assertTrue(len(self.descriptr.all_courses) == 0)
-        self.assertTrue("[E] Provided file must be a PDF" in self.f.getvalue())
+        self.assertTrue(len(json_output) > 0)
 
-        self.descriptr.all_courses = temp_courses  # restore original course list
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) == 0)
 
-    def test_export_graph(self):
-        """Test that a graph can be exported under normal conditions."""
+    def test_apply_filters(self):
+        """Test that multiple filters returns correct results"""
+        json_output = ""
         with contextlib.redirect_stdout(self.f):
-            self.descriptr.onecmd("export_graph testall")
+            json_output = self.descriptr.apply_filters({
+                "code": "cis",
+                "number": "2750"
+            })
 
-        # Output to user is correct
-        self.assertTrue("testall.csv" in self.f.getvalue())
-        # Assert file is created
-        self.assertTrue(os.path.exists("testall.csv"))
-        # Assert that the file has the appropriate lines
-        with open("testall.csv") as fopen:
-            self.assertGreater(sum(1 for line in fopen), 1000)
+        self.assertTrue(len(self.descriptr.carryover_data) == 1)
+        self.assertTrue(self.descriptr.carryover_data[0].code.lower() == "cis")
+        self.assertTrue(self.descriptr.carryover_data[0].number == "2750")
 
-        # File cleanup
-        os.remove("testall.csv")
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) == 1)
 
-    def test_export_graph_filtered(self):
-        """Test that a graph can be exported using the '-n' flag."""
-        out_name = "test2750"
-        out_file = f"{out_name}.csv"
+    def test_apply_empty(self):
+        """Test that multiple filters returns empty results for no match"""
+        json_output = ""
         with contextlib.redirect_stdout(self.f):
-            self.descriptr.onecmd("search_number 2750")
-            self.descriptr.onecmd(f"export_graph {out_name} -n")
+            json_output = self.descriptr.apply_filters({
+                "keyword": "thereisnowaythatthiskeywordwillexist"
+            })
 
-        # Output to user is correct
-        self.assertTrue(out_file in self.f.getvalue())
-        # Assert file is created
-        self.assertTrue(os.path.exists(out_file))
-        # Assert that the file has the appropriate lines
-        with open(out_file) as fopen:
-            self.assertEqual(sum(1 for line in fopen), 3)
+        self.assertTrue(len(self.descriptr.carryover_data) == 0)
 
-        # File cleanup
-        os.remove(out_file)
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) == 0)
 
-    def test_export_graph_invalid(self):
-        """Test that export_graph refuses a bad filename."""
-        out_name = "asdf876a98s7d6f0343#$%^&*()"
+    def test_apply_invalid(self):
+        """Test that multiple filters returns error for invalid search"""
+        json_output = ""
         with contextlib.redirect_stdout(self.f):
-            self.descriptr.onecmd("search_number 2750")
-            self.descriptr.onecmd(f"export_graph {out_name} -n")
+            json_output = self.descriptr.apply_filters({
+                "number": "12345"
+            })
 
-        # Output to user is correct
-        self.assertTrue("INVALID_CHARACTER" in self.f.getvalue())
+        self.assertTrue(len(self.descriptr.carryover_data) == 0)
 
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is not None)
+        self.assertTrue(len(dictionary["courses"]) == 0)
 
 if __name__ == '__main__':
     unittest.main()
