@@ -1,4 +1,26 @@
-converted-pdf.txt
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+backend/converted-pdf.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -143,10 +165,10 @@ cython_debug/
 Session.vim
 
 # Avoid adding any CSV we create to the Git repo.
-*.csv
+backend/*.csv
 
 #Don't include binaries folder
-bin
+backend/bin
 
 #Don't include webadvisor saved courses
-webadvisor-courses/
+backend/webadvisor-courses/

@@ -5,6 +5,9 @@ from classes.descriptr_searches import DescSearches
 from classes.course import Course
 from classes.course_enums import *
 
+""" Change working directory to one level above here """
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
+
 class TestDescSearches(unittest.TestCase):
 
     single_course = []

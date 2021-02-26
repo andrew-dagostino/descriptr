@@ -7,6 +7,9 @@ from classes.course_enums import *
 from classes.course_parser import CourseParser
 from classes.pdf_converter import PDFConverter
 
+""" Change working directory to one level above here """
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
+
 class TestIntegration(unittest.TestCase):
 
 	@classmethod

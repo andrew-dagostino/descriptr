@@ -9,11 +9,11 @@ before_script:
   - python -V
   - apt-get update
   - apt-get install -y poppler-utils
-  - pip install -r requirements.txt
+  - pip install -r backend/requirements.txt
 
 test:
   script:
-    - pytest --cov=classes/ --cov=functions/ test/
+    - pytest --cov=backend/classes/ --cov=backend/functions/ backend/test/
   variables:
     SCRAPE: "OFF"
   coverage: /^TOTAL.+?(\d+\%)$/
