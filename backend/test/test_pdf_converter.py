@@ -3,6 +3,9 @@ import os
 
 from classes.pdf_converter import PDFConverter
 
+""" Change working directory to one level above here """
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
+
 class TestPDFConverter(unittest.TestCase):
 
     def test_openPDF(self):

@@ -1,6 +1,10 @@
+import os
 import unittest
 from classes.pdf_converter import PDFConverter
 from classes.course_parser import *
+
+""" Change working directory to one level above here """
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
 
 class TestCourseParser(unittest.TestCase):
 

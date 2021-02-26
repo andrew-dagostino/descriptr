@@ -6,6 +6,8 @@ import json
 
 from classes.descriptr import Descriptr
 
+""" Change working directory to one level above here """
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
 
 class TestDescriptr(unittest.TestCase):
 
