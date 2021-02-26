@@ -44,13 +44,13 @@ pytest --cov=backend/classes/ --cov=backend/functions/ backend/test/
 To run the Descriptr API server locally run the following command:
 
 ```sh
-env FLASK_APP=api.py flask run
+env FLASK_APP=backend/api.py flask run
 ```
 
 If you want development mode and to see a stack-trace in the browser:
 
 ```sh
-env FLASK_APP=api.py FLASK_ENV=development flask run
+env FLASK_APP=backend/api.py FLASK_ENV=development flask run
 ```
 
 Once running, the API will be live at the local address <http://127.0.0.1:5000/>.
