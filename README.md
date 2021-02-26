@@ -41,10 +41,19 @@ pytest --cov=classes/ --cov=functions/ test/
 
 ## Running
 
-Use `python3 app.py` or `./app.py` to run Descriptr.
+To run the Descriptr API server locally run the following command:
 
-Descriptr has built in help. To list available commands type `?` or `help`. To get help for
-a specific command, type `help <command>`. Or, see below.
+```sh
+env FLASK_APP=api.py flask run
+```
+
+If you want development mode and to see a stack-trace in the browser:
+
+```sh
+env FLASK_APP=api.py FLASK_ENV=development flask run
+```
+
+Once running, the API will be live at the local address <http://127.0.0.1:5000/>.
 
 ## Help
 
