@@ -1,10 +1,14 @@
 """Implement Flask and provide endpoints to interact with Descriptr."""
 
+import os
 from flask import Flask
 from flask import jsonify
 from flask import request
 from classes.descriptr import Descriptr
 import json
+
+""" Change working directory to here """
+os.chdir(os.path.dirname(__file__))
 
 app = Flask(__name__)
 dcptr = Descriptr()
