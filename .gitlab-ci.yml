@@ -7,7 +7,7 @@ cache:
 
 before_script:
   - python -V
-  - pip install -r backend/requirements.txt
+  - pip install -r src/api/requirements.txt
 
 stages:
   - test
@@ -15,7 +15,7 @@ stages:
 Test:
   stage: test
   script:
-    - pytest --cov=backend/classes/ --cov=backend/functions/ backend/test/ --junitxml=report.xml
+    - pytest --cov=src/api/classes/ --cov=src/api/functions/ src/api/test/ --junitxml=report.xml
   variables:
     SCRAPE: "OFF"
   coverage: /^TOTAL.+?(\d+\%)$/

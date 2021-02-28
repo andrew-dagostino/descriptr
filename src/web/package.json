@@ -13,10 +13,11 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
-  "main": "main.js",
+  "main": "public/electron.js",
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && electron-builder",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron ."
@@ -40,7 +41,9 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "electron": "^11.3.0",
+    "electron-builder": "22.9.1",
     "react-scripts": "0.8.5"
   }
 }

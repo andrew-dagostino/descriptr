@@ -1,0 +1,13 @@
+FROM node:14.15.5-alpine
+#LTS version
+
+RUN mkdir -p /var/www/cis4250-03.socs.uoguelph.ca
+WORKDIR /var/www/cis4250-03.socs.uoguelph.ca
+COPY --chown=node:node src/web/ /var/www/cis4250-03.socs.uoguelph.ca
+COPY src/web/package.json /var/www/cis4250-03.socs.uoguelph.ca/package.json
+COPY src/web/package-lock.json /var/www/cis4250-03.socs.uoguelph.ca/package-lock.json
+
+RUN cd /var/www/cis4250-03.socs.uoguelph.ca
+RUN npm install
+
+ENTRYPOINT ["npm", "start"]
