@@ -1,26 +1,26 @@
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+src/web/node_modules
+src/web/.pnp
+src/web/.pnp.js
 
 # testing
-/coverage
+src/web/coverage
 
 # production
-/build
+src/web/build
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+src/web/.DS_Store
+src/web/.env.local
+src/web/.env.development.local
+src/web/.env.test.local
+src/web/.env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+src/web/npm-debug.log*
+src/web/yarn-debug.log*
+src/web/yarn-error.log*
 
-backend/converted-pdf.txt
+src/api/converted-pdf.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -165,10 +165,14 @@ cython_debug/
 Session.vim
 
 # Avoid adding any CSV we create to the Git repo.
-backend/*.csv
+src/api/*.csv
 
 #Don't include binaries folder
-backend/bin
+src/api/bin
 
 #Don't include webadvisor saved courses
-backend/webadvisor-courses/
+src/api/webadvisor-courses/
+
+#Don't include ssl certificates:
+docker/nginx_load_balancer/nginx/ssl/*
+!docker/nginx_load_balancer/nginx/ssl/.gitkeep

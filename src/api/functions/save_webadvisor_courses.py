@@ -14,45 +14,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.options import Options
 
-# This method checks if a user already has a selenium webdriver installed in the project.
-def missing_selenium_driver():
-	if platform.system() == 'Windows' and os.path.isfile('bin/selenium-webdriver/geckodriver.exe'):
-		return False
-	elif (platform.system() == 'Darwin' or platform.system() == 'Linux') and os.path.isfile('bin/selenium-webdriver/geckodriver'):
-		return False
-	return True
-
-# This method attempts to download the required selenium webdriver for the script to run for the user's system.
-def download_selenium_driver():
-	platform_being_used = platform.system()
-	is_64bits = sys.maxsize > 2**32
-
-	selenium_driver_download = "https://github.com/mozilla/geckodriver/releases/download/v0.29.0/"
-	if platform_being_used == 'Linux':
-		if is_64bits:
-			selenium_driver_download += "geckodriver-v0.29.0-linux64.tar.gz"
-		else:
-			selenium_driver_download += "geckodriver-v0.29.0-linux32.tar.gz"
-	elif platform_being_used == 'Windows':
-		if is_64bits:
-			selenium_driver_download += "geckodriver-v0.29.0-win64.zip"
-		else:
-			selenium_driver_download += "geckodriver-v0.29.0-win32.zip"
-	elif platform_being_used == 'Darwin':
-		selenium_driver_download += "geckodriver-v0.29.0-macos.tar.gz"
-	else:
-		raise Exception("Your OS isn't supported. Please download the Mozilla geckodriver for your system and place it in the bin/selenium-webdriver\folder before trying to run the program again.")
-
-	#Download+Extract the firefox(gecko) webdriver that is compatible with the users system:
-	ftpstream = urlopen(selenium_driver_download)
-	ziptar = None
-	if platform_being_used == 'Windows':
-		ziptar = ZipFile(BytesIO(ftpstream.read()))
-	else:
-		ziptar = tarfile.open(fileobj=ftpstream, mode="r|gz")
-	
-	ziptar.extractall("bin/selenium-webdriver/")
-
 def wait(xpath, driver, timeout=30):
 	element = WebDriverWait(driver, timeout).until(EC.element_to_be_clickable((By.XPATH, xpath)))
 	return element
@@ -62,14 +23,12 @@ def wait_click(xpath, driver, timeout=30):
 	element.click()
 
 def get_driver_executable():
-	driver_executable = r"bin/selenium-webdriver/geckodriver"
-	if platform.system() == 'Windows':
-		driver_executable += ".exe"
-	return driver_executable
+	return "/usr/bin/geckodriver"
 
 def initialize_selenium_driver():
 	options = Options()
 	options.headless = True
+	options.binary_location = "/usr/bin/firefox"
 	driver = webdriver.Firefox(options=options, executable_path=get_driver_executable())
 	print("WebAdvisor Saver: Initiated!")
 	return driver
@@ -79,15 +38,6 @@ def initialize_selenium_driver():
 #
 
 def scrape_and_parse_webadvisor_courses():
-
-	if missing_selenium_driver():
-		print("WebAdvisor Saver: Attempting to download Selenium driver required for saving.")
-		try:
-			download_selenium_driver()
-		except (HTTPError, URLError) as e:
-			print("ERROR: The link from which we tried to download the Selenium driver from isn't working. Please try again.")
-			sys.exit()
-
 	driver = initialize_selenium_driver()
 
 	curr_time = datetime.now().timestamp()
