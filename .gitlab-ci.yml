@@ -1,28 +1,49 @@
-image: andrewdagostino/cis4250-ci:latest
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - ~/.cache/pip/
-
-before_script:
-  - python -V
-  - pip install -r src/api/requirements.txt
-
 stages:
-  - test
+    - test
+    - build
 
-Test:
-  stage: test
-  script:
-    - pytest --cov=src/api/classes/ --cov=src/api/functions/ src/api/test/ --junitxml=report.xml
-  variables:
-    SCRAPE: "OFF"
-  coverage: /^TOTAL.+?(\d+\%)$/
-  artifacts:
-    when: always
-    reports:
-      junit: report.xml
-  only:
-    refs:
-      - branches
+API Tests:
+    stage: test
+    image: andrewdagostino/cis4250-ci:latest
+    cache:
+        key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+        paths:
+            - ~/.cache/pip/
+    script:
+        - python -V
+        - pip install -r src/api/requirements.txt
+        - pytest --cov=src/api/classes/ --cov=src/api/functions/ src/api/test/ --junitxml=report.xml
+        - coverage xml
+    variables:
+        SCRAPE: 'OFF'
+    coverage: /^TOTAL.+?(\d+\%)$/
+    artifacts:
+        when: always
+        reports:
+            junit: report.xml
+            cobertura: coverage.xml
+    only:
+        refs:
+            - branches
+
+Electron Build:
+    stage: build
+    image: electronuserland/builder:wine
+    cache:
+        key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+        paths:
+            - ./src/web/node_modules/
+    script:
+        - npm -v
+        - node -v
+        - cd ./src/web
+        - npm install
+        - ./node_modules/.bin/react-scripts build && ./node_modules/.bin/electron-builder -w
+    artifacts:
+        when: on_success
+        paths:
+            - ./src/web/dist/*.exe
+    only:
+        refs:
+            - develop
+            - master
