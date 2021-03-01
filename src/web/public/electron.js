@@ -23,11 +23,11 @@ function createWindow() {
     });
 
     // loads the index.html of the app
-    if(process.env.ENV === 'DEV') {
-      //mainWindow.loadURL('https://dev.cis4250-03.socs.uoguelph.ca'); //This doesn't work for local dev but we want it to.
-      mainWindow.loadURL('http://localhost:3000');
-    } else if(process.env.ENV === 'PROD') {
-      mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
+    if (process.env.ENV === 'DEV') {
+        //mainWindow.loadURL('https://dev.cis4250-03.socs.uoguelph.ca'); //This doesn't work for local dev but we want it to.
+        mainWindow.loadURL('http://localhost:3000');
+    } else {
+        mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
     }
 
     // Opens the dev tools. Comment out to get rid of them.
