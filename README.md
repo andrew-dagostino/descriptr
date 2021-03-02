@@ -240,13 +240,22 @@ Where:
 
 ### Building Electron Executable
 
-1. Ensure you have all node packages installed:
+1. Edit the variable ENV in the `.env` file
+
+    ```
+    ENV=PROD
+    ```
+
+    When set to `PROD`, it will use assets from the React `build/` folder.
+
+
+2. Ensure you have all node packages installed:
 
     ```
     npm --prefix src/web install  # This may not be required as docker could've already installed packages locally.
     ```
 
-2. Next, type the commands:
+3. Next, type the commands:
 
     ```
     npm --prefix src/web run build
@@ -256,27 +265,21 @@ Where:
 
 ### Running Electron Locally for Development:
 
-1. Ensure you have all node packages installed:
-
-    ```
-    npm --prefix src/web install  # This may not be required as docker could've already installed packages locally.
-    ```
-
-2. Edit the variable ENV in the `.env` file
+1. Edit the variable ENV in the `.env` file
 
     ```
     ENV=DEV
     ```
 
-    When set to `DEV`, the Electron app will use assets from the local React server. When set to `PROD`, it will use assets from the React `build/` folder.
+    When set to `DEV`, the Electron app will use assets from the React server. When set to `PROD`, it will use assets from the React `build/` folder.
 
-3. Next, type the following command to locally serve the React website at `localhost:3000`:
+2. Ensure you have all node packages installed:
 
     ```
-    npm --prefix src/web run start
+    npm --prefix src/web install  # This may not be required as docker could've already installed packages locally.
     ```
 
-4. In a second terminal, run the following command to start the Electron app:
+3. In a second terminal, run the following command to start the Electron app:
 
     ```
     npm --prefix src/web run electron

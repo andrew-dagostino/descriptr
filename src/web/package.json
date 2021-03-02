@@ -20,7 +20,7 @@
     "build": "react-scripts build && electron-builder",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "env $(cat ../../.env | grep -v '#' | xargs) electron ."
   },
   "eslintConfig": {
     "extends": [
