@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import CourseTable from './components/CourseTable';
+import Search from './components/Search';
 
 function App() {
     const mockCourses = [{
@@ -16,22 +17,8 @@ function App() {
       {'group': 'Computing and Information Science', 'departments': ['School of Computer Science'], 'code': 'CIS', 'number': '1050', 'name': 'Web Design and Development', 'semesters_offered': ['S', 'W'], 'lecture_hours': 0.0, 'lab_hours': 0.0, 'credits': 0.5, 'description': 'An introduction to the basics of designing and developing a website. It examines the basic concepts, technologies, issues and techniques required to develop and maintain websites. The course is suitable for students with no previous programming experience.', 'distance_education': 'Offered through Distance Education format only.', 'prerequisites': [], 'equates': [], 'corequisites': [], 'restrictions': [], 'capacity_available': 3, 'capacity_max': 160, 'is_full': false}
     ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello World!
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{padding: "100px"}}>
+      <Search/>
       <CourseTable courses={mockCourses}/>
     </div>
   );
