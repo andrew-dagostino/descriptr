@@ -24,8 +24,7 @@ function createWindow() {
 
     // loads the index.html of the app
     if (process.env.ENV === 'DEV') {
-        //mainWindow.loadURL('https://dev.cis4250-03.socs.uoguelph.ca'); //This doesn't work for local dev but we want it to.
-        mainWindow.loadURL('http://localhost:3000');
+        mainWindow.loadURL('https://dev.cis4250-03.socs.uoguelph.ca');
     } else {
         mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
     }
@@ -47,6 +46,13 @@ app.whenReady().then(createWindow);
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit();
+    }
+});
+
+app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
+    if (process.env.ENV === 'DEV') { //Allow self signed certificate in DEV mode
+        event.preventDefault();
+        callback(true);
     }
 });
 
