@@ -11,9 +11,9 @@ from classes.course_parser import CourseParser
 from classes.course_encoder import CourseEncoder
 from classes.descriptr_searches import DescSearches
 from classes.pdf_converter import PDFConverter
-from functions.export import export_graph
 from functions.parse_scrape import add_course_capacity
 from functions.save_webadvisor_courses import scrape_and_parse_webadvisor_courses
+
 
 class Descriptr():
     """
@@ -61,27 +61,27 @@ class Descriptr():
         latest_file = None
 
         if os.getenv("SCRAPE") != "OFF":
-            for i in range(0, 2): # i should only be 0 or 1 (single retry)
+            for i in range(0, 2):  # i should only be 0 or 1 (single retry)
                 try:
-                    latest_file = max(glob.iglob("webadvisor-courses/*.html"), key=os.path.getctime)
+                    latest_file = max(glob.iglob(
+                        "webadvisor-courses/*.html"), key=os.path.getctime)
                     if (time.time() - os.path.getctime(latest_file)) > 86400:
                         raise Exception
                     elif i == 0:
-                        print("Retrieved cached WebAdvisor scrape made less than 24h ago. (" + latest_file + ")")
+                        print(
+                            "Retrieved cached WebAdvisor scrape made less than 24h ago. (" + latest_file + ")")
                     else:
-                        print("Successfully scraped and saved WebAdvisor. (" + latest_file + ")")
+                        print(
+                            "Successfully scraped and saved WebAdvisor. (" + latest_file + ")")
                     break
                 except (ValueError, Exception) as e:
-                    if i == 0: # Only scrape WebAdvisor once to avoid DoS
-                        print("Scraping...")
+                    if i == 0:  # Only scrape WebAdvisor once to avoid DoS
                         scrape_and_parse_webadvisor_courses()
                     else:
-                        print("[W] Error while scraping WebAdvisor. Courses may not have updated capacity information.")
+                        print(
+                            "[W] Error while scraping WebAdvisor. Courses may not have updated capacity information.")
 
-        print("Getting capacity info from WebAdvisor data...")
         self.all_courses = add_course_capacity(self.all_courses)
-
-        print("Loading Complete")
 
     def _load(self, filepath):
         """
@@ -90,10 +90,8 @@ class Descriptr():
         converter = PDFConverter()
         parser = CourseParser()
 
-        print("Converting...")
         converter.openPDF(filepath)
 
-        print("Parsing...")
         self.all_courses = parser.open_file("converted-pdf.txt")
 
         self.carryover_data = []  # A copy of data returned from search here.
@@ -131,15 +129,18 @@ class Descriptr():
                 elif key == "capacity":
                     search_capacity = value.get("capacity")
                     search_comparison = value.get("comparison", "=")
-                    self.do_search_capacity(f"{search_capacity}", f"{search_comparison}", carryover=True)
+                    self.do_search_capacity(
+                        f"{search_capacity}", f"{search_comparison}", carryover=True)
                 elif key == "lecture":
                     search_hours = value.get("hours")
                     search_comparison = value.get("comparison", "=")
-                    self.do_search_lec_hours(f"{search_hours}", f"{search_comparison}", carryover=True)
+                    self.do_search_lec_hours(
+                        f"{search_hours}", f"{search_comparison}", carryover=True)
                 elif key == "lab":
                     search_hours = value.get("hours")
                     search_comparison = value.get("comparison", "=")
-                    self.do_search_lab_hours(f"{search_hours}", f"{search_comparison}", carryover=True)
+                    self.do_search_lab_hours(
+                        f"{search_hours}", f"{search_comparison}", carryover=True)
                 elif key == "offered":
                     offered = ""
                     if value == True:
@@ -173,7 +174,7 @@ class Descriptr():
                 "courses": []
             })
 
-    def _perform_search(self, args, function, carryover = False, converter = None, join = True):
+    def _perform_search(self, args, function, carryover=False, converter=None, join=True):
         search_array = self.carryover_data
         if not carryover:
             search_array = self.all_courses
@@ -194,31 +195,34 @@ class Descriptr():
 
         self.carryover_data = function(search_array, search_parameter)
 
-    def do_search_code(self, *args, carryover = False):
+    def do_search_code(self, *args, carryover=False):
         """
         Search by course code.
         @param {String}     args        The course letters e.g. CIS
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byCourseCode, carryover=carryover)
+        self._perform_search(
+            args, self.search.byCourseCode, carryover=carryover)
 
-    def do_search_group(self, *args, carryover = False):  # {{{
+    def do_search_group(self, *args, carryover=False):  # {{{
         """
         Search by course group.
         @param {String}     args        The course group e.g. Accounting
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byCourseGroup, carryover=carryover)
+        self._perform_search(
+            args, self.search.byCourseGroup, carryover=carryover)
 
-    def do_search_department(self, *args, carryover = False):
+    def do_search_department(self, *args, carryover=False):
         """
         Search by course department.
         @param {String}     args        The course department e.g. Department of Clinical Studies
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byDepartment, carryover=carryover)
+        self._perform_search(
+            args, self.search.byDepartment, carryover=carryover)
 
-    def do_search_keyword(self, *args, carryover = False):
+    def do_search_keyword(self, *args, carryover=False):
         """
         Search by keyword in the course.
         @param {String}     args        The term to search for eg. biology
@@ -226,21 +230,23 @@ class Descriptr():
         """
         self._perform_search(args, self.search.byKeyword, carryover=carryover)
 
-    def do_search_level(self, *args, carryover = False):
+    def do_search_level(self, *args, carryover=False):
         """
         Search by level of a course.
         @param {String}     args        The leading number of a course code eg. 4 for a 4XXX course
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byCourseLevel, carryover=carryover)
+        self._perform_search(
+            args, self.search.byCourseLevel, carryover=carryover)
 
-    def do_search_number(self, *args, carryover = False):
+    def do_search_number(self, *args, carryover=False):
         """
         Search by full course number.
         @param {String}     args        The number of a course eg. 2750
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byCourseNumber, carryover=carryover)
+        self._perform_search(
+            args, self.search.byCourseNumber, carryover=carryover)
 
     def semester_converter(self, semester):
         try:
@@ -249,13 +255,14 @@ class Descriptr():
             print("[E] Please enter a supported semester. [F, S, U, W]")
         return
 
-    def do_search_semester(self, *args, carryover = False):
+    def do_search_semester(self, *args, carryover=False):
         """
         Search by semester.
         @param {String}     args        One of the following codes, [S, F, W, U]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.bySemester, self.semester_converter, carryover=carryover)
+        self._perform_search(args, self.search.bySemester,
+                             self.semester_converter, carryover=carryover)
 
     def weight_converter(self, weight):
         try:
@@ -264,15 +271,16 @@ class Descriptr():
             print("[E] Not a floating point number or out-of-range.")
         return
 
-    def do_search_weight(self, *args, carryover = False):
+    def do_search_weight(self, *args, carryover=False):
         """
         Search by credit weight.
         @param {String}     args        The weight of the course. One of [0.0, 0.25, 0.5, 0.75, 1.0, 1.75, 2.0, 2.5, 2.75, 7.5]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byWeight, self.weight_converter, carryover=carryover)
+        self._perform_search(args, self.search.byWeight,
+                             self.weight_converter, carryover=carryover)
 
-    def do_search_capacity(self, *args, carryover = False):
+    def do_search_capacity(self, *args, carryover=False):
         """
         Search by available capacity.
         @param {String}     args        The available capacity of a course. Must be non-negative.
@@ -308,11 +316,12 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byCapacity(search_array, int_capacity, comp)
+            self.carryover_data = self.search.byCapacity(
+                search_array, int_capacity, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
-    def do_search_lec_hours(self, *args, carryover = False):
+    def do_search_lec_hours(self, *args, carryover=False):
         """
         Search by lecture hours.
         @param {String}     args        The number of hours of lecture for the course. Must be non-negative
@@ -348,11 +357,12 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byLectureHours(search_array, float_hours, comp)
+            self.carryover_data = self.search.byLectureHours(
+                search_array, float_hours, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
-    def do_search_lab_hours(self, *args, carryover = False):
+    def do_search_lab_hours(self, *args, carryover=False):
         """
         Search by lab hours.
         @param {String}     args        The number of hours of lab for the course. Must be non-negative
@@ -388,7 +398,8 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byLabHours(search_array, float_hours, comp)
+            self.carryover_data = self.search.byLabHours(
+                search_array, float_hours, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
@@ -401,10 +412,11 @@ class Descriptr():
                 return False
         return
 
-    def do_search_offered(self, *args, carryover = False):
+    def do_search_offered(self, *args, carryover=False):
         """
         Search by if a course is currently offered or not.
         @param {String}     args        Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byOffered, self.offered_converter, carryover=carryover)
+        self._perform_search(args, self.search.byOffered,
+                             self.offered_converter, carryover=carryover)
