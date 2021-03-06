@@ -2,12 +2,13 @@ import json
 from json import JSONEncoder
 from classes.course import Course
 
+
 class CourseEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, Course):
             return json.dumps({
                 "group":                    o.group if hasattr(o, "group") else None,
-                "departments":              o.departments if hasattr(o, "departments") else None,
+                "departments":              o.departments if hasattr(o, "departments") else [],
                 "code":                     o.code if hasattr(o, "code") else None,
                 "number":                   o.number if hasattr(o, "number") else None,
                 "name":                     o.name if hasattr(o, "name") else None,

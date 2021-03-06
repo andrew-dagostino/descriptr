@@ -14,17 +14,20 @@ let mainWindow;
 function createWindow() {
     // Create browser window
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
         },
     });
+    mainWindow.maximize();
+    mainWindow.setTitle('Descriptr.ly');
 
     // loads the index.html of the app
     if (process.env.ENV === 'DEV') {
-        mainWindow.loadURL('https://dev.cis4250-03.socs.uoguelph.ca');
+        mainWindow.loadURL(process.env.DEV_URL ? process.env.DEV_URL : 'https://dev.cis4250-03.socs.uoguelph.ca');
     } else {
         mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
     }
@@ -50,7 +53,8 @@ app.on('window-all-closed', function () {
 });
 
 app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
-    if (process.env.ENV === 'DEV') { //Allow self signed certificate in DEV mode
+    if (process.env.ENV === 'DEV') {
+        //Allow self signed certificate in DEV mode
         event.preventDefault();
         callback(true);
     }

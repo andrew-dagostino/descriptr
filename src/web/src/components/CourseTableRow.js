@@ -10,7 +10,7 @@
 export default function CourseTableRow(props) {
     let course = props.course;
     return (
-        <tr>
+        <tr onClick={props.showCourse} style={{ cursor: 'pointer' }}>
             <td>{`${course.code.toUpperCase()}*${course.number}`}</td>
             <td>{course.name}</td>
             <td>{course.description}</td>
