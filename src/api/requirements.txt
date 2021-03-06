@@ -4,6 +4,9 @@ beautifulsoup4 == 4.9.3
 # Flask for the API server
 Flask == 1.1.2
 
+# Integration between Flask and unittest
+flask-unittest == 0.1.1
+
 # A very fast and expressive template engine.
 jinja2 == 2.11.2
 

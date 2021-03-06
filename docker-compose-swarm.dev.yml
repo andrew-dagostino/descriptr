@@ -12,7 +12,7 @@ services:
         volumes:
             - ./src/api:/var/www/cis4250-03.socs.uoguelph.ca
         environment:
-            - FLASK_APP=api.py
+            - FLASK_APP=apipkg
         networks:
             - descriptr-network
 
