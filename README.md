@@ -248,7 +248,6 @@ Where:
 
     When set to `PROD`, it will use assets from the React `build/` folder.
 
-
 2. Ensure you have all node packages installed:
 
     ```
@@ -272,6 +271,8 @@ Where:
     ```
 
     When set to `DEV`, the Electron app will use assets from the React server. When set to `PROD`, it will use assets from the React `build/` folder.
+
+    You can optionally set the `DEV_URL` environment variable if you wish to use a React dev server running outside of the Docker Swarm.
 
 2. Ensure you have all node packages installed:
 
