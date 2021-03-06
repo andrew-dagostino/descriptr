@@ -12,7 +12,12 @@ API Tests:
     script:
         - python -V
         - pip install -r src/api/requirements.txt
-        - pytest --cov=src/api/classes/ --cov=src/api/functions/ src/api/test/ --junitxml=report.xml
+        - >2
+          pytest
+          --cov=src/api/classes/
+          --cov=src/api/functions/
+          --cov=src/api/apipkg/
+          src/api/test/ --junitxml=report.xml
         - coverage xml
     variables:
         SCRAPE: 'OFF'
