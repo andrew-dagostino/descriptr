@@ -11,7 +11,7 @@ function Search() {
   */
 
   return (
-    <div style={{padding: "50px", overflow: "hidden", width: "100%"}}>
+    <div style={{overflow: "hidden", width: "100%"}}>
       <div style={{float: "left"}}>
         Search filters
       </div>
@@ -90,9 +90,21 @@ function Search() {
       </div>
       <br/>
       <div style={{overflow: "hidden", width: "100%"}}>
-        <button type="button" style={{float: "left", width: "150px", height: "50px", backgroundColor: "#3498db"}}>Add Search Term</button>
-        <button type="button" style={{float: "left", width: "150px", height: "50px", backgroundColor: "#f1c40f"}}>Reset Search</button>
-        <button type="button" style={{float: "right", width: "150px", height: "50px", backgroundColor: "#2ecc71"}}>Search</button>
+        <button
+          type="button"
+          style={{float: "left", width: "150px", height: "50px"}}
+          className="bg-secondary text-white"
+        >Add Search Term</button>
+        <button
+          type="button"
+          style={{float: "left", width: "150px", height: "50px"}}
+          className="bg-danger text-white"
+        >Reset Search</button>
+        <button
+          type="button"
+          style={{float: "right", width: "150px", height: "50px"}}
+          className="bg-info text-white"
+        >Search</button>
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ export default class CourseTable extends React.Component {
             <div>
                 <CourseModal ref={this.courseModal} />
                 <Table bordered hover responsive>
-                    <thead className='thead-dark text-nowrap'>
+                    <thead className='bg-secondary text-nowrap text-white'>
                         <tr>
                             <th>Course</th>
                             <th>Name</th>
