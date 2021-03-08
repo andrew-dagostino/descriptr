@@ -85,7 +85,7 @@ export function runForceGraph(
     .force("x", d3.forceX())
     .force("y", d3.forceY());
 
-  // 
+  d3.select("svg").remove();
   const svg = d3
     .select(container)
     .append("svg")
@@ -93,9 +93,9 @@ export function runForceGraph(
     // Viewbox defines the position of the graph
     .attr("viewBox", [-width / 2, -height / 2, width, height])
     // The bellow function call is a bit buggy, can be removed 
-    .call(d3.zoom().on("zoom", function (event) {
+    /*.call(d3.zoom().on("zoom", function (event) {
       svg.attr("transform", event.transform);
-    }));
+    }));*/
 
   const link = svg
     .append("g")
