@@ -42,6 +42,14 @@ export default class CourseModal extends React.Component {
     render() {
         let course = this.state.course;
         if (course) {
+            let prerequisites = [];
+            if (course.prerequisites && course.prerequisites.simple?.length) {
+                prerequisites = prerequisites.concat(course.prerequisites.simple);
+            }
+            if (course.prerequisites && course.prerequisites.complex?.length) {
+                prerequisites = prerequisites.concat(course.prerequisites.complex);
+            }
+
             return (
                 <Modal show={this.state.show} onHide={this.hide} size='lg' centered>
                     <Modal.Header className='bg-warning text-black' closeButton>
@@ -96,7 +104,7 @@ export default class CourseModal extends React.Component {
                             <Col xs={3}>
                                 <b>Prerequisites</b>
                             </Col>
-                            <Col>{course.prerequisites.length ? course.prerequisites.map((prereq) => <div>{prereq}</div>) : 'None'}</Col>
+                            <Col>{prerequisites.length ? prerequisites.map((prereq) => <div>{prereq}</div>) : 'None'}</Col>
                             <Col xs={3}>
                                 <b>Corequisites</b>
                             </Col>
