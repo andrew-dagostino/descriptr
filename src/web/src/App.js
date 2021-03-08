@@ -1,5 +1,6 @@
 import React from 'react';
 import CourseTable from './components/CourseTable';
+import TempSearch from './components/tempSearch'
 import Search from './components/Search';
 import { ForceGraph } from './components/graph/forceGraph';
 import Header from './components/Header';
@@ -26,13 +27,15 @@ export default class App extends React.Component {
         </div>`;
   }
 
-  hoverTool(node) {}
-
   render() {
     return (
       <div className="App bg-light">
         <Header />
         <section className="px-5 pb-5">
+          <Card body className="my-5">
+            <Card.Title>JSON search</Card.Title>
+            <TempSearch courses={this.state.courses} updateCourses={this.updateCourses} />
+          </Card>
           <Card body className="my-5">
             <Card.Title>Course Search</Card.Title>
             <Search updateCourses={this.updateCourses} />
