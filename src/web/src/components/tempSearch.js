@@ -37,7 +37,7 @@ export default class tempSearch extends React.Component {
   }
 
   onSubmit() {
-    fetch('https://dev.cis4250-03.socs.uoguelph.ca/api/search', {
+    fetch('/api/search', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
