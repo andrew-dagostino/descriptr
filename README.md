@@ -71,6 +71,10 @@ To run Descriptr.ly (API + WEB + NGINX):
 
 Once running, the WEB server will be live at <https://dev.cis4250-03.socs.uoguelph.ca/> & the api will live at <https://dev.cis4250-03.socs.uoguelph.ca/api>.
 
+## Deploying To Production
+
+This is quite a process for the first deployment. Read about it in docs/deployments/production/README.md
+
 ## Course Data Structure
 
 ### Course
