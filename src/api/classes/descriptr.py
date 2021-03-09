@@ -262,7 +262,7 @@ class Descriptr():
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.bySemester,
-                             self.semester_converter, carryover=carryover)
+                             converter=self.semester_converter, carryover=carryover)
 
     def weight_converter(self, weight):
         try:
@@ -278,7 +278,7 @@ class Descriptr():
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.byWeight,
-                             self.weight_converter, carryover=carryover)
+                             converter=self.weight_converter, carryover=carryover)
 
     def do_search_capacity(self, *args, carryover=False):
         """
@@ -419,4 +419,4 @@ class Descriptr():
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.byOffered,
-                             self.offered_converter, carryover=carryover)
+                             converter=self.offered_converter, carryover=carryover)
