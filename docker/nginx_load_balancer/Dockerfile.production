@@ -11,6 +11,9 @@ RUN apt-get update && apt-get -y install \
 COPY docker/nginx_load_balancer/nginx/ssl/dev.full.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/full.pem
 COPY docker/nginx_load_balancer/nginx/ssl/dev.key.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/key.pem
 
+#Create folder for letsencrypt validation challenge:
+RUN mkdir -p /var/www/.well-known/acme-challenge
+
 # Originally generated via command: openssl dhparam -out docker/nginx_load_balancer/nginx/dhparam.pem 4096
 COPY docker/nginx_load_balancer/nginx/dhparam.pem /etc/nginx/dhparam.pem
 
