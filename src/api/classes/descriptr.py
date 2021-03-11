@@ -142,12 +142,7 @@ class Descriptr():
                     self.do_search_lab_hours(
                         f"{search_hours}", f"{search_comparison}", carryover=True)
                 elif key == "offered":
-                    offered = ""
-                    if value == True:
-                        offered = "Y"
-                    elif value == False:
-                        offered = "N"
-                    self.do_search_offered(f"{offered}", carryover=True)
+                    self.do_search_offered(f"{value}", carryover=True)
 
         except Exception as e:
             self.carryover_data = []
@@ -297,11 +292,6 @@ class Descriptr():
         capacity = ''
         int_capacity = 0.0
 
-        args = args.split(' ')
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            return
-
         # Find the first code
         for arg in args:
             if arg[0] not in ['-', '=', '>', '<']:
@@ -338,11 +328,6 @@ class Descriptr():
         hours = ''
         float_hours = 0.0
 
-        args = args.split(' ')
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            return
-
         # Find the first code
         for arg in args:
             if arg[0] not in ['-', '=', '>', '<']:
@@ -378,11 +363,6 @@ class Descriptr():
         comp = '='
         hours = ''
         float_hours = 0.0
-
-        args = args.split(' ')
-        if args[0] == '':
-            print("[E] Please provide an argument")
-            return
 
         # Find the first code
         for arg in args:
