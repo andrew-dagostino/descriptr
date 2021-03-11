@@ -50,6 +50,7 @@ Electron Build:
         when: on_success
         paths:
             - ./src/web/dist/*.exe
+        expire_in: 4 days
     only:
         refs:
             - develop
