@@ -142,7 +142,7 @@ export default class SearchRow extends React.Component {
     }
 
     // Update individual values in child state, then update full filter in parent state
-    setType = (type) => this.setState({ searchType: type }, this.updateParent);
+    setType = (type) => this.setState({ searchType: type, searchComparator: '=', searchQuery: '' }, this.updateParent); // Reset on type change
     setComparator = (comparator) => this.setState({ searchComparator: comparator }, this.updateParent);
     setQuery = (query) => this.setState({ searchQuery: query }, this.updateParent);
 

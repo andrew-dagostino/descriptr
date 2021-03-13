@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import SearchRow from '../components/SearchRow.js';
 
 // Fields that will make use of >, <, and = comparisons
@@ -14,6 +14,7 @@ export default class Search extends React.Component {
         super(props);
         this.state = {
             rows: [this.createEmptyFilter()],
+            error: null,
         };
     }
 
@@ -84,13 +85,16 @@ export default class Search extends React.Component {
         })
             .then((response) => response.json())
             .then((data) => {
-                this.props.updateCourses(data.courses.map((course) => JSON.parse(course)));
+                let courses = data.error ? [] : data.courses;
+                this.props.updateCourses(courses.map((course) => JSON.parse(course)));
+                this.setState({ error: data.error });
             });
     };
 
     render() {
         return (
             <>
+                {this.state.error ? <Alert variant='danger'>{this.state.error}</Alert> : null}
                 {this.state.rows.map((item, id) => {
                     return <SearchRow key={id} index={id} filter={item} updateFilter={this.updateFilter} />;
                 })}
