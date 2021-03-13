@@ -35,11 +35,13 @@ def create_app(test_config=None):
         """
         if request.method == 'GET':
             # Make a list of methods of Decriptr that start with 'do_search_'
-            searches = [method for method in dir(dcptr) if method.startswith("do_search_")]
+            searches = [method for method in dir(
+                dcptr) if method.startswith("do_search_")]
             endpts = map(lambda x: x.replace("do_search_", "", 1), searches)
             return jsonify({'available_filters': list(endpts)})
 
-        ret = json.loads(dcptr.apply_filters(request.get_json()))
-        return jsonify(ret)
+        results = json.loads(dcptr.apply_filters(request.get_json()))
+        status = 200 if results["error"] is None else 400
+        return jsonify(results), status
 
     return app
