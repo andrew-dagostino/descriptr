@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -21,7 +22,11 @@ export default class Header extends React.Component {
                 <Nav variant='pills' defaultActiveKey='/'>
                     {this.state.links.map((item) => (
                         <Nav.Item key={item.text} className='px-2'>
-                            <Nav.Link href={item.link} className='text-white'>
+                            <Nav.Link
+                                to={item.link}
+                                eventKey={item.link}
+                                className='text-white'
+                                as={Link}>
                                 {item.text}
                             </Nav.Link>
                         </Nav.Item>
