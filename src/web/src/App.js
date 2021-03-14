@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import CourseTable from './components/CourseTable';
+import CourseTable2 from './components/CourseTable2';
 import Search from './components/Search';
 import { ForceGraph } from './components/graph/forceGraph';
 import Header from './components/Header';
@@ -47,7 +47,7 @@ export default class App extends React.Component {
                                 </Card>
                                 <Card body className='my-5'>
                                     <Card.Title>Results</Card.Title>
-                                    <CourseTable courses={this.state.courses} />
+                                    <CourseTable2 courses={this.state.courses} />
                                 </Card>
                                 <Card body>
                                     <section className='Main'>
