@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import styles from "./Graph.module.css";
-//import CourseModal from './CourseModal';
+import * as SvgToPng from 'save-svg-as-png' 
 
 export function runForceGraph(
   courseModal,
@@ -119,6 +119,12 @@ export function runForceGraph(
   }
   const div = d3.select("#graph-tooltip");
 
+  //Export graph as image on download click
+  d3.select("#download-graph").on('click', function() {
+      // Get the d3js SVG element and save using saveSvgAsPng.js
+      SvgToPng.saveSvgAsPng(document.getElementById("courses-d3-graph"), "courses.png", {backgroundColor: "#FFFFFF", left: -width / 2, top: -height / 2});
+  });
+
   // D3's built in tool to run force simulations 
   const simulation = d3
     .forceSimulation(nodes)
@@ -135,7 +141,8 @@ export function runForceGraph(
     .append("svg")
     .attr("viewBox", [-width / 2, -height / 2, width, height])    // Viewbox defines the position of the graph
     .style("cursor","move")
-    .attr("preserveAspectRatio", "xMinYMin meet");
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("id", "courses-d3-graph");
     
   // Child element for svg for keeping nodes, links and labels in
   const g = svg.append("g")
