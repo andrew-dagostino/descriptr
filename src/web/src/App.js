@@ -8,8 +8,6 @@ import { ForceGraph } from './components/graph/forceGraph';
 import Header from './components/Header';
 import Help from './components/Help';
 
-const data = require('./components/graph/miserables.json');
-
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +22,7 @@ export default class App extends React.Component {
     updateCourses = (courses) => this.setState({ courses: courses });
     nodeHoverTooltip = (node) => {
         return `<div>
-            <b>${node.id}</b>
+            <b>${node.name}</b>
         </div>`;
     };
 
@@ -51,7 +49,7 @@ export default class App extends React.Component {
                                 </Card>
                                 <Card body>
                                     <section className='Main'>
-                                        <ForceGraph linksData={data.links} nodesData={data.nodes} nodeHoverTooltip={this.nodeHoverTooltip} />
+                                        <ForceGraph coursesData={this.state.courses} nodeHoverTooltip={this.nodeHoverTooltip} />
                                     </section>
                                 </Card>
                             </section>
