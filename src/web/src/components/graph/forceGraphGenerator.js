@@ -1,7 +1,9 @@
 import * as d3 from "d3";
 import styles from "./Graph.module.css";
+//import CourseModal from './CourseModal';
 
 export function runForceGraph(
+  courseModal,
   container,
   coursesData,
   nodeHoverTooltip
@@ -188,6 +190,12 @@ export function runForceGraph(
       svg.style("cursor", "move");
       removeTooltip();
     });
+
+  label.on("click", function() {
+    let [code, number] = this.innerHTML.split("*");
+    let course = coursesData.filter((el) => { return el.code==code && el.number==number })[0];
+    courseModal.current.showCourse(course);
+  });
 
   // Need to research more into how to make static image without animating. Worst case web worker. Second worst case render after table has rendered.
   if (nodesData.length > 300) {
