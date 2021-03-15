@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import CourseTable2 from './components/CourseTable2';
@@ -52,6 +52,7 @@ export default class App extends React.Component {
                                 </Card>
                                 <Card body>
                                     <section className='Main'>
+                                        <Button style={{margin: 10}} id="download-graph" variant="primary">Download Graph</Button>
                                         <ForceGraph courseModal={this.courseModal} coursesData={this.state.courses} nodeHoverTooltip={this.nodeHoverTooltip} />
                                     </section>
                                 </Card>
