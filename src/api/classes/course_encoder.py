@@ -21,12 +21,12 @@ class CourseEncoder(JSONEncoder):
                 "year_parity_restrictions": o.year_parity_restrictions.value if hasattr(o, "year_parity_restrictions") else None,
                 "other":                    o.other if hasattr(o, "other") else None,
                 "prerequisites":            o.prerequisites if hasattr(o, "prerequisites") else [],
-                "equates":                  o.equates if hasattr(o, "equates") else [],
-                "corequisites":             o.corequisites if hasattr(o, "corequisites") else [],
+                "equates":                  o.equates if hasattr(o, "equates") else None,
+                "corequisites":             o.corequisites if hasattr(o, "corequisites") else None,
                 "restrictions":             o.restrictions if hasattr(o, "restrictions") else [],
                 "capacity_available":       o.capacity_available if hasattr(o, "capacity_available") else 0,
                 "capacity_max":             o.capacity_max if hasattr(o, "capacity_max") else 0,
                 "is_full":                  o.is_full()
             })
         else:
-            return super().default(self, o)
+            return super.default(self, o)

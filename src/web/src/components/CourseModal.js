@@ -108,7 +108,7 @@ export default class CourseModal extends React.Component {
                             <Col xs={3}>
                                 <b>Corequisites</b>
                             </Col>
-                            <Col>{course.corequisites.length ? course.corequisites.map((coreq) => <div>{coreq}</div>) : 'None'}</Col>
+                            <Col>{course.corequisites.length ? <div>{course.corequisites}</div> : 'None'}</Col>
                         </Row>
                         <Row>
                             <Col xs={3}>
@@ -118,7 +118,7 @@ export default class CourseModal extends React.Component {
                             <Col xs={3}>
                                 <b>Equates</b>
                             </Col>
-                            <Col>{course.equates.length ? course.equates.map((equate) => <div>{equate}</div>) : 'None'}</Col>
+                            <Col>{course.equates.length ? <div>{course.equates}</div> : 'None'}</Col>
                         </Row>
                     </Modal.Body>
                 </Modal>
