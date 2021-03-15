@@ -7,6 +7,7 @@ import Search from './components/Search';
 import { ForceGraph } from './components/graph/forceGraph';
 import Header from './components/Header';
 import Help from './components/Help';
+import CourseModal from './components/CourseModal';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -17,6 +18,8 @@ export default class App extends React.Component {
         };
 
         this.updateCourses = this.updateCourses.bind(this);
+
+        this.courseModal = React.createRef();
     }
 
     updateCourses = (courses) => this.setState({ courses: courses });
@@ -45,13 +48,14 @@ export default class App extends React.Component {
                                 </Card>
                                 <Card body className='my-5'>
                                     <Card.Title>Results</Card.Title>
-                                    <CourseTable2 courses={this.state.courses} />
+                                    <CourseTable2 courseModal={this.courseModal} courses={this.state.courses} />
                                 </Card>
                                 <Card body>
                                     <section className='Main'>
-                                        <ForceGraph coursesData={this.state.courses} nodeHoverTooltip={this.nodeHoverTooltip} />
+                                        <ForceGraph courseModal={this.courseModal} coursesData={this.state.courses} nodeHoverTooltip={this.nodeHoverTooltip} />
                                     </section>
                                 </Card>
+                                <CourseModal ref={this.courseModal} />
                             </section>
                         </Route>
                     </Switch>

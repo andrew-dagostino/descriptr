@@ -11,12 +11,10 @@ import React from 'react';
 
 import { useTable, usePagination } from 'react-table';
 import { Row, Col, Form, Table, Pagination, InputGroup } from 'react-bootstrap';
-import CourseModal from './CourseModal';
 
 function CourseTable2(props) {
-    const courseModal = React.createRef();
-
-    const coursesIn = props.courses
+    const coursesIn = props.courses;
+    let courseModal = props.courseModal;
 
     // Add a 'fullname' attribute to the course objects so we don't have to calculate it later.
     const data = React.useMemo(() =>
@@ -58,7 +56,7 @@ function CourseTable2(props) {
 
     return (
         <div>
-            <CourseModal ref={courseModal} />
+            
             <Table {...getTableProps()} bordered hover responsive>
                 <thead className='bg-secondary text-nowrap text-white'>
                     {/* Using react-table functions to render our header data into elements. */}
@@ -80,7 +78,7 @@ function CourseTable2(props) {
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                onClick={() => courseModal.current.showCourse(row.original)}
+                                onClick={() => { console.log(row.original); courseModal.current.showCourse(row.original); } }
                                 style={{ cursor: 'pointer' }}>
                                 {row.cells.map(cell => {
                                     return <td {...cell.getCellProps()}>
