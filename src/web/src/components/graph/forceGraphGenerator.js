@@ -192,11 +192,68 @@ export function runForceGraph(
   label.on("mouseover", (event,d) => {
     svg.style("cursor", "pointer");
     addTooltip(nodeHoverTooltip, d, event.pageX, event.pageY);
+    highlightAdjacent(d);
   })
-    .on("mouseout", () => {
-      svg.style("cursor", "move");
-      removeTooltip();
-    });
+  .on("mouseout", (event, d) => {
+    svg.style("cursor", "move");
+    removeTooltip();
+    highlightAdjacentOut(d);
+  });
+
+  node.on("mouseover", (event, d) => {
+    highlightAdjacent(d);
+  })
+  .on("mouseout", (event, d) => {
+    highlightAdjacentOut(d);
+  })
+
+  let linkedByIndex = {};
+  links.forEach((d) => {
+    linkedByIndex[`${d.source.index},${d.target.index}`] = true;
+  });
+
+  function highlightAdjacent(d) {
+    node
+      .transition(500)
+      .attr('opacity', o => {
+        if (isConnected(o, d)) {
+          return 1.0;
+        }
+        return 0.2
+      })
+      .attr('fill', (o) => {
+        let fillColor;
+        if (isEqual(o, d)) {
+          fillColor = 'hotpink';
+        } else {
+          fillColor = 'red';
+        }
+        return fillColor;
+      });
+  }
+
+  function highlightAdjacentOut(d) {
+    node
+      .attr("fill", color(d => d))
+      .transition(500)
+      .attr('opacity', 1);
+  }
+
+  function isConnected(a, b) {
+    function isConnectedAsSource(a, b) {
+      return linkedByIndex[`${a.index},${b.index}`];
+    }
+
+    function isConnectedAsTarget(a, b) {
+      return linkedByIndex[`${b.index},${a.index}`];
+    }
+
+    return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
+  }
+
+  function isEqual(a, b) {
+    return a.index === b.index;
+  }
 
   label.on("click", function() {
     let [code, number] = this.innerHTML.split("*");
