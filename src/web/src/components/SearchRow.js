@@ -6,7 +6,7 @@ import React from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
 // Fields that will make use of >, <, and = comparisons
-const numericalFields = ['lecture', 'lab', 'capacity'];
+const numericalFields = ['lecture', 'lab', 'capacity', 'level', 'number'];
 
 /**
  * SearchTypeDropdown
@@ -48,14 +48,22 @@ function SearchComparatorDropdown(props) {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
                 <option value='>'>greater than</option>
+                <option value='>='>greater or equal to</option>
+                <option value='='>equal to</option>
+                <option value='<='>less or equal to</option>
                 <option value='<'>less than</option>
-                <option value='='>is (exactly)</option>
             </Form.Control>
         );
     } else if (props.type === 'weight' || props.type === 'offered' || props.type === 'semester') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
                 <option value='='>is (exactly)</option>
+            </Form.Control>
+        );
+    } else if (props.type === 'keyword') {
+        return (
+            <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='~'>contains</option>
             </Form.Control>
         );
     } else {
@@ -79,9 +87,8 @@ function SearchComparatorDropdown(props) {
 function SearchQueryInput(props) {
     const handleChange = (e) => props.setQuery(e.target.value);
 
-    if (numericalFields.includes(props.type)) {
-        return <Form.Control type='number' value={props.value} placeholder='Enter a search term' onChange={handleChange} min={0} />;
-    } else if (props.type === 'weight') {
+
+    if (props.type === 'weight') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
                 <option value='' disabled>
@@ -105,9 +112,7 @@ function SearchQueryInput(props) {
                 <option value='' disabled>
                     Choose an Option...
                 </option>
-                <option value='Y' selected>
-                    Yes
-                </option>
+                <option value='Y'>Yes</option>
                 <option value='N'>No</option>
             </Form.Control>
         );
@@ -122,6 +127,21 @@ function SearchQueryInput(props) {
                 <option value='S'>Summer</option>
             </Form.Control>
         );
+    } else if (props.type === 'level') {
+        return (
+            <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='' disabled>
+                    Choose an Option...
+                </option>
+                <option value='1'>1000</option>
+                <option value='2'>2000</option>
+                <option value='3'>3000</option>
+                <option value='4'>4000</option>
+                <option value='5'>5000</option>
+            </Form.Control>
+        );
+    } else if (numericalFields.includes(props.type)) {
+            return <Form.Control type='number' value={props.value} placeholder='Enter a search term' onChange={handleChange} min={0} />;
     } else {
         return <Form.Control type='text' value={props.value} placeholder='Enter a search term' onChange={handleChange} />;
     }

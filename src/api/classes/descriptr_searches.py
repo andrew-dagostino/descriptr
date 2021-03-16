@@ -18,7 +18,7 @@ class DescSearches:
             Search courses by semester.
     """
 
-    def bySemester(self, courses, semester):
+    def bySemester(self, courses, semester, comparison):
         """
         Filter the passed array of courses by passed semester.
 
@@ -42,7 +42,7 @@ class DescSearches:
                 returnCourses.append(course)
         return returnCourses
 
-    def byCourseCode(self, courses, code):
+    def byCourseCode(self, courses, code, comparison):
         """
         Filter the passed array of courses by passed course code (eg. ACCT, CIS).
 
@@ -57,12 +57,16 @@ class DescSearches:
         returnCourses = []
 
         for course in courses:
-            if course.code.lower() == code.lower():
-                returnCourses.append(course)
+            if comparison == '=':
+                if code.lower() == course.code.lower():
+                    returnCourses.append(course)
+            elif comparison == '~':
+                if code.lower() in course.code.lower():
+                    returnCourses.append(course)
 
         return returnCourses
 
-    def byCourseGroup(self, courses, group):
+    def byCourseGroup(self, courses, group, comparison):
         """
         Filter the passed array of courses by passed course group (eg. Accounting, Computing and Information Science).
 
@@ -80,12 +84,16 @@ class DescSearches:
             raise ValueError("Group must be a string.")
 
         for course in courses:
-            if course.group.lower() == group.lower():
-                returnCourses.append(course)
+            if comparison == '=':
+                if group.lower() == course.group.lower():
+                    returnCourses.append(course)
+            elif comparison == '~':
+                if group.lower() in course.group.lower():
+                    returnCourses.append(course)
 
         return returnCourses
 
-    def byCourseLevel(self, courses, level):
+    def byCourseLevel(self, courses, level, comparison):
         """
         Filter the passed array of courses by passed course level
 
@@ -109,12 +117,25 @@ class DescSearches:
             raise ValueError("Course level has invalid range")
 
         for course in courses:
-            if course.number.startswith(level):
-                returnCourses.append(course)
+            if comparison == '=':
+                if course.number.startswith(level):
+                    returnCourses.append(course)
+            elif comparison == '>':
+                if int(course.number) > int(level) * 1000:
+                    returnCourses.append(course)
+            elif comparison == '<':
+                if int(course.number) < int(level) * 1000:
+                    returnCourses.append(course)
+            elif comparison == '>=':
+                if int(course.number) >= int(level) * 1000:
+                    returnCourses.append(course)
+            elif comparison == '<=':
+                if int(course.number) <= int(level) * 1000:
+                    returnCourses.append(course)
 
         return returnCourses
 
-    def byCourseNumber(self, courses, number):
+    def byCourseNumber(self, courses, number, comparison):
         """
         Filter the passed array of courses by passed course number (eg. 1250, 4720).
 
@@ -138,12 +159,25 @@ class DescSearches:
             raise ValueError("Course number has invalid range")
 
         for course in courses:
-            if course.number == number:
-                returnCourses.append(course)
+            if comparison == '=':
+                if course.number == number:
+                    returnCourses.append(course)
+            if comparison == '>':
+                if int(course.number) > int(number):
+                    returnCourses.append(course)
+            if comparison == '<':
+                if int(course.number) < int(number):
+                    returnCourses.append(course)
+            if comparison == '>=':
+                if int(course.number) >= int(number):
+                    returnCourses.append(course)
+            if comparison == '<=':
+                if int(course.number) <= int(number):
+                    returnCourses.append(course)
 
         return returnCourses
 
-    def byDepartment(self, courses, department):
+    def byDepartment(self, courses, department, comparison):
         """
         Filter the passed list of courses by passed department (eg. Department of Clinical Studies).
 
@@ -163,13 +197,18 @@ class DescSearches:
 
         for course in courses:
             for dep in course.departments:
-                if dep.lower().strip() == department.lower():
-                    returnCourses.append(course)
-                    break
+                if comparison == '=':
+                    if department.lower() == dep.lower().strip():
+                        returnCourses.append(course)
+                        break
+                elif comparison == '~':
+                    if department.lower() in dep.lower().strip():
+                        returnCourses.append(course)
+                        break
 
         return returnCourses
 
-    def byKeyword(self, courses, keyword):
+    def byKeyword(self, courses, keyword, comparison):
         """
         Filter the passed array of courses by passed keyword
 
@@ -200,7 +239,7 @@ class DescSearches:
 
         return returnCourses
 
-    def byWeight(self, courses, weight):
+    def byWeight(self, courses, weight, comparison):
         """
         Filter the passed array of courses by passed weight.
 
@@ -245,7 +284,7 @@ class DescSearches:
             (list): A list of courses with matching capacity
         """
         returnCourses = []
-        comparisons = ["=", "<", ">"]
+        comparisons = ["=", "<", ">", ">=", "<="]
 
         if type(capacity) != int:
             raise ValueError("Capacity must be an integer")
@@ -263,6 +302,10 @@ class DescSearches:
                 elif comp == ">" and course.capacity_available > capacity:
                     returnCourses.append(course)
                 elif comp == "<" and course.capacity_available < capacity:
+                    returnCourses.append(course)
+                elif comp == "<=" and course.capacity_available <= capacity:
+                    returnCourses.append(course)
+                elif comp == ">=" and course.capacity_available >= capacity:
                     returnCourses.append(course)
 
         return returnCourses
@@ -283,7 +326,7 @@ class DescSearches:
             (list): A list of courses with matching lecture hours
         """
         returnCourses = []
-        comparisons = ["=", "<", ">"]
+        comparisons = ["=", "<", ">", ">=", "<="]
 
         if type(hours) != float:
             raise ValueError("Hours must be a floating point number")
@@ -300,6 +343,10 @@ class DescSearches:
             elif comp == ">" and course.lecture_hours > hours:
                 returnCourses.append(course)
             elif comp == "<" and course.lecture_hours < hours:
+                returnCourses.append(course)
+            elif comp == ">=" and course.lecture_hours >= hours:
+                returnCourses.append(course)
+            elif comp == "<=" and course.lecture_hours <= hours:
                 returnCourses.append(course)
 
         return returnCourses
@@ -320,7 +367,7 @@ class DescSearches:
             (list): A list of courses with matching lab hours
         """
         returnCourses = []
-        comparisons = ["=", "<", ">"]
+        comparisons = ["=", "<", ">", ">=", "<="]
 
         if type(hours) != float:
             raise ValueError("Hours must be a floating point number")
@@ -338,10 +385,14 @@ class DescSearches:
                 returnCourses.append(course)
             elif comp == "<" and course.lab_hours < hours:
                 returnCourses.append(course)
+            elif comp == ">=" and course.lab_hours >= hours:
+                returnCourses.append(course)
+            elif comp == "<=" and course.lab_hours <= hours:
+                returnCourses.append(course)
 
         return returnCourses
 
-    def byOffered(self, courses, offered):
+    def byOffered(self, courses, offered, comparison):
         """
         Filter the passed array of courses by if they are offered based on WebAdvisor data
 

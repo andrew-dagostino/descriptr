@@ -111,21 +111,21 @@ class Descriptr():
 
             for key, value in filters.items():
                 if key == "code":
-                    self.do_search_code(f"{value}", carryover=True)
+                    self.do_search_code(value, carryover=True)
                 elif key == "group":
-                    self.do_search_group(f"{value}", carryover=True)
+                    self.do_search_group(value, carryover=True)
                 elif key == "department":
-                    self.do_search_department(f"{value}", carryover=True)
+                    self.do_search_department(value, carryover=True)
                 elif key == "keyword":
-                    self.do_search_keyword(f"{value}", carryover=True)
+                    self.do_search_keyword(value, carryover=True)
                 elif key == "level":
-                    self.do_search_level(f"{value}", carryover=True)
+                    self.do_search_level(value, carryover=True)
                 elif key == "number":
-                    self.do_search_number(f"{value}", carryover=True)
+                    self.do_search_number(value, carryover=True)
                 elif key == "semester":
-                    self.do_search_semester(f"{value.upper()}", carryover=True)
+                    self.do_search_semester(value, carryover=True)
                 elif key == "weight":
-                    self.do_search_weight(f"{value}", carryover=True)
+                    self.do_search_weight(value, carryover=True)
                 elif key == "capacity":
                     search_capacity = value.get("capacity")
                     search_comparison = value.get("comparison", "=")
@@ -142,7 +142,7 @@ class Descriptr():
                     self.do_search_lab_hours(
                         f"{search_hours}", f"{search_comparison}", carryover=True)
                 elif key == "offered":
-                    self.do_search_offered(f"{value}", carryover=True)
+                    self.do_search_offered(value, carryover=True)
 
         except Exception as e:
             self.carryover_data = []
@@ -174,50 +174,40 @@ class Descriptr():
         if not carryover:
             search_array = self.all_courses
 
-        # Join remaining arguments, and convert them if needed
         search_parameter = None
-        if join:
-            joined_args = " ".join(args)
-            if converter != None:
-                search_parameter = converter(joined_args)
-            else:
-                search_parameter = joined_args
+
+        if converter != None:
+            search_parameter = converter(args['query'])
         else:
-            if converter != None:
-                search_parameter = converter(args)
-            else:
-                search_parameter = args
+            search_parameter = args['query']
 
-        self.carryover_data = function(search_array, search_parameter)
+        self.carryover_data = function(search_array, search_parameter, args['comparison'])
 
-    def do_search_code(self, *args, carryover=False):
+    def do_search_code(self, args, carryover=False):
         """
         Search by course code.
         @param {String}     args        The course letters e.g. CIS
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(
-            args, self.search.byCourseCode, carryover=carryover)
+        self._perform_search(args, self.search.byCourseCode, carryover=carryover)
 
-    def do_search_group(self, *args, carryover=False):  # {{{
+    def do_search_group(self, args, carryover=False):
         """
         Search by course group.
         @param {String}     args        The course group e.g. Accounting
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(
-            args, self.search.byCourseGroup, carryover=carryover)
+        self._perform_search(args, self.search.byCourseGroup, carryover=carryover)
 
-    def do_search_department(self, *args, carryover=False):
+    def do_search_department(self, args, carryover=False):
         """
         Search by course department.
         @param {String}     args        The course department e.g. Department of Clinical Studies
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(
-            args, self.search.byDepartment, carryover=carryover)
+        self._perform_search(args, self.search.byDepartment, carryover=carryover)
 
-    def do_search_keyword(self, *args, carryover=False):
+    def do_search_keyword(self, args, carryover=False):
         """
         Search by keyword in the course.
         @param {String}     args        The term to search for eg. biology
@@ -225,23 +215,21 @@ class Descriptr():
         """
         self._perform_search(args, self.search.byKeyword, carryover=carryover)
 
-    def do_search_level(self, *args, carryover=False):
+    def do_search_level(self, args, carryover=False):
         """
         Search by level of a course.
         @param {String}     args        The leading number of a course code eg. 4 for a 4XXX course
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(
-            args, self.search.byCourseLevel, carryover=carryover)
+        self._perform_search(args, self.search.byCourseLevel, carryover=carryover)
 
-    def do_search_number(self, *args, carryover=False):
+    def do_search_number(self, args, carryover=False):
         """
         Search by full course number.
         @param {String}     args        The number of a course eg. 2750
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(
-            args, self.search.byCourseNumber, carryover=carryover)
+        self._perform_search(args, self.search.byCourseNumber, carryover=carryover)
 
     def semester_converter(self, semester):
         try:
@@ -250,14 +238,13 @@ class Descriptr():
             print("[E] Please enter a supported semester. [F, S, U, W]")
         return
 
-    def do_search_semester(self, *args, carryover=False):
+    def do_search_semester(self, args, carryover=False):
         """
         Search by semester.
         @param {String}     args        One of the following codes, [S, F, W, U]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.bySemester,
-                             converter=self.semester_converter, carryover=carryover)
+        self._perform_search(args, self.search.bySemester, converter=self.semester_converter, carryover=carryover)
 
     def weight_converter(self, weight):
         try:
@@ -266,14 +253,13 @@ class Descriptr():
             print("[E] Not a floating point number or out-of-range.")
         return
 
-    def do_search_weight(self, *args, carryover=False):
+    def do_search_weight(self, args, carryover=False):
         """
         Search by credit weight.
         @param {String}     args        The weight of the course. One of [0.0, 0.25, 0.5, 0.75, 1.0, 1.75, 2.0, 2.5, 2.75, 7.5]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byWeight,
-                             converter=self.weight_converter, carryover=carryover)
+        self._perform_search(args, self.search.byWeight, converter=self.weight_converter, carryover=carryover)
 
     def do_search_capacity(self, *args, carryover=False):
         """
@@ -294,9 +280,9 @@ class Descriptr():
 
         # Find the first code
         for arg in args:
-            if arg[0] not in ['-', '=', '>', '<']:
+            if arg[0] not in ['-', '=', '>', '<', '>=', '<=']:
                 capacity = arg
-            elif arg[0] in ['=', '>', '<']:
+            elif arg[0] in ['=', '>', '<', '>=', '<=']:
                 comp = arg
 
         try:
@@ -306,8 +292,7 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byCapacity(
-                search_array, int_capacity, comp)
+            self.carryover_data = self.search.byCapacity(search_array, int_capacity, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
@@ -330,9 +315,9 @@ class Descriptr():
 
         # Find the first code
         for arg in args:
-            if arg[0] not in ['-', '=', '>', '<']:
+            if arg[0] not in ['-', '=', '>', '<', '>=', '<=']:
                 hours = arg
-            elif arg[0] in ['=', '>', '<']:
+            elif arg[0] in ['=', '>', '<', '>=', '<=']:
                 comp = arg
 
         try:
@@ -342,8 +327,7 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byLectureHours(
-                search_array, float_hours, comp)
+            self.carryover_data = self.search.byLectureHours(search_array, float_hours, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
@@ -366,9 +350,9 @@ class Descriptr():
 
         # Find the first code
         for arg in args:
-            if arg[0] not in ['-', '=', '>', '<']:
+            if arg[0] not in ['-', '=', '>', '<', '>=', '<=']:
                 hours = arg
-            elif arg[0] in ['=', '>', '<']:
+            elif arg[0] in ['=', '>', '<', '>=', '<=']:
                 comp = arg
 
         try:
@@ -378,8 +362,7 @@ class Descriptr():
             return
 
         try:
-            self.carryover_data = self.search.byLabHours(
-                search_array, float_hours, comp)
+            self.carryover_data = self.search.byLabHours(search_array, float_hours, comp)
         except ValueError as e:
             print(f"[E]: {e}")
 
@@ -392,11 +375,10 @@ class Descriptr():
                 return False
         return
 
-    def do_search_offered(self, *args, carryover=False):
+    def do_search_offered(self, args, carryover=False):
         """
         Search by if a course is currently offered or not.
         @param {String}     args        Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byOffered,
-                             converter=self.offered_converter, carryover=carryover)
+        self._perform_search(args, self.search.byOffered, converter=self.offered_converter, carryover=carryover)
