@@ -82,6 +82,105 @@ class TestDescriptr(unittest.TestCase):
         self.assertTrue(dictionary["error"] is not None)
         self.assertTrue(len(dictionary["courses"]) == 0)
 
+    def test_apply_filters_group(self):
+        """Test that group filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "group": "Biochemistry",
+        })
+
+        self.assertTrue(self.descriptr.carryover_data[0].group.lower() == "biochemistry")
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) == 7)
+
+    def test_apply_filters_department(self):
+        """Test that department filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "department": "Department of Plant Agriculture",
+        })
+
+        self.assertTrue(self.descriptr.carryover_data[0].code.lower() == "agr")
+        self.assertTrue(self.descriptr.carryover_data[0].number == "1110")
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) > 0)
+    
+    def test_apply_filters_level(self):
+        """Test that level filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "level": 1,
+        })
+
+        self.assertTrue(self.descriptr.carryover_data[0].code.lower() == "acct")
+        self.assertTrue(self.descriptr.carryover_data[0].number == "1220")
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) > 0)
+    
+    def test_apply_filters_semester(self):
+        """Test that semester filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "semester": "F",
+        })
+
+        self.assertTrue(self.descriptr.carryover_data[0].code.lower() == "acct")
+        self.assertTrue(self.descriptr.carryover_data[0].number == "1220")
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) > 0)
+
+    def test_apply_filters_weight(self):
+        """Test that weight filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "weight": 0.75,
+        })
+
+        self.assertTrue(self.descriptr.carryover_data[0].code.lower() == "bioc")
+        self.assertTrue(self.descriptr.carryover_data[0].number == "3570")
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+        self.assertTrue(len(dictionary["courses"]) > 0)
+
+    def test_apply_filters_capacity(self):
+        """Test that capacity filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "capacity": {"capacity": 0, "comparison": "<"},
+        })
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+
+    def test_apply_filters_lecture(self):
+        """Test that lecture hours filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "lecture": {"hours": 0, "comparison": "<"},
+        })
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+
+    def test_apply_filters_lab(self):
+        """Test that lecture hours filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "lecture": {"hours": 0, "comparison": "<"},
+        })
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
+
+    def test_apply_filters_offered(self):
+        """Test that semester filter returns correct results"""
+        json_output = self.descriptr.apply_filters({
+            "offered": "Y",
+        })
+
+        dictionary = json.loads(json_output)
+        self.assertTrue(dictionary["error"] is None)
 
 if __name__ == '__main__':
     unittest.main()
