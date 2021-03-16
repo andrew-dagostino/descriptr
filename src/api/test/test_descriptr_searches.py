@@ -104,7 +104,7 @@ class TestDescSearches(unittest.TestCase):
             Test that course code search returns correct results
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseCode(self.single_course, "HTM")) == 1)
+        self.assertTrue(len(d.byCourseCode(self.single_course, "HTM", '=')) == 1)
 
     def test_byCourseCode_case(self):
         """
@@ -115,9 +115,9 @@ class TestDescSearches(unittest.TestCase):
         mixedCode = "hTm"
 
         d = DescSearches()
-        upperResult = d.byCourseCode(self.single_course, upperCode)
-        lowerResult = d.byCourseCode(self.single_course, lowerCode)
-        mixedResult = d.byCourseCode(self.single_course, mixedCode)
+        upperResult = d.byCourseCode(self.single_course, upperCode, '=')
+        lowerResult = d.byCourseCode(self.single_course, lowerCode, '=')
+        mixedResult = d.byCourseCode(self.single_course, mixedCode, '=')
 
         self.assertTrue(len(upperResult) == 1)
         self.assertTrue(len(lowerResult) == 1)
@@ -128,14 +128,14 @@ class TestDescSearches(unittest.TestCase):
             Test that course code search returns no results for code not in courses
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseCode(self.single_course, "DNE")) == 0)
+        self.assertTrue(len(d.byCourseCode(self.single_course, "DNE", '=')) == 0)
 
     def test_byCourseLevel(self):
         """
             Test that course level search returns correct results
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseLevel(self.single_course, "4")) == 1)
+        self.assertTrue(len(d.byCourseLevel(self.single_course, "4", '=')) == 1)
 
     def test_byCourseLevel_invalid(self):
         """
@@ -143,24 +143,24 @@ class TestDescSearches(unittest.TestCase):
         """
         d = DescSearches()
 
-        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "0")
-        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "11")
-        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "a")
-        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, 4)
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "0", '=')
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "11", '=')
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, "a", '=')
+        with self.assertRaises(Exception) : d.byCourseLevel(self.single_course, 4, '=')
 
     def test_byCourseLevel_none(self):
         """
             Test that course level search returns no results if no matches are found
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseLevel(self.single_course, "1")) == 0)
+        self.assertTrue(len(d.byCourseLevel(self.single_course, "1", '=')) == 0)
 
     def test_byCourseNumber(self):
         """
             Test that course number search returns correct results
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseNumber(self.single_course, "4080")) == 1)
+        self.assertTrue(len(d.byCourseNumber(self.single_course, "4080", '=')) == 1)
 
     def test_byCourseNumber_invalid(self):
         """
@@ -168,27 +168,27 @@ class TestDescSearches(unittest.TestCase):
         """
         d = DescSearches()
 
-        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "abcd")
-        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 1234)
-        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "11")
-        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "40801")
-        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 4)
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "abcd", '=')
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 1234, '=')
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "11", '=')
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, "40801", '=')
+        with self.assertRaises(Exception) : d.byCourseNumber(self.single_course, 4, '=')
 
     def test_byCourseNumber_none(self):
         """
             Test that course level search returns no results if no matches are found
         """
         d = DescSearches()
-        self.assertTrue(len(d.byCourseNumber(self.single_course, "1234")) == 0)
+        self.assertTrue(len(d.byCourseNumber(self.single_course, "1234", '=')) == 0)
 
     def test_byKeyword(self):
         """
             Test that keyword search returns correct results
         """
         d = DescSearches()
-        self.assertTrue(len(d.byKeyword(self.single_course, "htm*4080")) == 1)
-        self.assertTrue(len(d.byKeyword(self.single_course, "SERVICE")) == 1)
-        self.assertTrue(len(d.byKeyword(self.single_course, "hospitality and tourism")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "htm*4080", '=')) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "SERVICE", '=')) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "hospitality and tourism", '=')) == 1)
 
     def test_byKeyword_case(self):
         """
@@ -199,9 +199,9 @@ class TestDescSearches(unittest.TestCase):
         mixedWord = "tOUrIsM"
 
         d = DescSearches()
-        upperResult = d.byKeyword(self.single_course, upperWord)
-        lowerResult = d.byKeyword(self.single_course, lowerWord)
-        mixedResult = d.byKeyword(self.single_course, mixedWord)
+        upperResult = d.byKeyword(self.single_course, upperWord, '=')
+        lowerResult = d.byKeyword(self.single_course, lowerWord, '=')
+        mixedResult = d.byKeyword(self.single_course, mixedWord, '=')
 
         self.assertTrue(len(upperResult) == 1)
         self.assertTrue(len(lowerResult) == 1)
@@ -212,7 +212,7 @@ class TestDescSearches(unittest.TestCase):
             Test that keyword search returns no results for keyword not in courses
         """
         d = DescSearches()
-        self.assertTrue(len(d.byKeyword(self.single_course, "does not exist")) == 0)
+        self.assertTrue(len(d.byKeyword(self.single_course, "does not exist", '=')) == 0)
 
     def test_byKeyword_invalid(self):
         """
@@ -220,85 +220,85 @@ class TestDescSearches(unittest.TestCase):
         """
         d = DescSearches()
 
-        with self.assertRaises(Exception) : d.byKeyword(self.single_course, 5)
-        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "")
-        with self.assertRaises(Exception) : d.byKeyword(self.single_course, " ")
-        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "\n\t")
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, 5, '=')
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "", '=')
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, " ", '=')
+        with self.assertRaises(Exception) : d.byKeyword(self.single_course, "\n\t", '=')
 
     def test_byKeyword_whitespace(self):
         """
             Test that keyword search ignores leading and trailing whitespace
         """
         d = DescSearches()
-        self.assertTrue(len(d.byKeyword(self.single_course, " htm*4080 ")) == 1)
-        self.assertTrue(len(d.byKeyword(self.single_course, "\nhtm*4080\n")) == 1)
-        self.assertTrue(len(d.byKeyword(self.single_course, "\thtm*4080\t")) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, " htm*4080 ", '=')) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "\nhtm*4080\n", '=')) == 1)
+        self.assertTrue(len(d.byKeyword(self.single_course, "\thtm*4080\t", '=')) == 1)
 
     def test_bySemester(self):
         """Test that semester search returns correct results."""
         d = DescSearches()
-        self.assertTrue(len(d.bySemester(self.single_course, SemesterOffered.W)) == 1)
-        self.assertTrue(len(d.bySemester(self.two_courses, SemesterOffered.F)) == 1)
+        self.assertTrue(len(d.bySemester(self.single_course, SemesterOffered.W, '=')) == 1)
+        self.assertTrue(len(d.bySemester(self.two_courses, SemesterOffered.F, '=')) == 1)
 
     def test_bySemester_invalid(self):
         """Test that semester search fails nonconforming input."""
         d = DescSearches()
         with self.assertRaises(Exception):
-            d.bySemester(self.single_course, "W")
+            d.bySemester(self.single_course, "W", '=')
         with self.assertRaises(Exception):
-            d.bySemester(self.single_course, 4)
+            d.bySemester(self.single_course, 4, '=')
 
     def test_byWeight(self):
         """Test that weight search returns correct results."""
         d = DescSearches()
-        self.assertTrue(len(d.byWeight(self.two_courses, 0.5)) == 2)
-        self.assertTrue(len(d.byWeight(self.single_course, 0.0)) == 0)
+        self.assertTrue(len(d.byWeight(self.two_courses, 0.5, '=')) == 2)
+        self.assertTrue(len(d.byWeight(self.single_course, 0.0, '=')) == 0)
 
     def test_byWeight_invalid(self):
         """Test that weight search fails nonconforming input."""
         d = DescSearches()
         with self.assertRaises(Exception):
-            d.byWeight(self.single_course, -1)
+            d.byWeight(self.single_course, -1, '=')
         with self.assertRaises(Exception):
-            d.byWeight(self.single_course, "sdfdf")
+            d.byWeight(self.single_course, "sdfdf", '=')
 
     def test_byWeight_oorange(self):
         """Test that weight search fails out of range input."""
         d = DescSearches()
         with self.assertRaises(Exception):
-            d.byWeight(self.single_course, 105.3)
+            d.byWeight(self.single_course, 105.3, '=')
         with self.assertRaises(Exception):
-            d.byWeight(self.single_course, 0.22)
+            d.byWeight(self.single_course, 0.22, '=')
 
     def test_byDepartment(self):
         #Test that department search returns correct results.
         d = DescSearches()
-        self.assertTrue(len(d.byDepartment(self.single_course, "Food and Tourism Management")) == 1)
-        self.assertTrue(len(d.byDepartment(self.single_course, "School of Hospitality")) == 1)
-        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Hospitality")) == 1)
-        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Computer Science")) == 1)
-        self.assertTrue(len(d.byDepartment(self.three_courses, "School of Computer Science")) == 2)
+        self.assertTrue(len(d.byDepartment(self.single_course, "Food and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byDepartment(self.single_course, "School of Hospitality", '=')) == 1)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Hospitality", '=')) == 1)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "School of Computer Science", '=')) == 1)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "School of Computer Science", '=')) == 2)
 
     def test_byDepartment_non_existant(self):
         #Test that department search returns 0 results when it needs to.
         d = DescSearches()
-        self.assertTrue(len(d.byDepartment(self.single_course, "Non-existant. I made this up")) == 0)
-        self.assertTrue(len(d.byDepartment(self.two_courses, "")) == 0)
-        self.assertTrue(len(d.byDepartment(self.three_courses, "School")) == 0)
+        self.assertTrue(len(d.byDepartment(self.single_course, "Non-existant. I made this up", '=')) == 0)
+        self.assertTrue(len(d.byDepartment(self.two_courses, "", '=')) == 0)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "School", '=')) == 0)
 
     def test_byDepartment_invalid(self):
         #Test that department search fails upon invalid usage.
         d = DescSearches()
         with self.assertRaises(Exception):
-            d.byDepartment(self.three_courses, 5)
+            d.byDepartment(self.three_courses, 5, '=')
         with self.assertRaises(Exception):
-            d.byDepartment(self.three_courses, True)
+            d.byDepartment(self.three_courses, True, '=')
         with self.assertRaises(Exception):
-            d.byDepartment(self.three_courses, [])
+            d.byDepartment(self.three_courses, [], '=')
         with self.assertRaises(Exception):
-            d.byDepartment(self.three_courses, {})
+            d.byDepartment(self.three_courses, {}, '=')
         with self.assertRaises(Exception):
-            d.byDepartment(self.three_courses, 5.5)
+            d.byDepartment(self.three_courses, 5.5, '=')
 
     def test_byLectureHours(self):
         """
@@ -371,16 +371,16 @@ class TestDescSearches(unittest.TestCase):
             Tests that offered search returns correct results
         """
         d = DescSearches()
-        self.assertTrue(len(d.byOffered(self.three_courses, True)) == 2)
-        self.assertTrue(len(d.byOffered(self.three_courses, False)) == 1)
+        self.assertTrue(len(d.byOffered(self.three_courses, True, '=')) == 2)
+        self.assertTrue(len(d.byOffered(self.three_courses, False, '=')) == 1)
 
     def test_byOffered_none(self):
         """
             Tests that offered search returns empty array for no matches
         """
         d = DescSearches()
-        self.assertTrue(len(d.byOffered([self.three_courses[2]], True)) == 0)
-        self.assertTrue(len(d.byOffered(self.single_course, False)) == 0)
+        self.assertTrue(len(d.byOffered([self.three_courses[2]], True, '=')) == 0)
+        self.assertTrue(len(d.byOffered(self.single_course, False, '=')) == 0)
 
     def test_byOffered_invalid(self):
         """
@@ -389,23 +389,23 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
 
         with self.assertRaises(Exception):
-            d.byOffered(self.single_course, 1)
+            d.byOffered(self.single_course, 1, '=')
         with self.assertRaises(Exception):
-            d.byOffered(self.single_course, "true")
+            d.byOffered(self.single_course, "true", '=')
         with self.assertRaises(Exception):
-            d.byOffered(self.single_course, 1.0)
+            d.byOffered(self.single_course, 1.0, '=')
 
     def test_byCourseGroup(self):
         '''
             Tests that group search returns correctly
         '''
         d= DescSearches()
-        self.assertTrue(len(d.byCourseGroup(self.single_course, "Hospitality and Tourism Management")) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.single_course, "Computing and Information Science")) == 0)
-        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Hospitality and Tourism Management")) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Computing and Information Science")) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Hospitality and Tourism Management")) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Computing and Information Science")) == 2)
+        self.assertTrue(len(d.byCourseGroup(self.single_course, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.single_course, "Computing and Information Science", '=')) == 0)
+        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Computing and Information Science", '=')) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Computing and Information Science", '=')) == 2)
 
     def test_byCourseGroup_invalid(self):
         '''
@@ -413,13 +413,13 @@ class TestDescSearches(unittest.TestCase):
         '''
         d= DescSearches()
         with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, 1)
+            d.byCourseGroup(self.three_courses, 1, '=')
         with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, True)
+            d.byCourseGroup(self.three_courses, True, '=')
         with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, 3.14)
+            d.byCourseGroup(self.three_courses, 3.14, '=')
         with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, [])
+            d.byCourseGroup(self.three_courses, [], '=')
 
     def test_byCapacity(self):
         '''
