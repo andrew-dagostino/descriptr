@@ -24,6 +24,7 @@ services:
         image: 127.0.0.1:6000/cis4250_team3/uog-course-descriptions/descriptr_web:latest
         volumes:
             - ./src/web/:/var/www/cis4250-03.socs.uoguelph.ca
+            - node_modules:/var/www/cis4250-03.socs.uoguelph.ca/node_modules
         networks:
             - descriptr-network
 
@@ -48,6 +49,7 @@ services:
 
 volumes:
     ssl-certs:
+    node_modules:
 
 networks:
     descriptr-network:
