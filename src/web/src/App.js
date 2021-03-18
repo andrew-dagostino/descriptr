@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import CourseTable2 from './components/CourseTable2';
@@ -15,6 +15,7 @@ export default class App extends React.Component {
 
         this.state = {
             courses: [],
+            downloadEnabled: false,
         };
 
         this.updateCourses = this.updateCourses.bind(this);
@@ -22,7 +23,7 @@ export default class App extends React.Component {
         this.courseModal = React.createRef();
     }
 
-    updateCourses = (courses) => this.setState({ courses: courses });
+    updateCourses = (courses) => this.setState({ courses: courses, downloadEnabled: courses && courses.length });
     nodeHoverTooltip = (node) => {
         return `<div>
             <b>${node.name}</b>
@@ -35,12 +36,12 @@ export default class App extends React.Component {
                 <div className='App bg-light'>
                     <Header />
                     <Switch>
-                        <Route path="/help">
+                        <Route path='/help'>
                             <section className='px-5 pb-5'>
                                 <Help />
                             </section>
                         </Route>
-                        <Route path="/">
+                        <Route path='/'>
                             <section className='px-5 pb-5'>
                                 <Card body className='my-5'>
                                     <Card.Title>Course Search</Card.Title>
@@ -52,8 +53,21 @@ export default class App extends React.Component {
                                 </Card>
                                 <Card body>
                                     <section className='Main'>
-                                        <Button style={{margin: 10}} id="download-graph" variant="primary">Download Graph</Button>
-                                        <ForceGraph courseModal={this.courseModal} coursesData={this.state.courses} nodeHoverTooltip={this.nodeHoverTooltip} />
+                                        <Row className='justify-content-between mb-4'>
+                                            <Col xs='auto' className='my-auto'>
+                                                <h5>Prerequisite Node Graph</h5>
+                                            </Col>
+                                            <Col xs='auto'>
+                                                <Button id='download-graph' variant='primary' disabled={!this.state.downloadEnabled}>
+                                                    Download Graph
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                        <ForceGraph
+                                            courseModal={this.courseModal}
+                                            coursesData={this.state.courses}
+                                            nodeHoverTooltip={this.nodeHoverTooltip}
+                                        />
                                     </section>
                                 </Card>
                                 <CourseModal ref={this.courseModal} />
