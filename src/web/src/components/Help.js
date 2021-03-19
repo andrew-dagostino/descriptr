@@ -76,7 +76,7 @@ export default class Help extends React.Component {
                     matching courses with a logical AND.
                 </p>
                 {this.state.filterDocs.map((item) => (
-                    <Card body className="my-5">
+                    <Card key={item.filter} body className="my-5">
                         <Card.Title>{item.filter}</Card.Title>
                         <Card.Text>{item.text}</Card.Text>
                     </Card>

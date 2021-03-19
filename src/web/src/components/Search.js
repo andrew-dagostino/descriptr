@@ -60,7 +60,6 @@ export default class Search extends React.Component {
                         };
                     }
                 } else {
-                    console.log(filter.searchQuery);
                     request[filter.searchType] = {
                         query: filter.searchQuery,
                         comparison: filter.searchComparator,

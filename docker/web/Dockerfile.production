@@ -9,5 +9,6 @@ COPY src/web/package-lock.json /var/www/cis4250-03.socs.uoguelph.ca/package-lock
 
 RUN cd /var/www/cis4250-03.socs.uoguelph.ca
 RUN npm install
+RUN npm run build-react
 
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["npm", "run", "start-express"]

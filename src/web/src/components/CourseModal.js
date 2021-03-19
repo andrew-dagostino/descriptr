@@ -36,8 +36,8 @@ export default class CourseModal extends React.Component {
     // Hides the modal
     hide = () => this.setState({ show: false });
 
-    // Changes null/undefined fields to "N/A"
-    _undefinedToNA = (val) => (val != null ? val : 'N/A');
+    // Changes null/undefined fields to "None"
+    _undefinedToNA = (val) => (val != null ? val : 'None');
 
     render() {
         let course = this.state.course;
@@ -51,7 +51,7 @@ export default class CourseModal extends React.Component {
             }
 
             return (
-                <Modal show={this.state.show} onHide={this.hide} size='lg' centered>
+                <Modal show={this.state.show} onHide={this.hide} size='lg' centered={true} animation={false}>
                     <Modal.Header className='bg-warning text-black' closeButton>
                         <Modal.Title>
                             <h1 className='h3'>
@@ -104,21 +104,23 @@ export default class CourseModal extends React.Component {
                             <Col xs={3}>
                                 <b>Prerequisites</b>
                             </Col>
-                            <Col>{prerequisites.length ? prerequisites.map((prereq) => <div>{prereq}</div>) : 'None'}</Col>
+                            <Col>{prerequisites.length ? prerequisites.map((prereq) => <div key={prereq}>{prereq}</div>) : 'None'}</Col>
                             <Col xs={3}>
                                 <b>Corequisites</b>
                             </Col>
-                            <Col>{course.corequisites.length ? <div>{course.corequisites}</div> : 'None'}</Col>
+                            <Col>{course.corequisites ? <div>{course.corequisites}</div> : 'None'}</Col>
                         </Row>
                         <Row>
                             <Col xs={3}>
                                 <b>Restrictions</b>
                             </Col>
-                            <Col>{course.restrictions.length ? course.restrictions.map((restrict) => <div>{restrict}</div>) : 'None'}</Col>
+                            <Col>
+                                {course.restrictions.length ? course.restrictions.map((restrict) => <div key={restrict}>{restrict}</div>) : 'None'}
+                            </Col>
                             <Col xs={3}>
                                 <b>Equates</b>
                             </Col>
-                            <Col>{course.equates.length ? <div>{course.equates}</div> : 'None'}</Col>
+                            <Col>{course.equates ? <div>{course.equates}</div> : 'None'}</Col>
                         </Row>
                     </Modal.Body>
                 </Modal>
