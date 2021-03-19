@@ -8,6 +8,7 @@ import SearchRow from '../components/SearchRow.js';
 
 // Fields that will make use of >, <, and = comparisons
 const numericalFields = ['lecture', 'lab', 'capacity'];
+const isProd = /^file/.test(window.location) || /^https:\/\/cis4250-03\.socs\.uoguelph\.ca/.test(window.location); // Check if executable or prod web server
 
 export default class Search extends React.Component {
     constructor(props) {
@@ -79,7 +80,7 @@ export default class Search extends React.Component {
 
     // Send filters as a POST to API server
     onSubmit = () => {
-        fetch('/api/search', {
+        fetch(isProd ? 'https://cis4250-03.socs.uoguelph.ca/api/search' : '/api/search', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
