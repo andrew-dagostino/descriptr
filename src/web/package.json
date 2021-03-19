@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.6.0",
     "d3": "^6.5.0",
+    "express": "^4.17.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.1",
     "react-dom": "^17.0.1",
@@ -22,7 +23,9 @@
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
+    "start-express": "node express.js",
     "build": "react-scripts build && electron-builder",
+    "build-react": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "env $(cat ../../.env | grep -v '#' | xargs) electron ."

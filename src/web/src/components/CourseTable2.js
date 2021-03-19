@@ -78,7 +78,7 @@ function CourseTable2(props) {
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                onClick={() => { console.log(row.original); courseModal.current.showCourse(row.original); } }
+                                onClick={() => { courseModal.current.showCourse(row.original); } }
                                 style={{ cursor: 'pointer' }}>
                                 {row.cells.map(cell => {
                                     return <td {...cell.getCellProps()}>

@@ -257,7 +257,7 @@ export function runForceGraph(
 
   label.on("click", function() {
     let [code, number] = this.innerHTML.split("*");
-    let course = coursesData.filter((el) => { return el.code==code && el.number==number })[0];
+    let course = coursesData.filter((el) => { return el.code===code && el.number===number })[0];
     courseModal.current.showCourse(course);
   });
 
