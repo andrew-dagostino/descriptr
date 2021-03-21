@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import About from './components/About';
+import CourseModal from './components/CourseModal';
 import CourseTable2 from './components/CourseTable2';
-import Search from './components/Search';
 import { ForceGraph } from './components/graph/forceGraph';
 import Header from './components/Header';
 import Help from './components/Help';
-import CourseModal from './components/CourseModal';
+import Search from './components/Search';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -36,6 +37,11 @@ export default class App extends React.Component {
                 <div className='App bg-light'>
                     <Header />
                     <Switch>
+                        <Route path='/about'>
+                            <section className='px-5 pb-5'>
+                                <About />
+                            </section>
+                        </Route>
                         <Route path='/help'>
                             <section className='px-5 pb-5'>
                                 <Help />
