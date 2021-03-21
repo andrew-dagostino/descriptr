@@ -9,7 +9,7 @@
 
 import React from 'react';
 
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useSortBy } from 'react-table';
 import { Row, Col, Form, Table, Pagination, InputGroup } from 'react-bootstrap';
 
 function CourseTable2(props) {
@@ -26,8 +26,9 @@ function CourseTable2(props) {
     const columns = React.useMemo(() => [
         {Header: 'Course', accessor: 'fullname'},
         {Header: 'Name', accessor: 'name'},
-        {Header: 'Decription', accessor: 'description'},
-        {Header: 'Credit Weight', accessor: 'credits'}
+        {Header: 'Description', accessor: 'description'},
+        {Header: 'Credit Weight', accessor: 'credits'},
+        {Header: 'Capacity Available', accessor: 'capacity_available'}
     ], [])
 
     // Initialize a bunch of functions and components from 'react-table' with our data and headers.
@@ -51,19 +52,32 @@ function CourseTable2(props) {
             columns,
             data,
             initialState: { pageIndex: 0 },
-        }, usePagination
+        }, useSortBy, usePagination
     )
 
     return (
         <div>
-            
             <Table {...getTableProps()} bordered hover responsive>
                 <thead className='bg-secondary text-nowrap text-white'>
                     {/* Using react-table functions to render our header data into elements. */}
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.isSorted
+                                        ? column.isSortedDesc
+                                            ? <span
+                                                className="oi oi-sort-ascending mr-2"
+                                                title="sort ascending"
+                                                aria-hidden="true"
+                                            ></span>
+                                            : <span
+                                                className="oi oi-sort-descending mr-2"
+                                                title="sort descending"
+                                                aria-hidden="true"
+                                            ></span>
+                                        : ''
+                                    }
                                     {column.render('Header')}
                                 </th>
                             ))}

@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+
 import reportWebVitals from './reportWebVitals';
+import App from './App';
+
+import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './theme.css';
+import './css/theme.css';
+import './css/open-iconic/css/open-iconic-bootstrap.css'
+// import './css/open-iconic/css/open-iconic-bootstrap-min.css'
 
 ReactDOM.render(
     <React.StrictMode>
