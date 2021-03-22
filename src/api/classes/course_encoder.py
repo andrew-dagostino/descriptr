@@ -26,7 +26,8 @@ class CourseEncoder(JSONEncoder):
                 "restrictions":             o.restrictions if hasattr(o, "restrictions") else [],
                 "capacity_available":       o.capacity_available if hasattr(o, "capacity_available") else 0,
                 "capacity_max":             o.capacity_max if hasattr(o, "capacity_max") else 0,
-                "is_full":                  o.is_full()
+                "is_full":                  o.is_full(),
+                "fullname":                 o.fullname()
             })
         else:
             return super.default(self, o)
