@@ -19,6 +19,22 @@ export default class Search extends React.Component {
         };
     }
 
+    // Since we don't have hooks in a React class, these three functions set up a listener for
+    // <Enter> and fire the submit function.
+    componentDidMount() {
+        document.addEventListener("keydown", this.listener);
+    };
+
+    compomentWillUnmount() {
+        document.removeEventListener("keydown", this.listener);
+    };
+
+    listener = event => {
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+            this.onSubmit();
+        }
+    };
+
     // Creates a new filter, with default values where necessary
     createEmptyFilter = () => ({
         searchType: 'code',
@@ -107,10 +123,12 @@ export default class Search extends React.Component {
                         <Button
                             variant='danger'
                             type='button'
-                            onClick={() =>
+                            onClick={() => {
                                 this.setState({
                                     rows: [this.createEmptyFilter()],
                                 })
+                                this.props.updateCourses([]);
+                            }
                             }>
                             Clear Searches
                         </Button>
