@@ -121,7 +121,7 @@ class DescSearches:
                 if course.number.startswith(level):
                     returnCourses.append(course)
             elif comparison == '>':
-                if int(course.number) > int(level) * 1000:
+                if int(course.number) > (int(level) + 1) * 1000 - 1:
                     returnCourses.append(course)
             elif comparison == '<':
                 if int(course.number) < int(level) * 1000:
@@ -130,7 +130,7 @@ class DescSearches:
                 if int(course.number) >= int(level) * 1000:
                     returnCourses.append(course)
             elif comparison == '<=':
-                if int(course.number) <= int(level) * 1000:
+                if int(course.number) <= (int(level) + 1) * 1000 - 1:
                     returnCourses.append(course)
 
         return returnCourses
