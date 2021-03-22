@@ -13,14 +13,10 @@ import { useTable, usePagination, useSortBy } from 'react-table';
 import { Row, Col, Form, Table, Pagination, InputGroup } from 'react-bootstrap';
 
 function CourseTable2(props) {
-    const coursesIn = props.courses;
     let courseModal = props.courseModal;
 
     // Add a 'fullname' attribute to the course objects so we don't have to calculate it later.
-    const data = React.useMemo(() =>
-        coursesIn.map((course) => ({ ...course,
-            fullname: `${course.code.toUpperCase()}*${course.number}`,
-        })), [coursesIn])
+    const data = React.useMemo(() => props.courses, [props.courses]);
 
     // Declare headers for the table and the corresponding fields to access in the data.
     const columns = React.useMemo(() => [

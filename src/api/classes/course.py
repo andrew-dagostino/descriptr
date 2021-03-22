@@ -214,6 +214,15 @@ class Course:
                 return False
         return True
 
+    def fullname(self):
+        """
+        Constructed property that joins code and number to make the full course name.
+
+        Returns:
+            (str): The full course name.
+        """
+        return f"{self.code}*{self.number}"
+
     """
     Print a visual representation of the course:
     """

@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import styles from "./Graph.module.css";
-import * as SvgToPng from 'save-svg-as-png' 
+import * as SvgToPng from 'save-svg-as-png';
 
 export function runForceGraph(
   courseModal,
@@ -9,7 +9,7 @@ export function runForceGraph(
   nodeHoverTooltip
 ) {
   // Convert course data over to node and link data
-  var nodesData = coursesData.map((c) =>{ return {"id": c.code+'*'+c.number, "group": c.group, "name": c.name} })
+  var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "group": c.group, "name": c.name} })
   var linksGetter = (c) => {
     var linkArr = [];
     c.forEach((d) => {
@@ -18,7 +18,7 @@ export function runForceGraph(
           if (!nodesData.find(element => element.id === e)) {
             nodesData = nodesData.concat({"id": e, "group": null});
           }
-          return { "source": d.code+'*'+d.number, "target": e, "value": 1};  
+          return { "source": d.code+'*'+d.number, "target": e, "value": 1};
         }))
       }
     })
@@ -54,7 +54,7 @@ export function runForceGraph(
   };
 
   // Creates a 90 color scale for the groups.
-  const color = (d) => { 
+  const color = (d) => {
     const scale = d3.scaleOrdinal()
       .range(["#6668dd","#76e440","#5c37cd","#cfe848","#c53fe1","#5ada6d","#a354d9","#7ab737",
               "#522696","#e5cc3a","#2d1969","#bbe687","#db39b5","#6ee9ab","#943a9b","#458831",
@@ -73,10 +73,9 @@ export function runForceGraph(
         return "#666666";
       }
       else {
-        return scale(d.group); 
+        return scale(d.group);
       }
     }
-  
   };
 
   // Updates the D3 drag module. Can probably leave as is
@@ -125,7 +124,7 @@ export function runForceGraph(
       SvgToPng.saveSvgAsPng(document.getElementById("courses-d3-graph"), "courses.png", {backgroundColor: "#FFFFFF", left: -width / 2, top: -height / 2});
   });
 
-  // D3's built in tool to run force simulations 
+  // D3's built in tool to run force simulations
   const simulation = d3
     .forceSimulation(nodes)
     .force("link", d3.forceLink(links).id(d => d.id))
@@ -133,7 +132,7 @@ export function runForceGraph(
     .force("x", d3.forceX())
     .force("y", d3.forceY())
   //if (nodesData.length > 300) simulation.stop();
-    
+
 
   d3.select("svg").remove();
   const svg = d3
@@ -143,7 +142,7 @@ export function runForceGraph(
     .style("cursor","move")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("id", "courses-d3-graph");
-    
+
   // Child element for svg for keeping nodes, links and labels in
   const g = svg.append("g")
     .attr("class", "everything");
@@ -184,10 +183,10 @@ export function runForceGraph(
     .append("text")
     .attr('text-anchor', 'middle')
     .attr('dominant-baseline', 'central')
-    .text(d => d.id);    // Text of the label that appears 
+    .text(d => d.id);    // Text of the label that appears
     if (nodesData.length <= 300) label.call(drag(simulation));
 
-  // Mouse events 
+  // Mouse events
   // "dblclick" event available
   label.on("mouseover", (event,d) => {
     svg.style("cursor", "pointer");
