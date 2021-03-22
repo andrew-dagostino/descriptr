@@ -1,6 +1,8 @@
 stages:
     - test
     - build
+    - build-prod-server
+    - deploy-prod-server
 
 API Tests:
     stage: test
@@ -56,3 +58,34 @@ Electron Build:
             - develop
             - master
             - /^sprint\/.*$/
+
+build-prod:
+    stage: build-prod-server
+    tags:
+        - prod
+    variables:
+        CI_REGISTRY_USER: "steepvisions"
+        DOCKERHUB_CONTAINER_REGISTRY: "registry.hub.docker.com"
+    script:
+        - export PATH=$PATH:/usr/bin
+        - docker login $DOCKERHUB_CONTAINER_REGISTRY --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD"
+        - docker-compose -f docker-compose-swarm.prod.yml build
+        - docker-compose -f docker-compose-swarm.prod.yml push
+    only:
+        refs:
+            - master
+
+deploy-prod:
+    stage: deploy-prod-server
+    tags:
+        - prod
+    variables:
+        CI_REGISTRY_USER: "steepvisions"
+        DOCKERHUB_CONTAINER_REGISTRY: "registry.hub.docker.com"
+    script:
+        - export PATH=$PATH:/usr/bin
+        - docker login $DOCKERHUB_CONTAINER_REGISTRY --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD"
+        - docker stack deploy --with-registry-auth --compose-file docker-compose-swarm.prod.yml descriptr_stack
+    only:
+        refs:
+            - master

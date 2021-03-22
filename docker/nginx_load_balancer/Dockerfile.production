@@ -7,9 +7,15 @@ RUN apt-get update && apt-get -y install \
 
 #====SSL CERTIFICATE FOR NGINX====
 
-#Dummy certificate that will be overwritten later:
-COPY docker/nginx_load_balancer/nginx/ssl/dev.full.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/full.pem
-COPY docker/nginx_load_balancer/nginx/ssl/dev.key.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/key.pem
+RUN mkdir -p /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca
+
+#Create dummy certificate that will be overwritten later:
+RUN openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+    -keyout /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/key.pem -out /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/full.pem \
+    -subj "/CN=*.cis4250-03.socs.uoguelph.ca" -addext "subjectAltName=DNS:cis4250-03.socs.uoguelph.ca,DNS:*.cis4250-03.socs.uoguelph.ca,IP:10.0.0.1"
+
+#COPY docker/nginx_load_balancer/nginx/ssl/dev.full.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/full.pem
+#COPY docker/nginx_load_balancer/nginx/ssl/dev.key.pem /etc/nginx/ssl/cis4250-03.socs.uoguelph.ca/key.pem
 
 #Create folder for letsencrypt validation challenge:
 RUN mkdir -p /var/www/.well-known/acme-challenge
