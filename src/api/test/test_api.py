@@ -13,7 +13,6 @@ class TestDescriptrApi(flask_unittest.ClientTestCase):
     """A unittest class whose "test_*" methods will be called."""
     app = create_app()
 
-'''
     def test_root(self, client):
         """Test that the root endpoint returns the correct response."""
         ret = client.get("/")
@@ -28,15 +27,14 @@ class TestDescriptrApi(flask_unittest.ClientTestCase):
 
     def test_search_post_simple(self, client):
         """Test POSTing a simple search and getting correct response."""
-        ret = client.post("/search", json=dict(number=2750))
+        ret = client.post("/search", json=dict(number=dict(query="2750", comparison='=')))
         ret_json = ret.get_json()
         self.assertIn('courses', ret_json)
         self.assertGreater(len(ret_json["courses"]), 0)
 
     def test_search_post_complex(self, client):
         """Test POSTing a complex search and getting correct response."""
-        ret = client.post("/search", json=dict(code="cis", level=1))
+        ret = client.post("/search", json=dict(code=dict(query='cis', comparison='='), level=dict(query="1", comparison='=')))
         ret_json = ret.get_json()
         self.assertIn('courses', ret_json)
         self.assertGreater(len(ret.json["courses"]), 0)
-'''

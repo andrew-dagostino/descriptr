@@ -123,6 +123,16 @@ class TestDescSearches(unittest.TestCase):
         self.assertTrue(len(lowerResult) == 1)
         self.assertTrue(len(mixedResult) == 1)
 
+    def test_byCourseCode_contains(self):
+        """
+            Test that course code search returns correct results for contains comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseCode(self.three_courses, "ci", "~")) == 2)
+        self.assertTrue(len(d.byCourseCode(self.three_courses, "h", "~")) == 1)
+        self.assertTrue(len(d.byCourseCode(self.three_courses, "CIS", "~")) == 2)
+        self.assertTrue(len(d.byCourseCode(self.three_courses, "HTM", "~")) == 1)
+
     def test_byCourseCode_none(self):
         """
             Test that course code search returns no results for code not in courses
@@ -155,6 +165,50 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byCourseLevel(self.single_course, "1", '=')) == 0)
 
+    def test_byCourseLevel_greaterThan(self):
+        """
+            Test that course level search returns correct results for greater than comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "1", ">")) == 3)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "2", ">")) == 2)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "3", ">")) == 1)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "4", ">")) == 0)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "5", ">")) == 0)
+
+    def test_byCourseLevel_greaterThanOrEqualTo(self):
+        """
+            Test that course level search returns correct results for greater than or equal to comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "1", ">=")) == 3)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "2", ">=")) == 3)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "3", ">=")) == 2)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "4", ">=")) == 1)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "5", ">=")) == 0)
+
+    def test_byCourseLevel_lessThan(self):
+        """
+            Test that course level search returns correct results for less than comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "1", "<")) == 0)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "2", "<")) == 0)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "3", "<")) == 1)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "4", "<")) == 2)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "5", "<")) == 3)
+
+    def test_byCourseLevel_lessThanOrEqualTo(self):
+        """
+            Test that course level search returns correct results for less than or equal to comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "1", "<=")) == 0)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "2", "<=")) == 1)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "3", "<=")) == 2)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "4", "<=")) == 3)
+        self.assertTrue(len(d.byCourseLevel(self.three_courses, "5", "<=")) == 3)
+
     def test_byCourseNumber(self):
         """
             Test that course number search returns correct results
@@ -176,10 +230,55 @@ class TestDescSearches(unittest.TestCase):
 
     def test_byCourseNumber_none(self):
         """
-            Test that course level search returns no results if no matches are found
+            Test that course number search returns no results if no matches are found
         """
         d = DescSearches()
         self.assertTrue(len(d.byCourseNumber(self.single_course, "1234", '=')) == 0)
+
+    def test_byCourseNumber_greaterThan(self):
+        """
+            Test that course number search returns correct results for greater than comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "1000", ">")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2000", ">")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2250", ">")) == 2)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "3250", ">")) == 1)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "4080", ">")) == 0)
+
+    def test_byCourseNumber_greaterThanOrEqualTo(self):
+        """
+            Test that course number search returns correct results for greater than or equal to comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "1000", ">=")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2000", ">=")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2250", ">=")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "3250", ">=")) == 2)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "4080", ">=")) == 1)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "5000", ">=")) == 0)
+
+    def test_byCourseNumber_lessThan(self):
+        """
+            Test that course number search returns correct results for less than comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2000", "<")) == 0)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2250", "<")) == 0)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "3250", "<")) == 1)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "4080", "<")) == 2)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "5000", "<")) == 3)
+
+    def test_byCourseNumber_lessThanOrEqualTo(self):
+        """
+            Test that course number search returns correct results for less than or equal to comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2000", "<=")) == 0)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "2250", "<=")) == 1)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "3250", "<=")) == 2)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "4080", "<=")) == 3)
+        self.assertTrue(len(d.byCourseNumber(self.three_courses, "5000", "<=")) == 3)
 
     def test_byKeyword(self):
         """
@@ -300,6 +399,16 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byDepartment(self.three_courses, 5.5, '=')
 
+    def test_byDepartment_contains(self):
+        """
+            Tests that department search returns correct results for contains comparison
+        """
+        d = DescSearches()
+        self.assertTrue(len(d.byDepartment(self.three_courses, "tourism", "~")) == 1)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "science", "~")) == 2)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "school", "~")) == 3)
+        self.assertTrue(len(d.byDepartment(self.three_courses, "hosp", "~")) == 1)
+
     def test_byLectureHours(self):
         """
             Tests that each comparison (including default) returns correct results
@@ -307,8 +416,14 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0)) == 2) # Default is "="
         self.assertTrue(len(d.byLectureHours(self.three_courses, 3.5, "=")) == 1)
+
         self.assertTrue(len(d.byLectureHours(self.three_courses, 3.6, "<")) == 3)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0, "<=")) == 2)
+        
         self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0, ">")) == 1)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.0, ">=")) == 3)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.5, ">=")) == 1)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 0.0, ">=")) == 3)
 
     def test_byLectureHours_none(self):
         """
@@ -317,8 +432,13 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byLectureHours(self.three_courses, 16.0)) == 0) # Default is "="
         self.assertTrue(len(d.byLectureHours(self.three_courses, 1.0, "=")) == 0)
+
         self.assertTrue(len(d.byLectureHours(self.three_courses, 0.0, "<")) == 0)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 2.9, "<=")) == 0)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 0.0, "<=")) == 0)
+        
         self.assertTrue(len(d.byLectureHours(self.three_courses, 3.5, ">")) == 0)
+        self.assertTrue(len(d.byLectureHours(self.three_courses, 3.6, ">=")) == 0)
 
     def test_byLectureHours_invalid(self):
         """
@@ -340,8 +460,15 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byLabHours(self.three_courses, 2.0)) == 2) # Default is "="
         self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, "=")) == 1)
+
         self.assertTrue(len(d.byLabHours(self.three_courses, 2.0, "<")) == 1)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 3.0, "<")) == 3)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 2.0, "<=")) == 3)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, "<=")) == 1)
+        
         self.assertTrue(len(d.byLabHours(self.three_courses, 1.0, ">")) == 2)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, ">=")) == 3)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 2.0, ">=")) == 2)
 
     def test_byLabHours_none(self):
         """
@@ -350,8 +477,11 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byLabHours(self.three_courses, 16.0)) == 0) # Default is "="
         self.assertTrue(len(d.byLabHours(self.three_courses, 1.0, "=")) == 0)
+        
         self.assertTrue(len(d.byLabHours(self.three_courses, 0.0, "<")) == 0)
+        
         self.assertTrue(len(d.byLabHours(self.three_courses, 3.5, ">")) == 0)
+        self.assertTrue(len(d.byLabHours(self.three_courses, 2.1, ">=")) == 0)
 
     def test_byLabHours_invalid(self):
         """
@@ -421,6 +551,15 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byCourseGroup(self.three_courses, [], '=')
 
+    def test_byCourseGroup_contains(self):
+        """
+            Test that group search returns correct results for contains comparison
+        """
+
+        d = DescSearches()
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "hosp", "~")) == 1)
+        self.assertTrue(len(d.byCourseGroup(self.three_courses, "compu", "~")) == 2)
+
     def test_byCapacity(self):
         '''
             Test that capacity search returns correctly
@@ -428,10 +567,24 @@ class TestDescSearches(unittest.TestCase):
         d = DescSearches()
         self.assertTrue(len(d.byCapacity(self.three_courses, 10)) == 1)
         self.assertTrue(len(d.byCapacity(self.three_courses, 0)) == 1)
+
         self.assertTrue(len(d.byCapacity(self.three_courses, 0, "<")) == 0)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 10, "<")) == 1)
         self.assertTrue(len(d.byCapacity(self.three_courses, 15, "<")) == 2)
+        
+        self.assertTrue(len(d.byCapacity(self.three_courses, 0, "<=")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 5, "<=")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 10, "<=")) == 2)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 15, "<=")) == 2)
+        
         self.assertTrue(len(d.byCapacity(self.three_courses, 0, ">")) == 1)
         self.assertTrue(len(d.byCapacity(self.three_courses, 5, ">")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 10, ">")) == 0)
+
+        self.assertTrue(len(d.byCapacity(self.three_courses, 0, ">=")) == 2)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 5, ">=")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 10, ">=")) == 1)
+        self.assertTrue(len(d.byCapacity(self.three_courses, 15, ">=")) == 0)
 
     def test_byCapacity_invalid(self):
         '''
@@ -455,3 +608,4 @@ class TestDescSearches(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
