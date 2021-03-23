@@ -29,9 +29,8 @@ export function runForceGraph(
   const links = linksData.map((d) => Object.assign({}, d));
   const nodes = nodesData.map((d) => Object.assign({}, d));
 
-  const containerRect = container.getBoundingClientRect();
-  const height = containerRect.height;
-  const width = containerRect.width;
+  const width = window.innerWidth * 0.9;
+  const height = width * 0.5;
 
   /* Functions */
   // Hover element creation and removal
@@ -119,9 +118,9 @@ export function runForceGraph(
   const div = d3.select("#graph-tooltip");
 
   //Export graph as image on download click
-  d3.select("#download-graph").on('click', function() {
+  d3.select("#download-node-graph").on('click', function() {
       // Get the d3js SVG element and save using saveSvgAsPng.js
-      SvgToPng.saveSvgAsPng(document.getElementById("courses-d3-graph"), "courses.png", {backgroundColor: "#FFFFFF", left: -width / 2, top: -height / 2});
+      SvgToPng.saveSvgAsPng(document.getElementById("courses-node-graph"), "courses-node-graph.png", {backgroundColor: "#FFFFFF", left: -width / 2, top: -height / 2});
   });
 
   // D3's built in tool to run force simulations
@@ -131,8 +130,6 @@ export function runForceGraph(
     .force("charge", d3.forceManyBody().strength(-700))    // Distance between nodes
     .force("x", d3.forceX())
     .force("y", d3.forceY())
-  //if (nodesData.length > 300) simulation.stop();
-
 
   d3.select("svg").remove();
   const svg = d3
@@ -141,7 +138,7 @@ export function runForceGraph(
     .attr("viewBox", [-width / 2, -height / 2, width, height])    // Viewbox defines the position of the graph
     .style("cursor","move")
     .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("id", "courses-d3-graph");
+    .attr("id", "courses-node-graph");
 
   // Child element for svg for keeping nodes, links and labels in
   const g = svg.append("g")
