@@ -71,6 +71,13 @@ To run Descriptr.ly (API + WEB + NGINX):
 
 Once running, the WEB server will be live at <https://dev.cis4250-03.socs.uoguelph.ca/> & the api will live at <https://dev.cis4250-03.socs.uoguelph.ca/api>.
 
+3. Redeploy swarm after updates:
+    ```
+    $ docker stack rm descriptr_stack; docker-compose -f docker-compose-swarm.dev.yml build; docker stack deploy --compose-file=docker-compose-swarm.dev.yml descriptr_stack
+    ```
+
+    If the command fails from `failed to create service descriptr_stack_descriptr_api: Error response from daemon: network descriptr_stack_descriptr-network not found`, run it again and it should work.
+
 ## Deploying To Production
 
 This is quite a process for the first deployment. Read about it in docs/deployments/production/README.md
