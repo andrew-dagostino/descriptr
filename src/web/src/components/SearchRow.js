@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row, Button } from 'react-bootstrap';
 
 // Fields that will make use of >, <, and = comparisons
 const numericalFields = ['lecture', 'lab', 'capacity', 'level', 'number'];
@@ -87,7 +87,6 @@ function SearchComparatorDropdown(props) {
 function SearchQueryInput(props) {
     const handleChange = (e) => props.setQuery(e.target.value);
 
-
     if (props.type === 'weight') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
@@ -141,7 +140,7 @@ function SearchQueryInput(props) {
             </Form.Control>
         );
     } else if (numericalFields.includes(props.type)) {
-            return <Form.Control type='number' value={props.value} placeholder='Enter a search term' onChange={handleChange} min={0} />;
+        return <Form.Control type='number' value={props.value} placeholder='Enter a search term' onChange={handleChange} min={0} />;
     } else {
         return <Form.Control type='text' value={props.value} placeholder='Enter a search term' onChange={handleChange} />;
     }
@@ -184,6 +183,11 @@ export default class SearchRow extends React.Component {
                 </Col>
                 <Col xs='auto'>
                     <SearchQueryInput value={this.props.filter.searchQuery} setQuery={this.setQuery} type={this.state.searchType} />
+                </Col>
+                <Col xs='auto'>
+                    <Button variant='danger' type='button' onClick={() => this.props.removeRow(this.props.index)}>
+                        Remove
+                    </Button>
                 </Col>
             </Row>
         );

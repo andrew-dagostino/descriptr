@@ -14,6 +14,7 @@ export default class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            counter: 0,
             rows: [this.createEmptyFilter()],
             error: null,
         };
@@ -36,7 +37,8 @@ export default class Search extends React.Component {
     };
 
     // Creates a new filter, with default values where necessary
-    createEmptyFilter = () => ({
+    createEmptyFilter = (id) => ({
+        _id: id,
         searchType: 'code',
         searchComparator: '=',
         searchQuery: '',
@@ -45,7 +47,8 @@ export default class Search extends React.Component {
     // Appends a new, base filter
     addFilter = () => {
         this.setState({
-            rows: this.state.rows.concat([this.createEmptyFilter()]),
+            rows: this.state.rows.concat([this.createEmptyFilter(this.state.counter + 1)]),
+            counter: this.state.counter + 1,
         });
     };
 
@@ -53,6 +56,13 @@ export default class Search extends React.Component {
     updateFilter = (index, filter) => {
         let temp = this.state.rows;
         temp[index] = filter;
+        this.setState({ rows: temp });
+    };
+
+    // Removes row if remove button clicked
+    removeRow = (index) => {
+        let temp = [...this.state.rows];
+        temp.splice(index, 1);
         this.setState({ rows: temp });
     };
 
@@ -116,7 +126,7 @@ export default class Search extends React.Component {
             <>
                 {this.state.error ? <Alert variant='danger'>{this.state.error}</Alert> : null}
                 {this.state.rows.map((item, id) => {
-                    return <SearchRow key={id} index={id} filter={item} updateFilter={this.updateFilter} />;
+                    return <SearchRow key={item._id} index={id} filter={item} updateFilter={this.updateFilter} removeRow={this.removeRow} />;
                 })}
                 <Row bsPrefix='form-row' className='mt-3'>
                     <Col xs='auto'>
@@ -130,7 +140,7 @@ export default class Search extends React.Component {
                                 this.props.updateCourses([]);
                             }
                             }>
-                            Clear Searches
+                            Clear Search
                         </Button>
                     </Col>
                     <Col xs='auto'>
