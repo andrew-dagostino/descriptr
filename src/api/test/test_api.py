@@ -2,6 +2,7 @@
 
 from apipkg import create_app
 import flask_unittest
+import json
 import os
 
 
@@ -38,3 +39,30 @@ class TestDescriptrApi(flask_unittest.ClientTestCase):
         ret_json = ret.get_json()
         self.assertIn('courses', ret_json)
         self.assertGreater(len(ret.json["courses"]), 0)
+    
+    def test_prerequisite_search(self, client):
+        """Test that the prerequisite search endpoint returns the correct response."""
+        ret = client.get("/prerequisite/cis-2750")
+        ret_json = ret.get_json().get('courses', None)
+
+        self.assertIsNotNone(ret_json)
+
+        root_course = json.loads(ret_json['course'])
+        self.assertEqual(root_course['code'], "CIS")
+        self.assertEqual(root_course['number'], "2750")
+
+        def courseIdMapper(prereq):
+            course = json.loads(prereq['course'])
+            return f"{course['code']}*{course['number']}"
+
+        prereq_ids = list(map(courseIdMapper, ret_json['prerequisites']))
+        self.assertIn("CIS*2430", prereq_ids)
+        self.assertIn("CIS*2520", prereq_ids)
+
+    def test_prerequisite_search_not_found(self, client):
+        """Test that the prerequisite search endpoint returns an error if root course not found."""
+        ret = client.get("/prerequisite/dne-1234")
+        ret_json = ret.get_json()
+
+        self.assertEqual(len(ret_json['courses']), 0)
+        self.assertIsNotNone(ret_json['error'])

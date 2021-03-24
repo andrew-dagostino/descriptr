@@ -382,3 +382,10 @@ class Descriptr():
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.byOffered, converter=self.offered_converter, carryover=carryover)
+
+    def do_search_course_prerequisites(self, args):
+        """
+        Retrieve all prerequisites for a specific course
+        @param {String}     args       The course id (<code>*<number>, eg. CIS*2750)
+        """
+        self._perform_search(args, self.search.getPrerequisiteTree, carryover=False)
