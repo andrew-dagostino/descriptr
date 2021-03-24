@@ -420,3 +420,92 @@ class DescSearches:
                 returnCourses.append(course)
 
         return returnCourses
+
+    def getPrerequisiteTree(self, courses, course_id, comparison):
+        """
+        Returns all prerequisites of a course with the provided course_id. Prerequisites and the
+        root course are found by searching the passed courses array.
+
+        Args:
+            courses(list<Course>):  An array of Course data.
+            course_id: (string):    Id of root course in the form <code>*<number> (eg. CIS*2750)
+            comparison: Unused argument but is needed by Descriptr._perform_search()
+
+        Raises:
+            Exception:  If root course cannot be found in courses array
+
+        Returns:
+            (dictionary):   A tree of dictionaries, where each node contains:
+                            - course (string|Course):       The course object for the root dict and if the course id
+                                                            for a prerequisite exists in the courses array, otherwise
+                                                            the course id string
+                            - prerequisites (list<dict>):   Array of child nodes
+        """
+        # Find root course in array
+        root_course = None
+        for c in courses:
+            if c.fullname() == course_id.upper():
+                root_course = c
+                break
+
+        # Raise exception if course does not exist
+        if root_course is None:
+            raise Exception("Course Not Found")
+
+        # Return course instance and its recursively-found prerequisites
+        root_prerequisites = []
+        if hasattr(root_course, 'prerequisites'):
+            root_prerequisites = root_course.prerequisites.get("simple", [])
+
+        return {
+            'course': root_course,
+            'prerequisites': self._recursivePrereqSearch(root_prerequisites, courses)
+        }
+
+    def _recursivePrereqSearch(self, prerequisites, courses):
+        """
+            Recursively builds a tree of course prerequisites
+
+            Args:
+                prerequisites(list<string>): List of prerequisite course ids
+                courses(list<Course>):  An array of Course data.
+
+            Returns:
+                (list<dictionary>): An array of dictionary trees (tree structure described in getPrerequisiteTree())
+        """
+
+        # Break if no more children
+        if len(prerequisites) == 0:
+            return prerequisites
+
+        # Else find child prerequisites of each prerequisite
+        else:
+            result_prerequisites = []
+            for child_course_id in prerequisites:
+
+                # Find child course in courses array
+                child_course = None
+                for c in courses:
+                    if c.fullname() == child_course_id:
+                        child_course = c
+                        break
+
+                # Append node with course_id and empty array if child_course is not found in courses array
+                if child_course is None:
+                    result_prerequisites.append({
+                        'course': child_course_id,
+                        'prerequisites': []
+                    })
+
+                # Else, find grandchild prerequisites
+                else:
+                    child_prerequisites = []
+                    if hasattr(child_course, 'prerequisites'):
+                        child_prerequisites = child_course.prerequisites.get("simple", [])
+
+                    result_prerequisites.append({
+                        'course': child_course,
+                        'prerequisites': self._recursivePrereqSearch(child_prerequisites, courses)
+                    })
+
+            return result_prerequisites
