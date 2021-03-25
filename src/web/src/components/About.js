@@ -1,13 +1,6 @@
 import React from 'react';
 import { Card, CardColumns } from 'react-bootstrap';
 
-import l_flask from '../img/l_flask.png';
-import l_nginx from '../img/l_nginx.svg';
-import l_react from '../img/l_react.svg';
-import l_gitlab from '../img/l_gitlab.svg';
-import l_docker from '../img/l_docker.png';
-import l_electron from '../img/l_electron.png';
-
 export default class Help extends React.Component {
     constructor(props) {
         super(props);
@@ -15,7 +8,7 @@ export default class Help extends React.Component {
             techs: [
                 {
                     id: 0,
-                    image: l_flask,
+                    image: '/img/l_flask.png',
                     title: "Flask API",
                     text: `At the beginning of the project, when our goal was a command-line tool
                     that generated graphs of interconnected courses at the University of Guelph, we
@@ -25,14 +18,14 @@ export default class Help extends React.Component {
                     code into a fast API built in Flask to serve our frontend website and Electron app.`
                 }, {
                     id: 1,
-                    image: l_nginx,
+                    image: '/img/l_nginx.svg',
                     title: "NGINX Reverse Proxy",
                     text: `We're using NGINX as a reverse proxy to handle incoming requests and forward
                     them to our Flask backend servers. This can eventually evolve into a load-balancer
                     if we choose to deploy more backend servers. We support HTTPS thanks to Let's Encrypt.`
                 }, {
                     id: 2,
-                    image: l_react,
+                    image: '/img/l_react.svg',
                     title: "React Frontend",
                     text: `We've chosen to use the React framework for our user interfaces, both the
                     website and the Electron App. React is supported by various styling and component
@@ -40,7 +33,7 @@ export default class Help extends React.Component {
                     D3.js, and the Open Iconic icon library.`
                 }, {
                     id: 3,
-                    image: l_docker,
+                    image: '/img/l_docker.png',
                     title: "Docker Containerization",
                     text: `The Flask API, React frontend, and the NGINX reverse proxy all operate in
                     Docker containers in a Docker Swarm. This swarm can be deployed locally for quick
@@ -49,7 +42,7 @@ export default class Help extends React.Component {
                     unified product.`
                 }, {
                     id: 4,
-                    image: l_electron,
+                    image: '/img/l_electron.png',
                     title: "Electron Desktop Application",
                     text: `The course mandates using Electron to build a cross-platform desktop application
                     as an alternative to the website. Our electron app wraps our React frontend and
@@ -57,7 +50,7 @@ export default class Help extends React.Component {
                     as with our website.`
                 }, {
                     id: 5,
-                    image: l_gitlab,
+                    image: '/img/l_gitlab.svg',
                     title: "GitLab CI",
                     text: `Descriptr uses GitLab CI for automated testing, automated Electron builds
                     and automatic deployment to our production resources upon release.`
@@ -81,7 +74,11 @@ export default class Help extends React.Component {
                     {this.state.techs.map((item) =>(
                         <Card body className="my-5" key={item.id}>
                             <Card.Title>{item.title}</Card.Title>
-                            <Card.Img variant="top" src={item.image} className="logo p-5"/>
+                            <Card.Img
+                                variant="top"
+                                src={process.env.PUBLIC_URL + item.image}
+                                className="logo p-5"
+                            />
                             <Card.Text>{item.text}</Card.Text>
                         </Card>
                     ))}
