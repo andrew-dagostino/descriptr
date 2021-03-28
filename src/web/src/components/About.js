@@ -81,7 +81,7 @@ export default class Help extends React.Component {
                     {this.state.techs.map((item) =>(
                         <Card body className="my-5" key={item.id}>
                             <Card.Title>{item.title}</Card.Title>
-                            <Card.Img variant="top" src={item.image} className="logo p-5"/>
+                            <Card.Img id={"about-us-icon-"+item.id} variant="top" src={item.image} className="logo p-5"/>
                             <Card.Text>{item.text}</Card.Text>
                         </Card>
                     ))}

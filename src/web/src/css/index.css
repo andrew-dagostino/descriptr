@@ -15,3 +15,14 @@ code {
 th {
   user-select: none;
 }
+
+.darkmode-layer, .darkmode-toggle {
+	z-index: 1060;
+}
+
+.darkmode--activated #about-us-icon-1,
+.darkmode--activated #about-us-icon-2,
+.darkmode--activated #about-us-icon-3,
+.darkmode--activated #about-us-icon-4 {
+	mix-blend-mode: difference;
+}

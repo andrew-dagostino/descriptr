@@ -11,6 +11,16 @@ import Header from './components/Header';
 import Help from './components/Help';
 import Search from './components/Search';
 
+function addDarkmodeWidget() {
+    const options = {
+        saveInCookies: true,
+        label: '🌓'
+    }
+        // eslint-disable-next-line no-undef
+    const darkMode = new Darkmode(options);
+    darkMode.showWidget();
+}
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -31,6 +41,14 @@ export default class App extends React.Component {
             <b>${node.name}</b>
         </div>`;
     };
+
+    componentDidMount() {
+        window.addEventListener('load', addDarkmodeWidget);
+    }
+
+    componentWillUnmount() { 
+        window.removeEventListener('load', addDarkmodeWidget);  
+    }
 
     render() {
         return (
