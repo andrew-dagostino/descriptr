@@ -14,22 +14,45 @@ const numericalFields = ['lecture', 'lab', 'capacity', 'level', 'number'];
  * Dropdown containing types of filters that can be used
  */
 function SearchTypeDropdown(props) {
-    const handleChange = (e) => props.setType(e.target.value);
+    const handleChange = (e) => {
+        if(props.value !== "please-select-a-category") {
+            props.addOption(props.value);
+        }
+        if(e.target.value !== "please-select-a-category") {
+            props.removeOption(e.target.value);
+        }
+        props.setType(e.target.value);
+    };
+
+    let options = [
+        ["please-select-a-category","Please Select A Category"],
+        ["code","Code"],
+        ["group","Group"],
+        ["department","Department"],
+        ["keyword","Keyword"],
+        ["level","Level"],
+        ["number","Number"],
+        ["semester","Semester"],
+        ["weight","Weight"],
+        ["capacity","Available Capacity"],
+        ["lecture","Lecture Hours"],
+        ["lab","Lab Hours"],
+        ["offered","Currently Offered"]
+    ];
+
+    options = options.filter(([val, name], i) => {
+        if(props.filtersAvailable.includes(val) || val == props.value) {
+            return true;
+        } else {
+            return false;
+        }
+    });
 
     return (
         <Form.Control as='select' value={props.value} onChange={handleChange}>
-            <option value='code'>Code</option>
-            <option value='group'>Group</option>
-            <option value='department'>Department</option>
-            <option value='keyword'>Keyword</option>
-            <option value='level'>Level</option>
-            <option value='number'>Number</option>
-            <option value='semester'>Semester</option>
-            <option value='weight'>Weight</option>
-            <option value='capacity'>Available Capacity</option>
-            <option value='lecture'>Lecture Hours</option>
-            <option value='lab'>Lab Hours</option>
-            <option value='offered'>Currently Offered</option>
+            {options.map(([val, name]) => (
+                <option value={val}>{name}</option>
+            ))}
         </Form.Control>
     );
 }
@@ -47,6 +70,7 @@ function SearchComparatorDropdown(props) {
     if (numericalFields.includes(props.type)) {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='>'>greater than</option>
                 <option value='>='>greater or equal to</option>
                 <option value='='>equal to</option>
@@ -57,18 +81,21 @@ function SearchComparatorDropdown(props) {
     } else if (props.type === 'weight' || props.type === 'offered' || props.type === 'semester') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='='>is (exactly)</option>
             </Form.Control>
         );
     } else if (props.type === 'keyword') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='~'>contains</option>
             </Form.Control>
         );
     } else {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
+                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='~'>contains</option>
                 <option value='='>is (exactly)</option>
             </Form.Control>
@@ -172,7 +199,12 @@ export default class SearchRow extends React.Component {
         return (
             <Row className='my-3'>
                 <Col xs='auto'>
-                    <SearchTypeDropdown value={this.props.filter.searchType} setType={this.setType} />
+                    <SearchTypeDropdown
+                        value={this.props.filter.searchType}
+                        filtersAvailable={this.props.filtersAvailable}
+                        setType={this.setType}
+                        removeOption={this.props.removeOption}
+                        addOption={this.props.addOption}/>
                 </Col>
                 <Col xs='auto'>
                     <SearchComparatorDropdown
