@@ -1,10 +1,11 @@
+"""Main logic of the Descriptr Python API. Performs searches."""
+
 import json
 import os
 import sys
 import re
 import glob
 import time
-from enum import Enum
 
 from classes.course_enums import SemesterOffered
 from classes.course_parser import CourseParser
@@ -24,6 +25,8 @@ class Descriptr():
             Searches using multiple filters in the provided filters dictionary, returning a JSON result
         export_json():
             Generates a JSON representation of carryover_data, with error message if applicable
+        list_prereqs():
+            Generate array of n1 prerequisites for all courses in the search output.
 
         do_search_code(args):
             Search by course code.
@@ -74,7 +77,7 @@ class Descriptr():
                         print(
                             "Successfully scraped and saved WebAdvisor. (" + latest_file + ")")
                     break
-                except (ValueError, Exception) as e:
+                except (ValueError, Exception):
                     if i == 0:  # Only scrape WebAdvisor once to avoid DoS
                         scrape_and_parse_webadvisor_courses()
                     else:
@@ -84,9 +87,7 @@ class Descriptr():
         self.all_courses = add_course_capacity(self.all_courses)
 
     def _load(self, filepath):
-        """
-            Initialize from PDF
-        """
+        """Initialize from PDF."""
         converter = PDFConverter()
         parser = CourseParser()
 
@@ -95,13 +96,15 @@ class Descriptr():
         self.all_courses = parser.open_file("converted-pdf.txt")
 
         self.carryover_data = []  # A copy of data returned from search here.
+        self.n1_prereqs = []
         self.search = DescSearches()
 
     def apply_filters(self, filters):
         """
-            Given an object of filters, performs all searches and returns the results as a JSON
-            @param {String|Dict}    filters     A stringified JSON object or a dictionary of the filters to be applied
-            @returns {String} A stringified JSON object of the courses after applying the filters, and an error if applicable
+        Given an object of filters, performs all searches and returns the results as a JSON.
+
+        @param {String|Dict}    filters     A stringified JSON object or a dictionary of the filters to be applied
+        @returns {String} A stringified JSON object of the courses after applying the filters, and an error if applicable
         """
         self.carryover_data = self.all_courses
 
@@ -144,30 +147,66 @@ class Descriptr():
                 elif key == "offered":
                     self.do_search_offered(value, carryover=True)
 
+            self.prereq_list()
+
         except Exception as e:
             self.carryover_data = []
             return json.dumps({
                 "error": str(e),
-                "courses": []
+                "courses": [],
+                "prereqs": [],
             })
 
         return self.export_json()
 
     def export_json(self):
         """
-            Export a JSON representation of courses contained in the carryover_data
-            @returns {String} JSON object containing an array of courses, and error if applicable
+        Export a JSON representation of courses contained in the carryover_data.
+
+        @returns {String} JSON object containing an array of courses, and error if applicable
         """
         try:
             return json.dumps({
                 "error": None,
-                "courses": self.carryover_data
+                "courses": self.carryover_data,
+                "prereqs": self.n1_prereqs,
             }, cls=CourseEncoder)
         except Exception as e:
             return json.dumps({
                 "error": str(e),
-                "courses": []
+                "courses": [],
+                "prereqs": []
             })
+
+    def prereq_list(self):
+        """Generate array of n1 prerequisites for all courses in the search output."""
+        simple_prereqs = []
+
+        # Make a list of all simple prereqs of the search results
+        for course in self.carryover_data:
+            if hasattr(course, "prerequisites"):
+                try:
+                    for simple_pre in course.prerequisites["simple"]:
+                        simple_prereqs.append(simple_pre)
+                except KeyError:
+                    pass
+
+        # # Remove duplicates from simple_prereqs
+        simple_prereqs = list(set(simple_prereqs))
+
+        # Find prereqs and add them to the global n1_prereqs array to be returned in the json res.
+        # for pre in simple_prereqs:
+        #     for course in self.all_courses:
+        #         if pre == course.fullname():
+        #             print(f"Appending 1 {course.fullname()}")
+        #             self.n1_prereqs.append(course)
+        #             break
+        #         elif pre == f"{course.code}*{course.number}":
+        #             print(f"Appending 2 {course.fullname()}")
+        #             self.n1_prereqs.append(course)
+        #             break
+        self.n1_prereqs = [course for course in self.all_courses if course.fullname() in
+                           simple_prereqs]
 
     def _perform_search(self, args, function, carryover=False, converter=None, join=True):
         search_array = self.carryover_data
@@ -176,7 +215,7 @@ class Descriptr():
 
         search_parameter = None
 
-        if converter != None:
+        if converter is not None:
             search_parameter = converter(args['query'])
         else:
             search_parameter = args['query']
@@ -186,6 +225,7 @@ class Descriptr():
     def do_search_code(self, args, carryover=False):
         """
         Search by course code.
+
         @param {String}     args        The course letters e.g. CIS
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -194,6 +234,7 @@ class Descriptr():
     def do_search_group(self, args, carryover=False):
         """
         Search by course group.
+
         @param {String}     args        The course group e.g. Accounting
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -202,6 +243,7 @@ class Descriptr():
     def do_search_department(self, args, carryover=False):
         """
         Search by course department.
+
         @param {String}     args        The course department e.g. Department of Clinical Studies
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -210,6 +252,7 @@ class Descriptr():
     def do_search_keyword(self, args, carryover=False):
         """
         Search by keyword in the course.
+
         @param {String}     args        The term to search for eg. biology
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -218,6 +261,7 @@ class Descriptr():
     def do_search_level(self, args, carryover=False):
         """
         Search by level of a course.
+
         @param {String}     args        The leading number of a course code eg. 4 for a 4XXX course
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -226,36 +270,41 @@ class Descriptr():
     def do_search_number(self, args, carryover=False):
         """
         Search by full course number.
+
         @param {String}     args        The number of a course eg. 2750
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.byCourseNumber, carryover=carryover)
 
     def semester_converter(self, semester):
+        """Convert string semester into enum."""
         try:
             return SemesterOffered[semester]
-        except:
+        except Exception:
             print("[E] Please enter a supported semester. [F, S, U, W]")
         return
 
     def do_search_semester(self, args, carryover=False):
         """
         Search by semester.
+
         @param {String}     args        One of the following codes, [S, F, W, U]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
         self._perform_search(args, self.search.bySemester, converter=self.semester_converter, carryover=carryover)
 
     def weight_converter(self, weight):
+        """Convert string weight into float."""
         try:
             return float(weight)
-        except:
+        except Exception:
             print("[E] Not a floating point number or out-of-range.")
         return
 
     def do_search_weight(self, args, carryover=False):
         """
         Search by credit weight.
+
         @param {String}     args        The weight of the course. One of [0.0, 0.25, 0.5, 0.75, 1.0, 1.75, 2.0, 2.5, 2.75, 7.5]
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -264,6 +313,7 @@ class Descriptr():
     def do_search_capacity(self, *args, carryover=False):
         """
         Search by available capacity.
+
         @param {String}     args        The available capacity of a course. Must be non-negative.
                                         How to perform the comparision. One of ["=", ">", "<"]. Defaults to "=".
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
@@ -299,6 +349,7 @@ class Descriptr():
     def do_search_lec_hours(self, *args, carryover=False):
         """
         Search by lecture hours.
+
         @param {String}     args        The number of hours of lecture for the course. Must be non-negative
                                         How to perform the comparision. One of ["=", ">", "<"]. Defaults to "=".
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
@@ -334,6 +385,7 @@ class Descriptr():
     def do_search_lab_hours(self, *args, carryover=False):
         """
         Search by lab hours.
+
         @param {String}     args        The number of hours of lab for the course. Must be non-negative
                                         How to perform the comparision. One of ["=", ">", "<"]. Defaults to "=".
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
@@ -367,6 +419,7 @@ class Descriptr():
             print(f"[E]: {e}")
 
     def offered_converter(self, offered):
+        """Convert offered to boolean."""
         args = offered.split(" ")
         for arg in args:
             if arg.lower() == "y":
@@ -378,6 +431,7 @@ class Descriptr():
     def do_search_offered(self, args, carryover=False):
         """
         Search by if a course is currently offered or not.
+
         @param {String}     args        Y/N. Only returns offered courses if Y and only returns unoffered courses if N.
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
@@ -385,7 +439,8 @@ class Descriptr():
 
     def do_search_course_prerequisites(self, args):
         """
-        Retrieve all prerequisites for a specific course
+        Retrieve all prerequisites for a specific course.
+
         @param {String}     args       The course id (<code>*<number>, eg. CIS*2750)
         """
         self._perform_search(args, self.search.getPrerequisiteTree, carryover=False)
