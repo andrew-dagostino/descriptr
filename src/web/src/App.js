@@ -10,6 +10,7 @@ import { SunburstGraph } from './components/graph/sunburstGraph';
 import Header from './components/Header';
 import Help from './components/Help';
 import Search from './components/Search';
+import CourseTree from './components/CourseTree';
 
 function addDarkmodeWidget() {
     const options = {
@@ -64,6 +65,11 @@ export default class App extends React.Component {
                         <Route path='/help'>
                             <section className='px-5 pb-5'>
                                 <Help />
+                            </section>
+                        </Route>
+                        <Route path='/courseTree'>
+                            <section className='px-5 pb-5'>
+                                <CourseTree />
                             </section>
                         </Route>
                         <Route path='/'>
