@@ -90,6 +90,9 @@ export default class App extends React.Component {
                                                         <Button id='download-node-graph' variant='primary' disabled={!this.state.downloadEnabled}>
                                                             Download Graph
                                                         </Button>
+                                                        <Button id='fullscreen-node-graph' variant='secondary'>
+                                                            Fullscreen
+                                                        </Button>
                                                     </Col>
                                                 </Row>
                                                 <ForceGraph

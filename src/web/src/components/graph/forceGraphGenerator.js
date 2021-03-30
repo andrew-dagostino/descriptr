@@ -123,6 +123,17 @@ export function runForceGraph(
       SvgToPng.saveSvgAsPng(document.getElementById("courses-node-graph"), "courses-node-graph.png", {backgroundColor: "#FFFFFF", left: -width / 2, top: -height / 2});
   });
 
+  d3.select("#fullscreen-node-graph").on("click", function() {
+    let graph = document.getElementById("courses-node-graph");
+    if (graph.requestFullscreen) {
+      graph.requestFullscreen();
+    } else if (graph.webkitRequestFullscreen) {
+      graph.webkitRequestFullscreen();
+    } else if (graph.msRequestFullscreen) {
+      graph.msRequestFullscreen();
+    }
+  });
+
   // D3's built in tool to run force simulations
   const simulation = d3
     .forceSimulation(nodes)
@@ -138,7 +149,8 @@ export function runForceGraph(
     .attr("viewBox", [-width / 2, -height / 2, width, height])    // Viewbox defines the position of the graph
     .style("cursor","move")
     .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("id", "courses-node-graph");
+    .attr("id", "courses-node-graph")
+    .attr("allow", "fullscreen");
 
   // Child element for svg for keeping nodes, links and labels in
   const g = svg.append("g")
