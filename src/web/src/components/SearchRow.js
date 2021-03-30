@@ -15,17 +15,16 @@ const numericalFields = ['lecture', 'lab', 'capacity', 'level', 'number'];
  */
 function SearchTypeDropdown(props) {
     const handleChange = (e) => {
-        if(props.value !== "please-select-a-category") {
+        if (props.value) {
             props.addOption(props.value);
         }
-        if(e.target.value !== "please-select-a-category") {
+        if (e.target.value) {
             props.removeOption(e.target.value);
         }
         props.setType(e.target.value);
     };
 
     let options = [
-        ["please-select-a-category","Please Select A Category"],
         ["code","Code"],
         ["group","Group"],
         ["department","Department"],
@@ -41,7 +40,7 @@ function SearchTypeDropdown(props) {
     ];
 
     options = options.filter(([val, name], i) => {
-        if(props.filtersAvailable.includes(val) || val == props.value) {
+        if(props.filtersAvailable.includes(val) || val === props.value) {
             return true;
         } else {
             return false;
@@ -70,7 +69,6 @@ function SearchComparatorDropdown(props) {
     if (numericalFields.includes(props.type)) {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
-                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='>'>greater than</option>
                 <option value='>='>greater or equal to</option>
                 <option value='='>equal to</option>
@@ -81,21 +79,18 @@ function SearchComparatorDropdown(props) {
     } else if (props.type === 'weight' || props.type === 'offered' || props.type === 'semester') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
-                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='='>is (exactly)</option>
             </Form.Control>
         );
     } else if (props.type === 'keyword') {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
-                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='~'>contains</option>
             </Form.Control>
         );
     } else {
         return (
             <Form.Control as='select' value={props.value} onChange={handleChange}>
-                <option value='please-select-a-comparator'>Please select a comparator</option>
                 <option value='~'>contains</option>
                 <option value='='>is (exactly)</option>
             </Form.Control>
