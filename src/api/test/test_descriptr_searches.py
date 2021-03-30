@@ -8,6 +8,7 @@ from classes.course_enums import *
 """ Change working directory to one level above here """
 os.chdir(os.path.dirname(os.path.dirname(__file__)))
 
+
 class TestDescSearches(unittest.TestCase):
 
     single_course = []
@@ -90,10 +91,10 @@ class TestDescSearches(unittest.TestCase):
                 "year_parity_restrictions": YearParityRestrictions.NONE,
                 "prerequisites": {
                     "simple": [
-                        "CIS*1250",
+                        "CIS*2250",
                         "CIS*1300"
                     ],
-                    "original": "CIS*1250, CIS*1300"
+                    "original": "CIS*2250, CIS*1300"
                 },
                 "restrictions": ["Restricted to BCOMP:SENG majors"]
             })
@@ -605,7 +606,27 @@ class TestDescSearches(unittest.TestCase):
             d.byCapacity(self.three_courses, -5, "y")
         with self.assertRaises(Exception):
             d.byCapacity(self.three_courses, -5.12, "z")
+    
+    def test_getPrerequisiteTree(self):
+        '''
+            Test that getPrerequisiteTree creates correct tree
+        '''
+        d = DescSearches()
+        results = d.getPrerequisiteTree(self.three_courses, "CIS*3250", None)
+
+        self.assertTrue(type(results['prerequisites'][0]['course']) is Course)
+        self.assertTrue(results['prerequisites'][0]['course'].fullname() == "CIS*2250")
+        self.assertTrue(len(results['prerequisites'][0]['prerequisites']) == 2)
+        self.assertTrue(type(results['prerequisites'][0]['prerequisites'][0]['course']) is str)
+
+    def test_getPrerequisiteTree_not_found(self):
+        '''
+            Test that getPrerequisiteTree raises an exception if root course can't be found
+        '''
+        d = DescSearches()
+        with self.assertRaises(Exception):
+            d.getPrerequisiteTree(self.three_courses, "DNE*1234", None)
+
 
 if __name__ == '__main__':
     unittest.main()
-

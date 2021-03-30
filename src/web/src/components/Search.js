@@ -15,7 +15,9 @@ export default class Search extends React.Component {
         super(props);
         this.state = {
             counter: 0,
-            rows: [this.createEmptyFilter()],
+            rows: [this.createEmptyRow()],
+            startingFilter: "code",
+            filtersAvailable: ["group","department","keyword","level","number","semester","weight","capacity","lecture","lab","offered"],
             error: null,
         };
     }
@@ -24,32 +26,45 @@ export default class Search extends React.Component {
     // <Enter> and fire the submit function.
     componentDidMount() {
         document.addEventListener("keydown", this.listener);
+        this.setAddSearchTermButtonState();
+    };
+
+    componentDidUpdate() {
+        this.setAddSearchTermButtonState();
     };
 
     compomentWillUnmount() {
         document.removeEventListener("keydown", this.listener);
+        this.setAddSearchTermButtonState();
     };
 
-    listener = event => {
+    listener(event) {
         if (event.code === "Enter" || event.code === "NumpadEnter") {
             this.onSubmit();
         }
     };
 
     // Creates a new filter, with default values where necessary
-    createEmptyFilter = (id) => ({
-        _id: id,
-        searchType: 'code',
-        searchComparator: '=',
-        searchQuery: '',
-    });
+    createEmptyRow(id, filtersAvailable) {
+        var searchType = filtersAvailable != null ? filtersAvailable[0] : 'code';
+        return {
+            _id: id,
+            searchType: searchType, // If changing this to something else, add "code" to the filtersAvailable array above and change "startingFilter".
+            searchComparator: '=',
+            searchQuery: ''
+        };
+    };
 
     // Appends a new, base filter
     addFilter = () => {
-        this.setState({
-            rows: this.state.rows.concat([this.createEmptyFilter(this.state.counter + 1)]),
-            counter: this.state.counter + 1,
-        });
+        if (this.state.filtersAvailable.length > 0) {
+            var filterToAdd = this.createEmptyRow(this.state.counter + 1, this.state.filtersAvailable);
+            this.removeOption(filterToAdd.searchType);
+            this.setState({
+                rows: this.state.rows.concat([filterToAdd]),
+                counter: this.state.counter + 1,
+            });
+        }
     };
 
     // Updates an individual filter by index
@@ -61,10 +76,57 @@ export default class Search extends React.Component {
 
     // Removes row if remove button clicked
     removeRow = (index) => {
-        let temp = [...this.state.rows];
-        temp.splice(index, 1);
-        this.setState({ rows: temp });
+        //Add the filter category being removed to the available filters
+        const filterCategoryBeingRemoved = this.state.rows[index].searchType;
+        // eslint-disable-next-line eqeqeq
+        if (!this.state.filtersAvailable.includes(filterCategoryBeingRemoved) && filterCategoryBeingRemoved != undefined) {
+            this.setState({
+                filtersAvailable: this.state.filtersAvailable.concat([filterCategoryBeingRemoved])
+            });
+        }
+        
+        let tempRows = [...this.state.rows];
+        tempRows.splice(index, 1);
+        this.setState({ rows: tempRows });
     };
+
+    clearSearch = () => {
+        //Add back in the filters that were cleared.
+        let filtersCleared = [];
+        this.state.rows.forEach((row, i) => {
+            if (!this.state.filtersAvailable.includes(row.searchType) && !filtersCleared.includes(row.searchType) && this.state.startingFilter !== row.searchType) {
+                filtersCleared.push(row.searchType);
+            }
+        });
+        this.setState({
+            filtersAvailable: this.state.filtersAvailable.concat(filtersCleared)
+        });
+
+        var filter = this.createEmptyRow();
+        this.setState({
+            rows: [filter],
+        })
+        this.removeOption(filter.searchType);
+        this.props.updateCourses([]);
+    }
+
+    removeOption = (val) => {
+        var index = this.state.filtersAvailable.indexOf(val);
+        if (index !== -1) {
+            this.state.filtersAvailable.splice(index, 1);
+        }
+    }
+
+    addOption = (val) => {
+        if (!this.state.filtersAvailable.includes(val)) {
+            this.state.filtersAvailable.push(val);
+        }
+    }
+
+    setAddSearchTermButtonState = () => {
+        var disabledState = this.state.filtersAvailable.length === 0;
+        document.getElementById("add-search-term-button").disabled = disabledState;
+    }
 
     // Converts the array of filters from the state to a request body the API server can understand
     convertToRequestBody = () => {
@@ -116,7 +178,11 @@ export default class Search extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 let courses = data.error ? [] : data.courses;
-                this.props.updateCourses(courses.map((course) => JSON.parse(course)));
+                let prereqs = data.error ? [] : data.prereqs;
+                this.props.updateCourses(
+                    courses.map((course) => JSON.parse(course)),
+                    prereqs.map((p) => JSON.parse(p))
+                );
                 this.setState({ error: data.error });
             });
     };
@@ -125,31 +191,39 @@ export default class Search extends React.Component {
         return (
             <>
                 {this.state.error ? <Alert variant='danger'>{this.state.error}</Alert> : null}
-                {this.state.rows.map((item, id) => {
-                    return <SearchRow key={item._id} index={id} filter={item} updateFilter={this.updateFilter} removeRow={this.removeRow} />;
+                {this.state.rows.map((row, id) => {
+                    return <SearchRow   key={row._id}
+                        index={id}
+                        filter={row}
+                        filtersAvailable={this.state.filtersAvailable}
+                        removeOption={this.removeOption}
+                        addOption={this.addOption}
+                        updateFilter={this.updateFilter}
+                        removeRow={this.removeRow} />;
                 })}
                 <Row bsPrefix='form-row' className='mt-3'>
                     <Col xs='auto'>
                         <Button
                             variant='danger'
                             type='button'
-                            onClick={() => {
-                                this.setState({
-                                    rows: [this.createEmptyFilter()],
-                                })
-                                this.props.updateCourses([]);
-                            }
-                            }>
+                            onClick={this.clearSearch}>
                             Clear Search
                         </Button>
                     </Col>
                     <Col xs='auto'>
-                        <Button variant='secondary' type='button' onClick={this.addFilter}>
+                        <Button
+                            id="add-search-term-button"
+                            variant='secondary'
+                            type='button'
+                            onClick={this.addFilter}>
                             Add Search Term
                         </Button>
                     </Col>
                     <Col xs='auto'>
-                        <Button type='button' variant='primary' onClick={this.onSubmit}>
+                        <Button
+                            type='button'
+                            variant='primary'
+                            onClick={this.onSubmit}>
                             Search
                         </Button>
                     </Col>
