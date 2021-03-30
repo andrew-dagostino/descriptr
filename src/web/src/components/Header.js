@@ -14,6 +14,7 @@ export default class Header extends React.Component {
         this.state = {
             links: [
                 { link: '/', text: 'Home' },
+                { link: '/courseTree', text: 'Course Tree'},
                 { link: '/help', text: 'Help' },
                 { link: '/about', text: 'About' },
             ],
