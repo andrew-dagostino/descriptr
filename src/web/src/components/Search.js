@@ -178,7 +178,11 @@ export default class Search extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 let courses = data.error ? [] : data.courses;
-                this.props.updateCourses(courses.map((course) => JSON.parse(course)));
+                let prereqs = data.error ? [] : data.prereqs;
+                this.props.updateCourses(
+                    courses.map((course) => JSON.parse(course)),
+                    prereqs.map((p) => JSON.parse(p))
+                );
                 this.setState({ error: data.error });
             });
     };
@@ -189,13 +193,13 @@ export default class Search extends React.Component {
                 {this.state.error ? <Alert variant='danger'>{this.state.error}</Alert> : null}
                 {this.state.rows.map((row, id) => {
                     return <SearchRow   key={row._id}
-                                        index={id}
-                                        filter={row}
-                                        filtersAvailable={this.state.filtersAvailable}
-                                        removeOption={this.removeOption}
-                                        addOption={this.addOption}
-                                        updateFilter={this.updateFilter}
-                                        removeRow={this.removeRow} />;
+                        index={id}
+                        filter={row}
+                        filtersAvailable={this.state.filtersAvailable}
+                        removeOption={this.removeOption}
+                        addOption={this.addOption}
+                        updateFilter={this.updateFilter}
+                        removeRow={this.removeRow} />;
                 })}
                 <Row bsPrefix='form-row' className='mt-3'>
                     <Col xs='auto'>

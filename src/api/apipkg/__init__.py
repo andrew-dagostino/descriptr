@@ -23,7 +23,7 @@ def create_app(test_config=None):
         Returns:
             (flask.response): A response with a JSON body of available endpoints.
         """
-        return jsonify({'available_endpoints': ["/search"]})
+        return jsonify({'available_endpoints': ["/search", "/prerequisite"]})
 
     @app.route("/search", methods=['GET', 'POST'])
     def search():

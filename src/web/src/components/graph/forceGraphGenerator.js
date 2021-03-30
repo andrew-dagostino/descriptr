@@ -6,24 +6,35 @@ export function runForceGraph(
   courseModal,
   container,
   coursesData,
+  prereqsData,
   nodeHoverTooltip
 ) {
   // Convert course data over to node and link data
   var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "group": c.group, "name": c.name} })
-  var linksGetter = (c) => {
-    var linkArr = [];
-    c.forEach((d) => {
-      if (d.prerequisites.simple?.length) {
-        linkArr = linkArr.concat(d.prerequisites.simple.map((e)=> {
-          if (!nodesData.find(element => element.id === e)) {
-            nodesData = nodesData.concat({"id": e, "group": null});
-          }
-          return { "source": d.code+'*'+d.number, "target": e, "value": 1};
-        }))
-      }
-    })
-    return linkArr;
-  };
+  // var prereqs = prereqsData.map((c) => { return {"id": c.fullname, "group": c.group, "name": c.name} })
+    var linksGetter = (c) => {
+      var linkArr = [];
+      c.forEach((d) => {
+        if (d.prerequisites.simple?.length) {
+          linkArr = linkArr.concat(d.prerequisites.simple.map((e)=> {
+            if (!nodesData.find(element => element.id === e)) {
+              let predata = prereqsData.find(ele => ele.fullname === e)
+              if(predata) {
+                nodesData = nodesData.concat({
+                  "id": predata.fullname,
+                  "group": predata.group,
+                  "name": predata.name
+                });
+              } else {
+                nodesData = nodesData.concat({"id": e, "group": null});
+              }
+            }
+            return { "source": d.fullname, "target": e, "value": 1};
+          }))
+        }
+      })
+      return linkArr;
+    };
   const linksData = linksGetter(coursesData);
 
   const links = linksData.map((d) => Object.assign({}, d));

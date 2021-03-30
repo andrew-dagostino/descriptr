@@ -28,6 +28,7 @@ export default class App extends React.Component {
 
         this.state = {
             courses: [],
+            prereqs: [],
             downloadEnabled: false,
         };
 
@@ -36,7 +37,11 @@ export default class App extends React.Component {
         this.courseModal = React.createRef();
     }
 
-    updateCourses = (courses) => this.setState({ courses: courses, downloadEnabled: courses && courses.length });
+    updateCourses = (courses, prereqs ) => this.setState({
+        courses: courses,
+        prereqs: prereqs,
+        downloadEnabled: courses && courses.length
+    });
     nodeHoverTooltip = (node) => {
         return `<div>
             <b>${node.name}</b>
@@ -47,8 +52,8 @@ export default class App extends React.Component {
         window.addEventListener('load', addDarkmodeWidget);
     }
 
-    componentWillUnmount() { 
-        window.removeEventListener('load', addDarkmodeWidget);  
+    componentWillUnmount() {
+        window.removeEventListener('load', addDarkmodeWidget);
     }
 
     render() {
@@ -76,7 +81,9 @@ export default class App extends React.Component {
                             <section className='px-5 pb-5'>
                                 <Card body className='my-5'>
                                     <Card.Title>Course Search</Card.Title>
-                                    <Search updateCourses={this.updateCourses} />
+                                    <Search
+                                        updateCourses={this.updateCourses}
+                                    />
                                 </Card>
                                 <Tabs defaultActiveKey="table" id="results-tab">
                                     <Tab eventKey="table" title="Table">
@@ -101,6 +108,7 @@ export default class App extends React.Component {
                                                 <ForceGraph
                                                     courseModal={this.courseModal}
                                                     coursesData={this.state.courses}
+                                                    prereqsData={this.state.prereqs}
                                                     nodeHoverTooltip={this.nodeHoverTooltip}
                                                 />
                                             </section>
@@ -119,7 +127,7 @@ export default class App extends React.Component {
                                                         </Button>
                                                     </Col>
                                                 </Row>
-                                                <SunburstGraph 
+                                                <SunburstGraph
                                                     coursesData={this.state.courses}
                                                 />
                                             </section>
