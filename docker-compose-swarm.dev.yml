@@ -11,6 +11,7 @@ services:
         image: 127.0.0.1:6000/cis4250_team3/uog-course-descriptions/descriptr_api:latest
         volumes:
             - ./src/api:/var/www/cis4250-03.socs.uoguelph.ca
+            - electron-dist:/var/www/cis4250-03.socs.uoguelph.ca/electron-dist
         environment:
             - FLASK_APP=apipkg
         networks:
@@ -24,6 +25,7 @@ services:
         image: 127.0.0.1:6000/cis4250_team3/uog-course-descriptions/descriptr_web:latest
         volumes:
             - ./src/web/:/var/www/cis4250-03.socs.uoguelph.ca
+            - electron-dist:/var/www/cis4250-03.socs.uoguelph.ca/dist
             - node_modules:/var/www/cis4250-03.socs.uoguelph.ca/node_modules
         networks:
             - descriptr-network
@@ -50,6 +52,7 @@ services:
 volumes:
     ssl-certs:
     node_modules:
+    electron-dist:
 
 networks:
     descriptr-network:

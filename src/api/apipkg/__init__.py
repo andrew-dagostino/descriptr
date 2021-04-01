@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import send_file
 from classes.descriptr import Descriptr
 import json
 
@@ -23,7 +24,7 @@ def create_app(test_config=None):
         Returns:
             (flask.response): A response with a JSON body of available endpoints.
         """
-        return jsonify({'available_endpoints': ["/search", "/prerequisite"]})
+        return jsonify({'available_endpoints': ["/search", "/prerequisite", "/pkg"]})
 
     @app.route("/search", methods=['GET', 'POST'])
     def search():
@@ -70,5 +71,25 @@ def create_app(test_config=None):
             }
 
         return jsonify(results), status
+
+    @app.route("/pkg", methods=['GET'])
+    def electron_executable_download():
+        executable_target = request.args.get('type')
+
+        path = None
+
+        if executable_target == 'linux':
+            path = "../electron-dist/descriptrly-0.1.0.AppImage"
+        if executable_target == 'windows':
+            path = "../electron-dist/descriptrly Setup 0.1.0.exe"
+
+        if path is not None:
+            return send_file(path, as_attachment=True)
+
+        return jsonify({
+            'error': True,
+            'message': "Executable target not found"
+        })
+
 
     return app
