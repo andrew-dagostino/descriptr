@@ -9,7 +9,8 @@
 
 import React from 'react';
 
-import { Modal, Row, Col } from 'react-bootstrap';
+import { Modal, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default class CourseModal extends React.Component {
     constructor(props) {
@@ -69,6 +70,15 @@ export default class CourseModal extends React.Component {
                                 <b>Available Capacity</b>
                             </Col>
                             <Col className={course.is_full ? 'text-danger' : ''}>{`${course.capacity_available} / ${course.capacity_max}`}</Col>
+                            {course.prerequisites?.simple?.length ? (
+                                <Col xs={3}>
+                                    <Button type='button' variant='primary'>
+                                        <Link style={{ color: '#fefefe' }} to={`/courseTree?course=${course.code}-${course.number}`}>
+                                            View Prerequisites
+                                        </Link>
+                                    </Button>
+                                </Col>
+                            ) : null}
                             <Col xs={12}>
                                 <i>Note: WebAdvisor capacity is only updated once per day and may be inaccurate</i>
                             </Col>
