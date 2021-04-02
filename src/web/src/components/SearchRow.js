@@ -193,25 +193,26 @@ export default class SearchRow extends React.Component {
     render() {
         return (
             <Row className='my-3'>
-                <Col xs='auto'>
+                <Col xs='12' sm='6' md='3' xl='2' className='my-1'>
                     <SearchTypeDropdown
                         value={this.props.filter.searchType}
                         filtersAvailable={this.props.filtersAvailable}
                         setType={this.setType}
                         removeOption={this.props.removeOption}
-                        addOption={this.props.addOption}/>
+                        addOption={this.props.addOption}
+                    />
                 </Col>
-                <Col xs='auto'>
+                <Col xs='12' sm='6' md='3' xl='2' className='my-1'>
                     <SearchComparatorDropdown
                         value={this.props.filter.searchComparator}
                         setComparator={this.setComparator}
                         type={this.state.searchType}
                     />
                 </Col>
-                <Col xs='auto'>
+                <Col xs='12' sm='6' md='3' xl='2' className='my-1'>
                     <SearchQueryInput value={this.props.filter.searchQuery} setQuery={this.setQuery} type={this.state.searchType} />
                 </Col>
-                <Col xs='auto'>
+                <Col xs='auto' className='my-1'>
                     <Button variant='danger' type='button' onClick={() => this.props.removeRow(this.props.index)}>
                         Remove
                     </Button>

@@ -7,7 +7,7 @@ export default class CourseCodeSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: "",
+            code: '',
             number: 0,
         };
 
@@ -16,50 +16,57 @@ export default class CourseCodeSearch extends React.Component {
 
     onSubmit = () => {
         let courseID = this.state.code + '-' + String(this.state.number);
-        fetch(isProd ?  'https://cis4250-03.socs.uoguelph.ca/api/prerequisite/' + courseID : 'api/prerequisite/' + courseID, {
+        fetch(isProd ? 'https://cis4250-03.socs.uoguelph.ca/api/prerequisite/' + courseID : 'api/prerequisite/' + courseID, {
             method: 'GET',
         })
             .then((response) => response.json())
             .then((data) => {
                 if (!Array.isArray(data)) {
-                    this.props.updateCourses(data)
-                }
-                else {
-                    this.props.updateCourses({})
+                    this.props.updateCourses(data);
+                } else {
+                    this.props.updateCourses({});
                 }
             })
-            .catch(err => console.log(err))
-    }
+            .catch((err) => console.log(err));
+    };
 
     render() {
         return (
             <div>
                 <Row className='my-3'>
-                    <Col xs='auto'>
-                        <Form.Control type='text' placeholder='Enter course code' value={this.state.code} onChange={e => this.setState({ code: e.target.value })} />
+                    <Col sm='5' md='3' xl='2' className='my-1'>
+                        <Form.Control
+                            type='text'
+                            placeholder='Enter course code'
+                            value={this.state.code}
+                            onChange={(e) => this.setState({ code: e.target.value })}
+                        />
                     </Col>
-                    <h3>*</h3>
-                    <Col xs='auto'>
-                        <Form.Control type='number' placeholder='Enter course number' value={this.state.number} onChange={e => this.setState({ number: e.target.value })} />
+                    <h3 className='my-1 d-sm-block d-none'>*</h3>
+                    <Col sm='5' md='3' xl='2' className='my-1'>
+                        <Form.Control
+                            type='number'
+                            placeholder='Enter course number'
+                            value={this.state.number}
+                            onChange={(e) => this.setState({ number: e.target.value })}
+                        />
                     </Col>
                 </Row>
-                <p>   e.g. PSYC*1000</p>
-                <Row bsPrefix='form-row' className='mt-3'>
-                    <Col xs='auto'>
-                        <Button
-                            variant='danger'
-                            type='button'
-                        >
+                <p>e.g. PSYC*1000</p>
+                <Row className='mt-3'>
+                    <Col xs='12' sm='5' md='3' xl='2'>
+                        <Button variant='danger' type='button' className='btn-block my-1'>
                             Clear Search
                         </Button>
                     </Col>
-                    <Col xs='auto'>
-                        <Button type='button' variant='primary' onClick={this.onSubmit} >
+                    <h3 className='my-1 d-sm-block d-none'>&nbsp;</h3>
+                    <Col xs='12' sm='5' md='3' xl='2'>
+                        <Button type='button' variant='primary' className='btn-block my-1' onClick={this.onSubmit}>
                             Search
                         </Button>
                     </Col>
                 </Row>
-            </div>   
-        )
+            </div>
+        );
     }
 }
