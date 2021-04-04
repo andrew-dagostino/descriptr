@@ -20,11 +20,11 @@ function CourseTable2(props) {
 
     // Declare headers for the table and the corresponding fields to access in the data.
     const columns = React.useMemo(() => [
-        {Header: 'Course', accessor: 'fullname'},
-        {Header: 'Name', accessor: 'name'},
-        {Header: 'Description', accessor: 'description'},
-        {Header: 'Credit Weight', accessor: 'credits'},
-        {Header: 'Capacity Available', accessor: 'capacity_available'}
+        {Header: 'Course', accessor: 'fullname', minWidth: "150px"},
+        {Header: 'Name', accessor: 'name', minWidth: "150px"},
+        {Header: 'Description', accessor: 'description', minWidth: "350px"},
+        {Header: 'Credit Weight', accessor: 'credits', minWidth: "150px"},
+        {Header: 'Capacity Available', accessor: 'capacity_available', minWidth: "150px"}
     ], [])
 
     // Initialize a bunch of functions and components from 'react-table' with our data and headers.
@@ -59,7 +59,9 @@ function CourseTable2(props) {
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    style={{minWidth: column.minWidth}}
+                                >
                                     {column.isSorted
                                         ? column.isSortedDesc
                                             ? <span
