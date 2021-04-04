@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 const FileDownload = require('js-file-download');
 
 function DownloadButton(props) {
@@ -22,10 +22,8 @@ function DownloadButton(props) {
 
     return (
         <DropdownButton
-            as={Button}
             id="dl-dropdown"
             onSelect={getPackage}
-            size="sm"
             title="Download Desktop App"
         >
             <Dropdown.Item eventKey="windows">Windows</Dropdown.Item>
