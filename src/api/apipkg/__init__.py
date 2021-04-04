@@ -1,10 +1,14 @@
 """Implement Flask and provide endpoints to interact with Descriptr."""
 
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.events import EVENT_JOB_EXECUTED
 from flask import Flask
 from flask import jsonify
 from flask import request
 from flask import send_file
+from functions.parse_scrape import add_course_capacity
+from functions.save_webadvisor_courses import scrape_and_parse_webadvisor_courses
 from classes.descriptr import Descriptr
 import json
 
@@ -15,6 +19,24 @@ os.chdir(os.path.dirname(os.path.dirname(__file__)))
 def create_app(test_config=None):
     app = Flask(__name__)
     dcptr = Descriptr()
+
+    def scrape_handler(dcptr):
+        """
+        Wrap the Webadvisor scrape functionality.
+
+        Params:
+            dcptr: (Descriptr object): The Descriptr object.
+        """
+        print("Starting a scrape of Webadvisor")
+        scrape_and_parse_webadvisor_courses()
+        print("Scrape script SUCCESS.")
+        print("Now parsing file.")
+        dcptr.all_courses = add_course_capacity(dcptr.all_courses)
+        print("DONE parsing file.")
+
+    sched = BackgroundScheduler(daemon=True)
+    sched.add_job(lambda: scrape_handler(dcptr), 'interval', hours=24)
+    sched.start()
 
     @app.route("/")
     def root():
@@ -90,6 +112,5 @@ def create_app(test_config=None):
             'error': True,
             'message': "Executable target not found"
         })
-
 
     return app
