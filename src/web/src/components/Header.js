@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import DownloadButton from './DownloadButton';
@@ -9,7 +9,7 @@ export default class Header extends React.Component {
         super(props);
 
         // Check if executable or prod web server
-        const isProd = /^file/.test(window.location) || /^https:\/\/cis4250-03\.socs\.uoguelph\.ca/.test(window.location);
+        const isProd = /^file/.test(window.location)
         this.state = {
             links: [
                 { link: '/', text: 'Home' },
