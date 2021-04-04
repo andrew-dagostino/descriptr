@@ -28,7 +28,7 @@
     "electron-builder-linux": "electron-builder build --linux",
     "electron-builder-windows": "electron-builder build --windows",
     "build-react": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "electron": "env $(cat ../../.env | grep -v '#' | xargs) electron ."
   },

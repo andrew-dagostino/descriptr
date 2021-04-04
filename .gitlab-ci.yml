@@ -33,6 +33,24 @@ API Tests:
         refs:
             - branches
 
+UI Tests:
+    stage: test
+    image: electronuserland/builder:wine
+    cache:
+        key: $CI_JOB_STAGE-$CI_COMMIT_REF_SLUG
+        paths:
+            - ./src/web/node_modules/
+    script:
+      - npm -v
+      - node -v
+      - cd ./src/web
+      - npm install
+      - npm run test -- --coverage
+    variables:
+    only:
+        refs:
+            - branches
+
 Electron Build:
     stage: build
     image: electronuserland/builder:wine
