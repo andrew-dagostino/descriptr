@@ -11,8 +11,15 @@ export default class CourseCodeSearch extends React.Component {
             number: 0,
         };
 
+        this.onClear = this.onClear.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
+
+    onClear = () => {
+        this.state.code = '';
+        this.state.number = 0;
+        this.props.updateCourses({});
+    };
 
     onSubmit = () => {
         let courseID = this.state.code + '-' + String(this.state.number);
@@ -52,10 +59,10 @@ export default class CourseCodeSearch extends React.Component {
                         />
                     </Col>
                 </Row>
-                <p>e.g. PSYC*1000</p>
+                <p>e.g. CIS*4250</p>
                 <Row className='mt-3'>
                     <Col xs='12' sm='5' md='3' xl='2'>
-                        <Button variant='danger' type='button' className='btn-block my-1'>
+                        <Button variant='danger' type='button' className='btn-block my-1' onClick={this.onClear}>
                             Clear Search
                         </Button>
                     </Col>

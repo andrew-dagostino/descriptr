@@ -10,34 +10,43 @@ export function runTreeGraph(
   const w = containerRect.width;
 
   // Set the dimensions and margins of the diagram
-  const margin = {top: 20, right: 90, bottom: 30, left: 90},
+  const margin = {top: 20, right: 90, bottom: 30, left: 100},
         width = w - margin.left - margin.right,
         height = h - margin.top - margin.bottom;
 
   var recursivePrerequisiteSearch = (c) => {
     var tree = {};
     if (Object.keys(c).length) {
-      var course = JSON.parse(c.course)
-      tree.name = course.fullname
+      var course = null;
+
+      try {
+        course = JSON.parse(c.course);
+      }
+      catch {
+        tree.name = c.course;
+        return tree;
+      }
+
+      tree.name = course.fullname;
       if (c.prerequisites.length) {
-        tree.children = []
+        tree.children = [];
         c.prerequisites.forEach((d) => {
-          tree.children.push(recursivePrerequisiteSearch(d))
+          tree.children.push(recursivePrerequisiteSearch(d));
         })
       }
-      return tree
+      return tree;
     }
     else {
-      return
+      return;
     }
   }
 
   var treeDataConverter = (c) => {
     var treeObj = {};
-    if (Object.keys(c).length) {
-      treeObj = recursivePrerequisiteSearch(c.courses)
+    if (Object.keys(c).length && c.courses) {
+      treeObj = recursivePrerequisiteSearch(c.courses);
     };
-    return treeObj;
+    return treeObj;;
   }
 
   var data = treeDataConverter(coursesData);
@@ -50,12 +59,19 @@ export function runTreeGraph(
 
   d3.select("#course-tree-graph").remove();
   var svg = d3.select(container).append("svg")
-      .attr("width", width + margin.right + margin.left)
-      .attr("height", height + margin.top + margin.bottom)
-      .attr("id", "course-tree-graph")
-    .append("g")
-      .attr("transform", "translate("
-            + margin.left + "," + margin.top + ")");
+      .attr("viewBox", [-margin.left, -margin.top, width + margin.right + margin.left, height + margin.top + margin.bottom])
+      .attr("id", "course-tree-graph");      
+
+  const g = svg.append("g")
+      .attr("class", "everything")
+        
+  var zoom_handler = d3.zoom()
+      .on("zoom", function ({transform}) {
+        g.attr("transform", transform);
+      })
+      .scaleExtent([1, 1])
+        
+  zoom_handler(svg)
 
   var i = 0,
       duration = 750,
@@ -71,8 +87,15 @@ export function runTreeGraph(
     root.y0 = 0;
 
     // Collapse after the second level
-    root.children.forEach(collapse);
+    if (root.children) root.children.forEach(collapse);
     update(root);
+  
+    d3.select("#collapse-all").on('click', function() {
+      collapseAll(root)
+    });
+    d3.select("#expand-all").on('click', function() {
+      expandAll(root)
+    });
   } 
 
   // Collapse the node and all it's children
@@ -82,6 +105,25 @@ export function runTreeGraph(
       d._children.forEach(collapse)
       d.children = null
     }
+  }
+
+  function expand(d) {
+    if (d._children) {
+      d.children = d._children
+      d.children.forEach(expand)
+      d._children = null
+    }
+  }
+
+  function collapseAll(d) {
+    collapse(d)
+    update(d)
+  }
+
+  function expandAll(d) {
+    collapse(d)
+    expand(d)
+    update(d)
   }
 
   function update(source) {
@@ -99,7 +141,7 @@ export function runTreeGraph(
     // ****************** Nodes section ***************************
 
     // Update the nodes...
-    var node = svg.selectAll('g.node')
+    var node = g.selectAll('g.node')
         .data(nodes, function(d) {return d.id || (d.id = ++i); });
 
     // Enter any new modes at the parent's previous position.
@@ -167,7 +209,7 @@ export function runTreeGraph(
     // ****************** links section ***************************
 
     // Update the links...
-    var link = svg.selectAll('path.link')
+    var link = g.selectAll('path.link')
         .data(links, function(d) { return d.id; });
 
     // Enter any new links at the parent's previous position.
