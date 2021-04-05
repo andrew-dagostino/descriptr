@@ -214,7 +214,7 @@ export default class SearchRow extends React.Component {
                 </Col>
                 <Col xs='auto' className='my-1'>
                     <Button variant='danger' type='button' onClick={() => this.props.removeRow(this.props.index)}>
-                        Remove
+                        <i class="fa fa-trash"></i>
                     </Button>
                 </Col>
             </Row>
