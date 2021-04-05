@@ -12,11 +12,11 @@ export function runSunburstGraph(
       "children": []
     };
     c.forEach((d) => {
-      if (d.capacity_max && !sunburstArr.children.find((element => element.name === d.group))) {
-        sunburstArr.children = sunburstArr.children.concat({"name": d.group, "children": []});
+      if (d.capacity_max && !sunburstArr.children.find((element => element.name === d.subject))) {
+        sunburstArr.children = sunburstArr.children.concat({"name": d.subject, "children": []});
       };
       if (d.capacity_max) {
-        var i = sunburstArr.children.findIndex((element => element.name === d.group));
+        var i = sunburstArr.children.findIndex((element => element.name === d.subject));
         var childrenArr =  sunburstArr.children[i].children;
         childrenArr = childrenArr.concat({"name": d.code+'*'+d.number, "value": d.capacity_max});
         sunburstArr.children[i].children = childrenArr;

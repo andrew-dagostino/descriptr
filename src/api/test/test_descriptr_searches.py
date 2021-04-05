@@ -16,7 +16,7 @@ class TestDescSearches(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.single_course = [Course({
-            "group": "Hospitality and Tourism Management",
+            "subject": "Hospitality and Tourism Management",
             "departments": ["School of Hospitality", "Food and Tourism Management"],
             "code": "HTM",
             "number": "4080",
@@ -46,7 +46,7 @@ class TestDescSearches(unittest.TestCase):
         })]
         self.two_courses = self.single_course + [
             Course({
-                "group": "Computing and Information Science",
+                "subject": "Computing and Information Science",
                 "departments": ["School of Computer Science"],
                 "code": "CIS",
                 "number": "2250",
@@ -77,7 +77,7 @@ class TestDescSearches(unittest.TestCase):
         ]
         self.three_courses = self.two_courses + [
             Course({
-                "group": "Computing and Information Science",
+                "subject": "Computing and Information Science",
                 "departments": ["School of Computer Science"],
                 "code": "CIS",
                 "number": "3250",
@@ -526,40 +526,40 @@ class TestDescSearches(unittest.TestCase):
         with self.assertRaises(Exception):
             d.byOffered(self.single_course, 1.0, '=')
 
-    def test_byCourseGroup(self):
+    def test_byCourseSubject(self):
         '''
-            Tests that group search returns correctly
-        '''
-        d= DescSearches()
-        self.assertTrue(len(d.byCourseGroup(self.single_course, "Hospitality and Tourism Management", '=')) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.single_course, "Computing and Information Science", '=')) == 0)
-        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Hospitality and Tourism Management", '=')) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.two_courses, "Computing and Information Science", '=')) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Hospitality and Tourism Management", '=')) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "Computing and Information Science", '=')) == 2)
-
-    def test_byCourseGroup_invalid(self):
-        '''
-            Tests that group search fails when fed something invalid
+            Tests that subject search returns correctly
         '''
         d= DescSearches()
-        with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, 1, '=')
-        with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, True, '=')
-        with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, 3.14, '=')
-        with self.assertRaises(Exception):
-            d.byCourseGroup(self.three_courses, [], '=')
+        self.assertTrue(len(d.byCourseSubject(self.single_course, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseSubject(self.single_course, "Computing and Information Science", '=')) == 0)
+        self.assertTrue(len(d.byCourseSubject(self.two_courses, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseSubject(self.two_courses, "Computing and Information Science", '=')) == 1)
+        self.assertTrue(len(d.byCourseSubject(self.three_courses, "Hospitality and Tourism Management", '=')) == 1)
+        self.assertTrue(len(d.byCourseSubject(self.three_courses, "Computing and Information Science", '=')) == 2)
 
-    def test_byCourseGroup_contains(self):
+    def test_byCourseSubject_invalid(self):
+        '''
+            Tests that subject search fails when fed something invalid
+        '''
+        d= DescSearches()
+        with self.assertRaises(Exception):
+            d.byCourseSubject(self.three_courses, 1, '=')
+        with self.assertRaises(Exception):
+            d.byCourseSubject(self.three_courses, True, '=')
+        with self.assertRaises(Exception):
+            d.byCourseSubject(self.three_courses, 3.14, '=')
+        with self.assertRaises(Exception):
+            d.byCourseSubject(self.three_courses, [], '=')
+
+    def test_byCourseSubject_contains(self):
         """
-            Test that group search returns correct results for contains comparison
+            Test that subject search returns correct results for contains comparison
         """
 
         d = DescSearches()
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "hosp", "~")) == 1)
-        self.assertTrue(len(d.byCourseGroup(self.three_courses, "compu", "~")) == 2)
+        self.assertTrue(len(d.byCourseSubject(self.three_courses, "hosp", "~")) == 1)
+        self.assertTrue(len(d.byCourseSubject(self.three_courses, "compu", "~")) == 2)
 
     def test_byCapacity(self):
         '''

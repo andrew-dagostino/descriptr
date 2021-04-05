@@ -26,7 +26,7 @@ function SearchTypeDropdown(props) {
 
     let options = [
         ["code","Code"],
-        ["group","Group"],
+        ["subject","Subject"],
         ["department","Department"],
         ["keyword","Keyword"],
         ["level","Level"],

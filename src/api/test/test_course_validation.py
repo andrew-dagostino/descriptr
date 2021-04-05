@@ -7,22 +7,22 @@ from classes.course_enums import *
 
 class TestCourseVal(unittest.TestCase):
 
-    def test_group(self):
-        """ Test that valid group does not raise exception """
+    def test_subject(self):
+        """ Test that valid subject does not raise exception """
         try:
-            CourseVal.group("test")
+            CourseVal.subject("test")
         except Exception:
             self.fail()
 
-    def test_group_invalid_type(self):
-        """ Test that non-string group raises exception """
+    def test_subject_invalid_type(self):
+        """ Test that non-string subject raises exception """
         with self.assertRaises(Exception):
-            CourseVal.group(1234)
+            CourseVal.subject(1234)
 
-    def test_group_length(self):
-        """ Test that zero-length group raises exception """
+    def test_subject_length(self):
+        """ Test that zero-length subject raises exception """
         with self.assertRaises(Exception):
-            CourseVal.group("")
+            CourseVal.subject("")
 
     def test_departments(self):
         """ Test that valid args does not raise exception """

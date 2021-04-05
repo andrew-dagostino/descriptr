@@ -32,7 +32,7 @@ def multi_line_repr(text, max_line_len):
 	return lines
 	
 def get_course_representation(course, max_line_length):
-	lines = multi_line_repr(course.group, max_line_length)
+	lines = multi_line_repr(course.subject, max_line_length)
 
 	semesters_offered_str = ",".join(semester_offered.name for semester_offered in course.semesters_offered)
 

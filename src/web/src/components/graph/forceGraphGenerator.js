@@ -10,8 +10,8 @@ export function runForceGraph(
   nodeHoverTooltip
 ) {
   // Convert course data over to node and link data
-  var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "group": c.group, "name": c.name} })
-  // var prereqs = prereqsData.map((c) => { return {"id": c.fullname, "group": c.group, "name": c.name} })
+  var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "subject": c.subject, "name": c.name} })
+  // var prereqs = prereqsData.map((c) => { return {"id": c.fullname, "subject": c.subject, "name": c.name} })
     var linksGetter = (c) => {
       var linkArr = [];
       c.forEach((d) => {
@@ -22,11 +22,11 @@ export function runForceGraph(
               if(predata) {
                 nodesData = nodesData.concat({
                   "id": predata.fullname,
-                  "group": predata.group,
+                  "subject": predata.subject,
                   "name": predata.name
                 });
               } else {
-                nodesData = nodesData.concat({"id": e, "group": null});
+                nodesData = nodesData.concat({"id": e, "subject": null});
               }
             }
             return { "source": d.fullname, "target": e, "value": 1};
@@ -63,7 +63,7 @@ export function runForceGraph(
       .style("opacity", 0);
   };
 
-  // Creates a 90 color scale for the groups.
+  // Creates a 90 color scale for the subjects.
   const color = (d) => {
     const scale = d3.scaleOrdinal()
       .range(["#6668dd","#76e440","#5c37cd","#cfe848","#c53fe1","#5ada6d","#a354d9","#7ab737",
@@ -79,11 +79,11 @@ export function runForceGraph(
               "#ce7e75","#3b566e","#daadaf","#473643","#c2a8cb","#4e4127","#a46590","#837754",
               "#76596b","#99716e"]);
     return d => {
-      if (d.group === null) {
+      if (d.subject === null) {
         return "#666666";
       }
       else {
-        return scale(d.group);
+        return scale(d.subject);
       }
     }
   };

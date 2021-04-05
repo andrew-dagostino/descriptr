@@ -1,7 +1,7 @@
 # Custom course error messages.
 class CourseErr:
-    GROUP_TYP                       = Exception("Course group name must be a string.")
-    GROUP_LEN                       = Exception("Course group name can't be an empty string.")
+    SUBJECT_TYP                     = Exception("Course subject name must be a string.")
+    SUBJECT_LEN                     = Exception("Course subject name can't be an empty string.")
 
     DEPARTMENTS_TYPE                = Exception("Course departments must be a list.")
     DEPARTMENTS_LEN                 = Exception("Course must be part of at least one department.")

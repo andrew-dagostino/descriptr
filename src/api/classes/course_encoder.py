@@ -7,7 +7,7 @@ class CourseEncoder(JSONEncoder):
     def default(self, o):
         if isinstance(o, Course):
             return json.dumps({
-                "group":                    o.group if hasattr(o, "group") else None,
+                "subject":                  o.subject if hasattr(o, "subject") else None,
                 "departments":              o.departments if hasattr(o, "departments") else [],
                 "code":                     o.code if hasattr(o, "code") else None,
                 "number":                   o.number if hasattr(o, "number") else None,
