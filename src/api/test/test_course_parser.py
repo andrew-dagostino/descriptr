@@ -22,7 +22,7 @@ class TestCourseParser(unittest.TestCase):
 
         self.assertTrue(courses is not None)
         self.assertEqual(len(courses), 1)
-        self.assertEqual(courses[0].group, "Accounting")
+        self.assertEqual(courses[0].subject, "Accounting")
         self.assertEqual(courses[0].departments, ["Department of Management"])
         self.assertEqual(courses[0].code, "ACCT")
         self.assertEqual(courses[0].number, "1220")
@@ -56,7 +56,7 @@ class TestCourseParser(unittest.TestCase):
 
         self.assertTrue(courses is not None)
         self.assertEqual(len(courses), 1)
-        self.assertEqual(courses[0].group, "Subject")
+        self.assertEqual(courses[0].subject, "Subject")
         self.assertEqual(courses[0].departments, ["Department of Management", "Department of Science"])
         self.assertEqual(courses[0].code, "ASDF")
         self.assertEqual(courses[0].number, "1234")
@@ -89,7 +89,7 @@ class TestCourseParser(unittest.TestCase):
 
         self.assertTrue(courses is not None)
         self.assertEqual(len(courses), 3)
-        self.assertEqual(courses[0].group, "Agriculture")
+        self.assertEqual(courses[0].subject, "Agriculture")
         self.assertEqual(courses[0].departments, ["Department of Plant Agriculture"])
         self.assertEqual(courses[0].code, "AGR")
         self.assertEqual(courses[0].number, "2150")
@@ -109,7 +109,7 @@ class TestCourseParser(unittest.TestCase):
                                                     "original": "4.00 credits"})
         self.assertEqual(courses[0].restrictions,   ["AGR*2470"])
 
-        self.assertEqual(courses[1].group, "Agriculture")
+        self.assertEqual(courses[1].subject, "Agriculture")
         self.assertEqual(courses[1].departments, ["Department of Plant Agriculture", "Department of Animal Biosciences"])
         self.assertEqual(courses[1].code, "AGR")
         self.assertEqual(courses[1].number, "3450")
@@ -134,7 +134,7 @@ class TestCourseParser(unittest.TestCase):
         self.assertEqual(courses[1].restrictions,   ["Enrollment in the BSC(AGR), BBRM, BSC.ABIO, BSC.PLSC or"
                                                      + " Minor in Agriculture."])
 
-        self.assertEqual(courses[2].group, "Art History")
+        self.assertEqual(courses[2].subject, "Art History")
         self.assertEqual(courses[2].departments, ["School of Fine Art and Music"])
         self.assertEqual(courses[2].code, "ARTH")
         self.assertEqual(courses[2].number, "3010")

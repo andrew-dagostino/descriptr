@@ -12,8 +12,8 @@ export default class Help extends React.Component {
                             and "is (exactly)" operators which allow for partial-text and exact
                             text search respectively.`
                 }, {
-                    filter: 'Group',
-                    text: `Search by group, e.g. "Accounting", a more natural language grouping
+                    filter: 'Subject',
+                    text: `Search by subject, e.g. "Accounting", a more natural language grouping
                     that is present in the Course Calendar. This filter supports the "contains" and
                     "is (exactly)" operators which allow for partial-text and exact text search
                     respectively.`

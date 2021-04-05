@@ -6,12 +6,12 @@ from classes.course_errors import *
 
 class CourseVal:
 
-    # Method for validating a course's group.
-    def group(group):
-        if type(group) != str:
-            raise CourseErr.GROUP_TYP
-        if len(group) == 0:
-            raise CourseErr.GROUP_LEN
+    # Method for validating a course's subject.
+    def subject(subject):
+        if type(subject) != str:
+            raise CourseErr.SUBJECT_TYP
+        if len(subject) == 0:
+            raise CourseErr.SUBJECT_LEN
 
     # Method for validating a course's departments.
     def departments(departments):

@@ -17,7 +17,7 @@ export default class Search extends React.Component {
             counter: 0,
             rows: [this.createEmptyRow()],
             startingFilter: "code",
-            filtersAvailable: ["group","department","keyword","level","number","semester","weight","capacity","lecture","lab","offered"],
+            filtersAvailable: ["subject","department","keyword","level","number","semester","weight","capacity","lecture","lab","offered"],
             error: null,
         };
     }

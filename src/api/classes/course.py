@@ -10,7 +10,7 @@ from functions.course_helpers import get_course_representation
 class Course:
     def __init__(self, course_info):
         required_course_info = [
-                "group", "departments", "code", "number", "name", "semesters_offered",
+                "subject", "departments", "code", "number", "name", "semesters_offered",
                 "lecture_hours", "lab_hours", "credits", "distance_education", "year_parity_restrictions"
                 ]
         optional_course_info = [
@@ -31,13 +31,13 @@ class Course:
     # Getters and Setter Validation:
 
     @property
-    def group(self):
-        return self._group
+    def subject(self):
+        return self._subject
 
-    @group.setter
-    def group(self, group):
-        CourseVal.group(group)
-        self._group = group
+    @subject.setter
+    def subject(self, subject):
+        CourseVal.subject(subject)
+        self._subject = subject
 
     @property
     def departments(self):

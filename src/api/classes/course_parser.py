@@ -220,7 +220,7 @@ class CourseParser:
             prereq_data = self._parse_prereqs(desc_data.prerequisites)
 
         course = Course({
-            "group": course_data.subject,
+            "subject": course_data.subject,
             "departments": desc_data.departments,
             "code": course_data.section,
             "number": course_data.number,

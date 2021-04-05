@@ -115,8 +115,8 @@ class Descriptr():
             for key, value in filters.items():
                 if key == "code":
                     self.do_search_code(value, carryover=True)
-                elif key == "group":
-                    self.do_search_group(value, carryover=True)
+                elif key == "subject":
+                    self.do_search_subject(value, carryover=True)
                 elif key == "department":
                     self.do_search_department(value, carryover=True)
                 elif key == "keyword":
@@ -231,14 +231,13 @@ class Descriptr():
         """
         self._perform_search(args, self.search.byCourseCode, carryover=carryover)
 
-    def do_search_group(self, args, carryover=False):
+    def do_search_subject(self, args, carryover=False):
         """
-        Search by course group.
-
-        @param {String}     args        The course group e.g. Accounting
+        Search by course subject.
+        @param {String}     args        The course subject e.g. Accounting
         @param {Boolean}    carryover   True to search within previous results, False to search all courses
         """
-        self._perform_search(args, self.search.byCourseGroup, carryover=carryover)
+        self._perform_search(args, self.search.byCourseSubject, carryover=carryover)
 
     def do_search_department(self, args, carryover=False):
         """

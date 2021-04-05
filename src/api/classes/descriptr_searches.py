@@ -66,29 +66,29 @@ class DescSearches:
 
         return returnCourses
 
-    def byCourseGroup(self, courses, group, comparison):
+    def byCourseSubject(self, courses, subject, comparison):
         """
-        Filter the passed array of courses by passed course group (eg. Accounting, Computing and Information Science).
+        Filter the passed array of courses by passed course subject (eg. Accounting, Computing and Information Science).
 
         Args:
             courses (List<Course>): An array of Course data structures.
-            group (String): The group under which a course falls into (eg. Accounting, Computing and Information Science)
+            subject (String): The subject under which a course falls into (eg. Accounting, Computing and Information Science)
 
         Returns:
-            (list): A list of courses with the supplied group
+            (list): A list of courses with the supplied subject
         """
 
         returnCourses = []
 
-        if type(group) != str:
-            raise ValueError("Group must be a string.")
+        if type(subject) != str:
+            raise ValueError("Subject must be a string.")
 
         for course in courses:
             if comparison == '=':
-                if group.lower() == course.group.lower():
+                if subject.lower() == course.subject.lower():
                     returnCourses.append(course)
             elif comparison == '~':
-                if group.lower() in course.group.lower():
+                if subject.lower() in course.subject.lower():
                     returnCourses.append(course)
 
         return returnCourses
