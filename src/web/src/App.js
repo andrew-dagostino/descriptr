@@ -15,9 +15,9 @@ import CourseTree from './components/CourseTree';
 function addDarkmodeWidget() {
     const options = {
         saveInCookies: true,
-        label: '🌓'
-    }
-        // eslint-disable-next-line no-undef
+        label: '🌓',
+    };
+    // eslint-disable-next-line no-undef
     const darkMode = new Darkmode(options);
     darkMode.showWidget();
 }
@@ -37,11 +37,14 @@ export default class App extends React.Component {
         this.courseModal = React.createRef();
     }
 
-    updateCourses = (courses, prereqs ) => this.setState({
-        courses: courses,
-        prereqs: prereqs,
-        downloadEnabled: courses && courses.length
-    });
+    updateCourses = (courses, prereqs) => {
+        this.setState({
+            courses: courses,
+            prereqs: prereqs,
+            downloadEnabled: courses && courses.length,
+        });
+    };
+
     nodeHoverTooltip = (node) => {
         return `<div>
             <b>${node.name}</b>
@@ -61,83 +64,78 @@ export default class App extends React.Component {
             <Router>
                 <div className='App bg-light'>
                     <Header />
-                    <Switch>
-                        <Route path='/about'>
-                            <section className='px-5 pb-5'>
-                                <About />
-                            </section>
-                        </Route>
-                        <Route path='/help'>
-                            <section className='px-5 pb-5'>
-                                <Help />
-                            </section>
-                        </Route>
-                        <Route path='/courseTree'>
-                            <section className='px-5 pb-5'>
-                                <CourseTree />
-                            </section>
-                        </Route>
-                        <Route path='/'>
-                            <section className='px-5 pb-5'>
-                                <Card body className='my-5'>
-                                    <Card.Title>Course Search</Card.Title>
-                                    <Search
-                                        updateCourses={this.updateCourses}
-                                    />
-                                </Card>
-                                <Tabs defaultActiveKey="table" id="results-tab">
-                                    <Tab eventKey="table" title="Table">
-                                        <Card body>
-                                            <Card.Title>Results</Card.Title>
-                                            <CourseTable2 courseModal={this.courseModal} courses={this.state.courses} />
+                    <section className='px-5 pb-5'>
+                        <Switch>
+                            <Route path='/about' component={About} />
+                            <Route path='/help' component={Help} />
+                            <Route path='/courseTree' component={CourseTree} />
+                            <Route
+                                path='/'
+                                render={() => (
+                                    <section className='px-5 pb-5'>
+                                        <Card body className='my-5'>
+                                            <Card.Title>Course Search</Card.Title>
+                                            <Search updateCourses={this.updateCourses} />
                                         </Card>
-                                    </Tab>
-                                    <Tab eventKey="node" title="Prerequisites Graph">
-                                        <Card body>
-                                            <section className='Main'>
-                                                <Row className='justify-content-between mb-4'>
-                                                    <Col xs='auto' className='my-auto'>
-                                                        <h5>Prerequisite Node Graph</h5>
-                                                    </Col>
-                                                    <Col xs='auto'>
-                                                        <Button id='download-node-graph' variant='primary' disabled={!this.state.downloadEnabled}>
-                                                            Download Graph
-                                                        </Button>
-                                                    </Col>
-                                                </Row>
-                                                <ForceGraph
-                                                    courseModal={this.courseModal}
-                                                    coursesData={this.state.courses}
-                                                    prereqsData={this.state.prereqs}
-                                                    nodeHoverTooltip={this.nodeHoverTooltip}
-                                                />
-                                            </section>
-                                        </Card>
-                                    </Tab>
-                                    <Tab eventKey="sunburst" title="Capacity Graph">
-                                        <Card body>
-                                            <section>
-                                                <Row className='justify-content-between mb-4'>
-                                                    <Col xs='auto' className='my-auto'>
-                                                        <h5>Max Capacity Sunburst Graph</h5>
-                                                    </Col>
-                                                    <Col xs='auto'>
-                                                        <Button id='download-sunburst-graph' variant='primary' disabled={!this.state.downloadEnabled}>
-                                                            Download Graph
-                                                        </Button>
-                                                    </Col>
-                                                </Row>
-                                                <SunburstGraph
-                                                    coursesData={this.state.courses}
-                                                />
-                                            </section>
-                                        </Card>
-                                    </Tab>
-                                </Tabs>
-                                <CourseModal ref={this.courseModal} />
-                            </section>
-                        </Route>
-                    </Switch>
+                                        <Tabs defaultActiveKey='table' id='results-tab'>
+                                            <Tab eventKey='table' title='Table'>
+                                                <Card body>
+                                                    <Card.Title>Results</Card.Title>
+                                                    <CourseTable2 courseModal={this.courseModal} courses={this.state.courses} />
+                                                </Card>
+                                            </Tab>
+                                            <Tab eventKey='node' title='Prerequisites Graph'>
+                                                <Card body>
+                                                    <section className='Main'>
+                                                        <Row className='justify-content-between mb-4'>
+                                                            <Col xs='auto' className='my-auto'>
+                                                                <h5>Prerequisite Node Graph</h5>
+                                                            </Col>
+                                                            <Col xs='auto'>
+                                                                <Button
+                                                                    id='download-node-graph'
+                                                                    variant='primary'
+                                                                    disabled={!this.state.downloadEnabled}>
+                                                                    Download Graph
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                        <ForceGraph
+                                                            courseModal={this.courseModal}
+                                                            coursesData={this.state.courses}
+                                                            prereqsData={this.state.prereqs}
+                                                            nodeHoverTooltip={this.nodeHoverTooltip}
+                                                        />
+                                                    </section>
+                                                </Card>
+                                            </Tab>
+                                            <Tab eventKey='sunburst' title='Capacity Graph'>
+                                                <Card body>
+                                                    <section>
+                                                        <Row className='justify-content-between mb-4'>
+                                                            <Col xs='auto' className='my-auto'>
+                                                                <h5>Max Capacity Sunburst Graph</h5>
+                                                            </Col>
+                                                            <Col xs='auto'>
+                                                                <Button
+                                                                    id='download-sunburst-graph'
+                                                                    variant='primary'
+                                                                    disabled={!this.state.downloadEnabled}>
+                                                                    Download Graph
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                        <SunburstGraph coursesData={this.state.courses} />
+                                                    </section>
+                                                </Card>
+                                            </Tab>
+                                        </Tabs>
+                                        <CourseModal ref={this.courseModal} />
+                                    </section>
+                                )}
+                            />
+                        </Switch>
+                    </section>
                 </div>
             </Router>
         );

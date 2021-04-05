@@ -85,13 +85,13 @@ class TestDescriptr(unittest.TestCase):
         self.assertTrue(dictionary["error"] is not None)
         self.assertTrue(len(dictionary["courses"]) == 0)
 
-    def test_apply_filters_group(self):
-        """Test that group filter returns correct results"""
+    def test_apply_filters_subject(self):
+        """Test that subject filter returns correct results"""
         json_output = self.descriptr.apply_filters({
-            "group": { "query": "Biochemistry", "comparison": "=" }
+            "subject": { "query": "Biochemistry", "comparison": "=" }
         })
 
-        self.assertTrue(self.descriptr.carryover_data[0].group.lower() == "biochemistry")
+        self.assertTrue(self.descriptr.carryover_data[0].subject.lower() == "biochemistry")
 
         dictionary = json.loads(json_output)
         self.assertTrue(dictionary["error"] is None)

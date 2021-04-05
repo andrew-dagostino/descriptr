@@ -15,7 +15,8 @@
 
 .node text {
   fill:rgb(0, 0, 0);
-  font: 12px sans-serif;
+  font: 12px Arial;
+  font-weight: 700;
 }
 
 div.tooltip {

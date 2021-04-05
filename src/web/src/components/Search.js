@@ -17,7 +17,7 @@ export default class Search extends React.Component {
             counter: 0,
             rows: [this.createEmptyRow()],
             startingFilter: "code",
-            filtersAvailable: ["group","department","keyword","level","number","semester","weight","capacity","lecture","lab","offered"],
+            filtersAvailable: ["subject","department","keyword","level","number","semester","weight","capacity","lecture","lab","offered"],
             error: null,
         };
     }
@@ -201,29 +201,20 @@ export default class Search extends React.Component {
                         updateFilter={this.updateFilter}
                         removeRow={this.removeRow} />;
                 })}
-                <Row bsPrefix='form-row' className='mt-3'>
-                    <Col xs='auto'>
-                        <Button
-                            variant='danger'
-                            type='button'
-                            onClick={this.clearSearch}>
+                <hr />
+                <Row className='mt-3'>
+                    <Col xs='12' sm='6' md='3' xl='2'>
+                        <Button variant='danger' type='button' className='btn-block my-1' onClick={this.clearSearch}>
                             Clear Search
                         </Button>
                     </Col>
-                    <Col xs='auto'>
-                        <Button
-                            id="add-search-term-button"
-                            variant='secondary'
-                            type='button'
-                            onClick={this.addFilter}>
-                            Add Search Term
+                    <Col xs='12' sm='6' md='3' xl='2'>
+                        <Button id='add-search-term-button' variant='secondary' type='button' className='btn-block my-1' onClick={this.addFilter}>
+                            Add Filter
                         </Button>
                     </Col>
-                    <Col xs='auto'>
-                        <Button
-                            type='button'
-                            variant='primary'
-                            onClick={this.onSubmit}>
+                    <Col xs='12' sm='6' md='3' xl='2'>
+                        <Button type='button' variant='primary' className='btn-block my-1' onClick={this.onSubmit}>
                             Search
                         </Button>
                     </Col>

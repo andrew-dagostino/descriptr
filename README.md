@@ -84,11 +84,19 @@ Once running:
 
 ## Deploying To Production
 
-This is quite a process for the first deployment. Read about it in docs/deployments/production/README.md
+For simple deployment to production just merge code into master and our git lab script will auto deploy for you.
+
+If you want to do things the hard manual way follow the instructions in : docs/deployments/production/README.md
 
 ## Using Electron
 
-### Building Electron Executable
+### Downloading a Ready Built Executable
+
+If you are on windows or linux you can download a pre-built executable from the production website cis4250-03.socs.uoguelph.ca
+
+For linux you will need to make the downloaded file executable by your operating system with `chmod 755 Descriptrly.AppImage`
+
+### Building Electron Executable Yourself
 
 1. Edit the variable ENV in the `.env` file
 

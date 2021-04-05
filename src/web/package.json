@@ -17,16 +17,18 @@
     "react-scripts": "4.0.3",
     "react-table": "^7.6.3",
     "save-svg-as-png": "^1.4.17",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "js-file-download": "0.4.12"
   },
   "main": "public/electron.js",
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "start-express": "node express.js",
-    "build": "react-scripts build && electron-builder",
+    "electron-builder-linux": "electron-builder build --linux",
+    "electron-builder-windows": "electron-builder build --windows",
     "build-react": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "electron": "env $(cat ../../.env | grep -v '#' | xargs) electron ."
   },
@@ -51,7 +53,7 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "electron": "^11.3.0",
-    "electron-builder": "22.9.1",
+    "electron-builder": "21.0.10",
     "react-scripts": "0.8.5"
   }
 }

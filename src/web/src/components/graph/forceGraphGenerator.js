@@ -10,8 +10,7 @@ export function runForceGraph(
   nodeHoverTooltip
 ) {
   // Convert course data over to node and link data
-  var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "group": c.group, "name": c.name} })
-  // var prereqs = prereqsData.map((c) => { return {"id": c.fullname, "group": c.group, "name": c.name} })
+  var nodesData = coursesData.map((c) =>{ return {"id": c.fullname, "subject": c.subject, "name": c.name} })
     var linksGetter = (c) => {
       var linkArr = [];
       c.forEach((d) => {
@@ -22,11 +21,11 @@ export function runForceGraph(
               if(predata) {
                 nodesData = nodesData.concat({
                   "id": predata.fullname,
-                  "group": predata.group,
+                  "subject": predata.subject,
                   "name": predata.name
                 });
               } else {
-                nodesData = nodesData.concat({"id": e, "group": null});
+                nodesData = nodesData.concat({"id": e, "subject": null});
               }
             }
             return { "source": d.fullname, "target": e, "value": 1};
@@ -63,7 +62,7 @@ export function runForceGraph(
       .style("opacity", 0);
   };
 
-  // Creates a 90 color scale for the groups.
+  // Creates a 90 color scale for the subjects.
   const color = (d) => {
     const scale = d3.scaleOrdinal()
       .range(["#6668dd","#76e440","#5c37cd","#cfe848","#c53fe1","#5ada6d","#a354d9","#7ab737",
@@ -79,11 +78,11 @@ export function runForceGraph(
               "#ce7e75","#3b566e","#daadaf","#473643","#c2a8cb","#4e4127","#a46590","#837754",
               "#76596b","#99716e"]);
     return d => {
-      if (d.group === null) {
+      if (d.subject === null) {
         return "#666666";
       }
       else {
-        return scale(d.group);
+        return scale(d.subject);
       }
     }
   };
@@ -139,6 +138,7 @@ export function runForceGraph(
     .forceSimulation(nodes)
     .force("link", d3.forceLink(links).id(d => d.id))
     .force("charge", d3.forceManyBody().strength(-700))    // Distance between nodes
+    .force("collision", d3.forceCollide().radius(42))
     .force("x", d3.forceX())
     .force("y", d3.forceY())
 
@@ -150,6 +150,21 @@ export function runForceGraph(
     .style("cursor","move")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("id", "courses-node-graph");
+
+  svg.append("defs").selectAll("marker")
+      .data(["suit", "licensing", "resolved"])
+    .enter().append("marker")
+      .attr("id", function(d) { return d; })
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 30)
+      .attr("refY", 0)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto-start-reverse")
+    .append("path")
+      .attr("d", "M0,-5L10,0L0,5")
+      .style("stroke", "#999")
+      .style("opacity", "0.6");
 
   // Child element for svg for keeping nodes, links and labels in
   const g = svg.append("g")
@@ -170,8 +185,8 @@ export function runForceGraph(
     .selectAll("line")
     .data(links)
     .join("line")
-    .attr("stroke-width", d => Math.sqrt(d.value));    // Width of the edges
-
+    .attr("stroke-width", d => Math.sqrt(d.value))    // Width of the edges
+    .style("marker-start", "url(#suit)");
   const node = g
     .append("g")
     .attr("stroke", "#fff")
@@ -180,7 +195,8 @@ export function runForceGraph(
     .data(nodes)
     .join("circle")
     .attr("r", 12)    // Defines the radius of the circle. Can be used later for course capacity
-    .attr("fill", color(d => d));
+    .attr("fill", color(d => d))
+    .attr("opacity", 0.6);
   if (nodesData.length <= 300) node.call(drag(simulation));
 
   const label = g.append("g")
@@ -243,7 +259,7 @@ export function runForceGraph(
     node
       .attr("fill", color(d => d))
       .transition(500)
-      .attr('opacity', 1);
+      .attr('opacity', 0.6);
   }
 
   function isConnected(a, b) {
@@ -265,7 +281,8 @@ export function runForceGraph(
   label.on("click", function() {
     let [code, number] = this.innerHTML.split("*");
     let course = coursesData.filter((el) => { return el.code===code && el.number===number })[0];
-    courseModal.current.showCourse(course);
+    if (!course) course = prereqsData.filter((el) => { return el.code===code && el.number===number })[0];
+    if (course) courseModal.current.showCourse(course);
   });
 
   // Need to research more into how to make static image without animating. Worst case web worker. Second worst case render after table has rendered.

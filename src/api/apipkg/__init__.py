@@ -1,9 +1,14 @@
 """Implement Flask and provide endpoints to interact with Descriptr."""
 
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.events import EVENT_JOB_EXECUTED
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import send_file
+from functions.parse_scrape import add_course_capacity
+from functions.save_webadvisor_courses import scrape_and_parse_webadvisor_courses
 from classes.descriptr import Descriptr
 import json
 
@@ -15,6 +20,24 @@ def create_app(test_config=None):
     app = Flask(__name__)
     dcptr = Descriptr()
 
+    def scrape_handler(dcptr):
+        """
+        Wrap the Webadvisor scrape functionality.
+
+        Params:
+            dcptr: (Descriptr object): The Descriptr object.
+        """
+        print("Starting a scrape of Webadvisor")
+        scrape_and_parse_webadvisor_courses()
+        print("Scrape script SUCCESS.")
+        print("Now parsing file.")
+        dcptr.all_courses = add_course_capacity(dcptr.all_courses)
+        print("DONE parsing file.")
+
+    sched = BackgroundScheduler(daemon=True)
+    sched.add_job(lambda: scrape_handler(dcptr), 'interval', hours=24)
+    sched.start()
+
     @app.route("/")
     def root():
         """
@@ -23,7 +46,7 @@ def create_app(test_config=None):
         Returns:
             (flask.response): A response with a JSON body of available endpoints.
         """
-        return jsonify({'available_endpoints': ["/search", "/prerequisite"]})
+        return jsonify({'available_endpoints': ["/search", "/prerequisite", "/pkg"]})
 
     @app.route("/search", methods=['GET', 'POST'])
     def search():
@@ -70,5 +93,24 @@ def create_app(test_config=None):
             }
 
         return jsonify(results), status
+
+    @app.route("/pkg", methods=['GET'])
+    def electron_executable_download():
+        executable_target = request.args.get('type')
+
+        path = None
+
+        if executable_target == 'linux':
+            path = "../electron-dist/descriptrly-0.1.0.AppImage"
+        if executable_target == 'windows':
+            path = "../electron-dist/descriptrly Setup 0.1.0.exe"
+
+        if path is not None:
+            return send_file(path, as_attachment=True)
+
+        return jsonify({
+            'error': True,
+            'message': "Executable target not found"
+        })
 
     return app
