@@ -9,6 +9,8 @@ services:
             context: .
             dockerfile: ./docker/api/Dockerfile.production
         image: ${DOCKERHUB_CONTAINER_REGISTRY}/steepvisions/uog-course-descriptions-descriptr_api:latest
+        volumes:
+            - electron-dist:/var/www/cis4250-03.socs.uoguelph.ca/electron-dist
         environment:
             - FLASK_APP=apipkg
         networks:
@@ -20,6 +22,8 @@ services:
             context: .
             dockerfile: ./docker/web/Dockerfile.production
         image: ${DOCKERHUB_CONTAINER_REGISTRY}/steepvisions/uog-course-descriptions-descriptr_web:latest
+        volumes:
+            - electron-dist:/var/www/cis4250-03.socs.uoguelph.ca/dist
         networks:
             - descriptr-network
 
@@ -71,6 +75,7 @@ volumes:
     ssl-certs:
     acme-out:
     acme-challenge:
+    electron-dist:
 
 networks:
     descriptr-network:
